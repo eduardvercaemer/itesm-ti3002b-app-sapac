@@ -1,8 +1,19 @@
-# React + Vite
+# Sapac
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Docs
 
-Currently, two official plugins are available:
+* **React**: https://react.dev/learn
+* **React Router**: https://reactrouter.com/en/main/start/tutorial#setup
+* **Recoil (state management)**: https://recoiljs.org/docs/basic-tutorial/intro
+* **Tailwind (styling)**: https://tailwindcss.com/docs/utility-first
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Developing
+
+```shell
+# install dependencies
+bun install
+# run dev server (open localhost:5173)
+bun run dev
+# format code
+bun run format
+```
