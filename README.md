@@ -17,3 +17,9 @@ bun run dev
 # format code
 bun run format
 ```
+# Modules
+
+## Handkey Module
+
+* `useData`: Load employee data map in your component.
+* `useSetFile`: Update employee data map from new uploaded csv file.

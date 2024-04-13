@@ -1,11 +1,10 @@
-import { useSetRecoilState } from "recoil";
 import { useEffect } from "react";
 
-import { data$, file$, useData } from "./state.js";
+import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
 
 function App() {
-  const setFile = useSetRecoilState(file$);
+  const setFile = useSetFile();
   const data = useData();
 
   useEffect(() => console.debug(data), [data]);

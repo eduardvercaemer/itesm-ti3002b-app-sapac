@@ -1,12 +1,13 @@
-import { atom, selector, useRecoilValue } from "recoil";
+import { atom, selector, useRecoilValue, useSetRecoilState } from "recoil";
 import Papa from "papaparse";
-import { cleanup } from "./algorithm/cleanup.js";
+
+import { cleanupAlgorithm } from "./cleanup-algorithm.js";
 
 /**
  * Uploaded file.
  * @type {import("recoil").RecoilState<File>}
  */
-export const file$ = atom({
+const file$ = atom({
   key: "file",
   default: null,
 });
@@ -15,7 +16,7 @@ export const file$ = atom({
  * Generated data from file.
  * @type {import("recoil").RecoilValueReadOnly}
  */
-export const data$ = selector({
+const data$ = selector({
   key: "data",
   get: ({ get }) => {
     const file = get(file$);
@@ -28,7 +29,10 @@ export const data$ = selector({
       const complete = () => {
         employees.forEach((value) => {
           // for entries 10 minutes apart, remove them
-          value.entries = cleanup(value.originalEntries, 10 * 60 * 1000);
+          value.entries = cleanupAlgorithm(
+            value.originalEntries,
+            10 * 60 * 1000,
+          );
         });
 
         resolve({ employees });
@@ -65,5 +69,7 @@ export const data$ = selector({
     });
   },
 });
+
+export const useSetFile = () => useSetRecoilState(file$);
 
 export const useData = () => useRecoilValue(data$);

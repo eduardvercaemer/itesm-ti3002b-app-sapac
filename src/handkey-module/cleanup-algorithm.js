@@ -3,7 +3,7 @@
  * @param {number[]} entries
  * @param {number} debounceThreshold
  */
-export function cleanup(entries, debounceThreshold) {
+export function cleanupAlgorithm(entries, debounceThreshold) {
   const debouncedEntries = [];
   let last;
   for (const entry of entries) {
