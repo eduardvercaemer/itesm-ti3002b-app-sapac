@@ -1,71 +1,23 @@
-import { useCallback } from "react";
-import Papa from "papaparse";
-import { atom, useRecoilState } from "recoil";
-
-const employees$ = atom({
-  key: "employees",
-  default: new Map(),
-});
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { data$, file$ } from "./state.js";
+import { FileDrop } from "./components/file-drop.jsx";
+import { useEffect } from "react";
 
 function App() {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setFile = useSetRecoilState(file$);
+  const data = useRecoilValue(data$);
 
-  const handleDrop = useCallback(async (/**DragEvent*/ e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
-    if (!file) {
-      return;
-    }
-
-    const newEmployees = new Map();
-
-    Papa.parse(file, {
-      header: true,
-      step({ data }) {
-        const [id, name, time] = Object.values(data);
-        if (!newEmployees.has(id)) {
-          newEmployees.set(id, { name });
-        }
-
-        console.debug({ id, name, time });
-      },
-      complete() {
-        setEmployees(newEmployees);
-      },
-    });
-  }, []);
-
-  const onDragOver = useCallback((e) => {
-    e.stopPropagation();
-    e.preventDefault();
-  }, []);
-
-  const onDragEnter = useCallback((e) => {
-    e.stopPropagation();
-    e.preventDefault();
-  }, []);
+  useEffect(() => console.debug(data), [data]);
 
   return (
     <main className="flex flex-col h-screen w-screen">
       <h1 className="font-bold">sapac</h1>
-      <div
-        className="grow"
-        onDragEnter={onDragEnter}
-        onDragOver={onDragOver}
-        onDrop={handleDrop}
+      <FileDrop
+        className="grow bg-violet-400 hover:cursor-pointer"
+        onFileDrop={setFile}
       >
-        <table>
-          <tbody>
-            {Array.from(employees.entries()).map(([id, e]) => (
-              <tr>
-                <td>{id}</td>
-                <td>{e.name}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        drop handkey csv in purple rect (check console for output)
+      </FileDrop>
     </main>
   );
 }

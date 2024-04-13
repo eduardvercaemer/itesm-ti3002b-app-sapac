@@ -17,7 +17,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RecoilRoot>
-      <RouterProvider router={router} />
+      <React.Suspense fallback={<p>loading</p>}>
+        <RouterProvider router={router} />
+      </React.Suspense>
     </RecoilRoot>
   </React.StrictMode>,
 );
