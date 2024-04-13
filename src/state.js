@@ -1,5 +1,6 @@
-import { atom, selector } from "recoil";
+import { atom, selector, useRecoilValue } from "recoil";
 import Papa from "papaparse";
+import { cleanup } from "./algorithm/cleanup.js";
 
 /**
  * Uploaded file.
@@ -24,7 +25,14 @@ export const data$ = selector({
 
     return new Promise((resolve) => {
       const employees = new Map();
-      const complete = () => resolve({ employees });
+      const complete = () => {
+        employees.forEach((value) => {
+          // for entries 10 minutes apart, remove them
+          value.entries = cleanup(value.originalEntries, 10 * 60 * 1000);
+        });
+
+        resolve({ employees });
+      };
 
       Papa.parse(file, {
         complete,
@@ -57,3 +65,5 @@ export const data$ = selector({
     });
   },
 });
+
+export const useData = () => useRecoilValue(data$);
