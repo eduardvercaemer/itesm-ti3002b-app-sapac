@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
@@ -8,8 +8,6 @@ import "./App.css";
 function App() {
   const setFile = useSetFile();
   const data = useData();
-
-  useEffect(() => console.debug(data), [data]);
 
   return (
     <main className="blue-square">
@@ -21,13 +19,13 @@ function App() {
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop
-            className="file-drop"
+            className= "file-drop"
             onFileDrop={setFile}
           >
             <img
-              className="w-16 h-16 opacity-50" 
-              src="../public/subir-a-la-nube.png" 
-              alt="subir-a-la-nube" 
+              className="w-16 h-16 opacity-50"
+              src="../public/subir-a-la-nube.png"
+              alt="subir-a-la-nube"
             />
             <p className="text-gray-400">Arrastra y suelta aquí</p>
             <p className="text-gray-400 mb-1">o</p>
@@ -38,17 +36,11 @@ function App() {
         <div className="file-drop-container">
           <h2 className="file-drop-title">Archivo Handkey</h2>
           <FileDrop
-            className="file-drop"
+            className="file-drop-upload"
             onFileDrop={setFile}
           >
-            <img
-              className="w-16 h-16 opacity-50" 
-              src="../public/subir-a-la-nube.png" 
-              alt="subir-a-la-nube" 
-            />
-            <p className="text-gray-400">Arrastra y suelta aquí</p>
-            <p className="text-gray-400 mb-1">o</p>
-            <button className="mx-auto bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded w-48">Seleccionar archivo</button>
+            <div class="loader"></div>
+            <p className="text-white font-bold">Suelta el archivo</p>
           </FileDrop>
         </div>
       </div>
