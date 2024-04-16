@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
+import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
 
@@ -48,6 +49,7 @@ function App() {
       <div className="flex flex-col justify-center mt-12">
         <button className="mx-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48">Iniciar</button>
         <a className="flex justify-center underline my-4 hover:text-blue-700 cursor-pointer">Previsualizar</a>
+        <ExportCsv />
       </div>
 
     </main>
