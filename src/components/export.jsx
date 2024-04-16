@@ -29,9 +29,17 @@ export function ExportCsv() {
       data: rows,
     });
 
+    const blob = new Blob([csv], { type: 'text/csv' })
+    const url = URL.createObjectURL(blob)
 
-    console.log(csv);
+    const anchor = document.createElement('a');
+    anchor.setAttribute("href", url)
+    anchor.setAttribute("download", "handkey-limpio.csv")
+    anchor.setAttribute("style", "display:none")
+    document.body.appendChild(anchor)
+    anchor.click()
   }, [rows]);
+
   return <button onClick={onClick}>export csv</button>
 }
 
