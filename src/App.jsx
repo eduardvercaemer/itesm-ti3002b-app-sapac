@@ -22,7 +22,7 @@ function App() {
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop
-            className= "file-drop"
+            className="file-drop"
             onFileDrop={setFile}
           >
             <img
@@ -34,6 +34,10 @@ function App() {
             <p className="text-gray-400 mb-1">o</p>
             <button className="mx-auto bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded w-48">Seleccionar archivo</button>
           </FileDrop>
+
+          <input type="file" onChange={(e) => {
+            setFile(e.target.files[0])
+          }} />
         </div>
 
         <div className="file-drop-container">
