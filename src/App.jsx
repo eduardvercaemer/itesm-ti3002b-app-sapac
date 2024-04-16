@@ -10,6 +10,8 @@ function App() {
   const setFile = useSetFile();
   const data = useData();
 
+  useEffect(() => console.debug(data), [data]);
+
   return (
     <main className="blue-square">
 
