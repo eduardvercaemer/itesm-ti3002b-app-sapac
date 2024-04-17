@@ -67,11 +67,3 @@ function App() {
 }
 
 export default App;
-
-{/* <FileDrop
-            className="file-drop-upload"
-            onFileDrop={setFile}
-          >
-            <div class="loader"></div>
-            <p className="text-white font-bold">Suelta el archivo</p>
-          </FileDrop> */}
