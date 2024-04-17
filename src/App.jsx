@@ -36,6 +36,10 @@ function App() {
             <p className="text-gray-400 mb-1">o</p>
             <button className="button-select-file">Seleccionar archivo</button>
           </FileDrop>
+
+          <input type="file" onChange={(e) => {
+            setFile(e.target.files[0])
+          }} />
         </div>
 
         <div className="file-drop-container">

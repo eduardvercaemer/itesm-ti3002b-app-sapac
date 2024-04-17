@@ -7,6 +7,7 @@ const df = new Intl.DateTimeFormat('es-MX', {
   timeZone: "America/Mexico_City",
   dateStyle: "short",
   timeStyle: "short",
+  hourCycle: "h24",
 });
 
 export function ExportCsv() {
@@ -16,7 +17,7 @@ export function ExportCsv() {
       return null;
     }
 
-    return Array.from(data).flatMap(employeeToRows);
+    return Array.from(data.employees).flatMap(employeeToRows);
   }, [data])
 
   const onClick = useCallback(() => {
