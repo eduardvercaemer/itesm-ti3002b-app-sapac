@@ -13,11 +13,11 @@ const df = new Intl.DateTimeFormat('es-MX', {
 export function ExportCsv() {
   const data = useData();
   const rows = useMemo(() => {
-    if (!data) {
+    if (!data.entries) {
       return null;
     }
 
-    return Array.from(data.employees).flatMap(employeeToRows);
+    return Array.from(data.entries).flatMap(employeeToRows);
   }, [data])
 
   const onClick = useCallback(() => {

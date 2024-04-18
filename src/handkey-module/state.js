@@ -81,6 +81,35 @@ export const useData = () => {
     });
   }, [entriesFile]);
 
+  useEffect(() => {
+    if (!employeesFile) {
+      return;
+    }
+
+    console.debug('loading employee data from', employeesFile);
+
+    const newEmployees = new Map();
+
+    const complete = () => setEmployees(newEmployees);
+
+    Papa.parse(employeesFile, {
+      complete,
+      header: true,
+      step({ data }) {
+        // TODO: this is not robust enough for excel file headers...
+        const id = data['CLAVE'];
+        const address = data['DIRECCION']
+        const schedule = data['HORARIO']
+        const kind = data['TIPO DE PLAZA']
+        const name = data['NOMBRE']
+
+        if (newEmployees.has(id)) return;
+
+        newEmployees.set(id, { address, schedule, kind, name })
+      },
+    })
+  }, [employeesFile]);
+
   return {
     setEmployeesFile,
     setEntriesFile,

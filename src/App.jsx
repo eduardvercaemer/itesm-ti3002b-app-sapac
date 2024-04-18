@@ -9,7 +9,7 @@ import "./App.css";
 function App() {
   const data = useData();
 
-  useEffect(() => console.debug(data.entries), [data]);
+  useEffect(() => console.debug(data.employees), [data]);
 
   return (
     <main className="blue-square">
@@ -22,7 +22,7 @@ function App() {
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop
             className="file-drop"
-            onFileDrop={data.setEntriesFile}
+            onFileDrop={data.setEmployeesFile}
           >
             <img
               className="w-16 h-16 opacity-50"
@@ -35,7 +35,7 @@ function App() {
           </FileDrop>
 
           <input type="file" onChange={(e) => {
-            data.setEntriesFile(e.target.files[0])
+            data.setEmployeesFile(e.target.files[0])
           }} />
         </div>
 
