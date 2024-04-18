@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { useData, useSetFile } from "./handkey-module/state.js";
+import { useData } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
 
 function App() {
-  const setFile = useSetFile();
   const data = useData();
 
-  useEffect(() => console.debug(data), [data]);
+  useEffect(() => console.debug(data.entries), [data]);
 
   return (
     <main className="blue-square">
@@ -23,7 +22,7 @@ function App() {
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop
             className="file-drop"
-            onFileDrop={setFile}
+            onFileDrop={data.setEntriesFile}
           >
             <img
               className="w-16 h-16 opacity-50"
@@ -36,7 +35,7 @@ function App() {
           </FileDrop>
 
           <input type="file" onChange={(e) => {
-            setFile(e.target.files[0])
+            data.setEntriesFile(e.target.files[0])
           }} />
         </div>
 
@@ -44,7 +43,7 @@ function App() {
           <h2 className="file-drop-title">Archivo Handkey</h2>
           <FileDrop
             className="file-drop-upload"
-            onFileDrop={setFile}
+            onFileDrop={data.setEntriesFile}
           >
             <div class="loader"></div>
             <p className="text-white font-bold">Suelta el archivo</p>
