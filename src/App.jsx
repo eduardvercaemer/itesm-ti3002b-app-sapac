@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
+import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";

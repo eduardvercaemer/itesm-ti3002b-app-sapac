@@ -1,0 +1,17 @@
+.file-uploaded-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: solid;
+    width: 350px;
+    height: 350px;
+}
+
+.file-uploaded {
+    width: 4em;
+    height: 4em;
+    opacity: 0.5;
+    margin-bottom: 1rem;
+}
