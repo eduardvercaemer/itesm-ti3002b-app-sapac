@@ -25,6 +25,8 @@ const employeeSelector$ = selectorFamily({
       return null;
     }
 
+    // TODO: further process entries by filtering with employee schedule
+
     return {
       employee,
       entries: entries.get(id),
@@ -32,8 +34,20 @@ const employeeSelector$ = selectorFamily({
   }
 })
 
+const employeeListSelector$ = selector({
+  key: 'employee-list-selector',
+  get: ({ get }) => {
+    const employees = get(employees$);
+    return Array.from(employees.keys());
+  }
+})
+
 export const useEmployee = (id) => {
   return useRecoilValue(employeeSelector$(id))
+}
+
+export const useEmployeeList = () => {
+  return useRecoilValue(employeeListSelector$);
 }
 
 export const useSetEmployeesFile = () => {

@@ -1,20 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { FileDrop } from "./components/file-drop.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
-import { useEmployee, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
+import { useEmployee, useEmployeeList, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
+import { Link, useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+  const id = useMemo(() => {
+    const search = new URLSearchParams(location.search);
+    return search.get('id');
+  }, [location]);
+
+
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
-  const employee = useEmployee('124');
 
-  useEffect(() => console.debug({ employee }), [employee]);
+  const employees = useEmployeeList();
+  const employee = useEmployee(id);
 
   return (
     <main className="blue-square">
+
+      <p>
+        {JSON.stringify(employee)}
+      </p>
 
       <h1 className="title">Sube tus archivos de Excel</h1>
 
@@ -61,6 +73,10 @@ function App() {
         <a className="flex justify-center underline my-4 hover:text-blue-700 cursor-pointer">Previsualizar</a>
         <ExportCsv />
       </div>
+
+      <menu>
+        {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
+      </menu>
 
     </main>
   );
