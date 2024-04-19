@@ -1,8 +1,8 @@
-import { atom, selector, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { atom, selector, selectorFamily, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Papa from "papaparse";
 
 import { cleanupAlgorithm } from "./cleanup-algorithm.js";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const employees$ = atom({
   key: 'employees',
@@ -14,85 +14,38 @@ const entries$ = atom({
   default: new Map(),
 });
 
-const employeesFile$ = atom({
-  key: 'employees-file',
-  default: null,
-});
+const employeeSelector$ = selectorFamily({
+  key: 'employee-selector',
+  get: id => ({ get }) => {
+    const employees = get(employees$);
+    const entries = get(entries$);
 
-const entriesFile$ = atom({
-  key: 'entries-file',
-  default: null,
-});
-
-export const useData = () => {
-  const [employeesFile, setEmployeesFile] = useRecoilState(employeesFile$);
-  const [entriesFile, setEntriesFile] = useRecoilState(entriesFile$);
-  const [employees, setEmployees] = useRecoilState(employees$);
-  const [entries, setEntries] = useRecoilState(entries$);
-
-  useEffect(() => {
-    if (!entriesFile) {
-      return;
+    const employee = employees.get(id);
+    if (!employee) {
+      return null;
     }
 
-    console.debug('loading entries from', entriesFile);
-
-    const newEntries = new Map();
-
-    const complete = () => {
-      entries.forEach((value) => {
-        // for entries 10 minutes apart, remove them
-        value.entries = cleanupAlgorithm(
-          value.originalEntries,
-          10 * 60 * 1000,
-        );
-      });
-
-      setEntries(newEntries);
+    return {
+      employee,
+      entries: entries.get(id),
     };
+  }
+})
 
-    Papa.parse(entriesFile, {
-      complete,
-      header: true,
-      step({ data }) {
-        // entry example: "07/03/2024 08:07:10 a. m."
-        let timestamp;
-        const [id, name, entry] = Object.values(data);
-        const match =
-          /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2}) .+$/.exec(
-            entry,
-          );
-        if (match) {
-          const [, day, month, year, hour, min, sec] = match;
-          timestamp = new Date(
-            `${year}-${month}-${day}T${hour}:${min}:${sec}Z`,
-          ).getTime();
-        }
+export const useEmployee = (id) => {
+  return useRecoilValue(employeeSelector$(id))
+}
 
-        if (!newEntries.has(id)) {
-          newEntries.set(id, {
-            name,
-            originalEntries: timestamp ? [timestamp] : [],
-          });
-        } else if (timestamp) {
-          newEntries.get(id).originalEntries.push(timestamp);
-        }
-      },
-    });
-  }, [entriesFile]);
-
-  useEffect(() => {
-    if (!employeesFile) {
-      return;
-    }
-
-    console.debug('loading employee data from', employeesFile);
+export const useSetEmployeesFile = () => {
+  const setEmployees = useSetRecoilState(employees$);
+  return useCallback((file) => {
+    console.debug('loading employee data from', file);
 
     const newEmployees = new Map();
 
     const complete = () => setEmployees(newEmployees);
 
-    Papa.parse(employeesFile, {
+    Papa.parse(file, {
       complete,
       header: true,
       step({ data }) {
@@ -104,7 +57,6 @@ export const useData = () => {
         const name = data['NOMBRE']
 
         const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(schedule);
-        console.debug(match)
         if (!match) {
           return;
         }
@@ -128,14 +80,55 @@ export const useData = () => {
         })
       },
     })
-  }, [employeesFile]);
+  }, []);
+}
 
-  return {
-    setEmployeesFile,
-    setEntriesFile,
-    employees,
-    entries,
-  }
-};
+export const useSetEntriesFile = () => {
+  const setEntries = useSetRecoilState(entries$);
+  return useCallback((file) => {
+    console.debug('loading entries from', file);
 
+    const newEntries = new Map();
+
+    const complete = () => {
+      newEntries.forEach((value) => {
+        // for entries 10 minutes apart, remove them
+        value.entries = cleanupAlgorithm(
+          value.originalEntries,
+          10 * 60 * 1000,
+        );
+      });
+
+      setEntries(newEntries);
+    };
+
+    Papa.parse(file, {
+      complete,
+      header: true,
+      step({ data }) {
+        // entry example: "07/03/2024 08:07:10 a. m."
+        let timestamp;
+        const [id, _, entry] = Object.values(data);
+        const match =
+          /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2}) .+$/.exec(
+            entry,
+          );
+        if (match) {
+          const [, day, month, year, hour, min, sec] = match;
+          timestamp = new Date(
+            `${year}-${month}-${day}T${hour}:${min}:${sec}Z`,
+          ).getTime();
+        }
+
+        if (!newEntries.has(id)) {
+          newEntries.set(id, {
+            originalEntries: timestamp ? [timestamp] : [],
+          });
+        } else if (timestamp) {
+          newEntries.get(id).originalEntries.push(timestamp);
+        }
+      },
+    });
+  }, []);
+}
 

@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 
-import { useData } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
+import { useEmployee, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
 
 function App() {
-  const data = useData();
+  const setEmployeesFile = useSetEmployeesFile();
+  const setEntriesFile = useSetEntriesFile();
+  const employee = useEmployee('124');
 
-  useEffect(() => console.debug(data.employees), [data]);
+  useEffect(() => console.debug({ employee }), [employee]);
 
   return (
     <main className="blue-square">
@@ -22,7 +24,7 @@ function App() {
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop
             className="file-drop"
-            onFileDrop={data.setEmployeesFile}
+            onFileDrop={setEmployeesFile}
           >
             <img
               className="w-16 h-16 opacity-50"
@@ -35,7 +37,7 @@ function App() {
           </FileDrop>
 
           <input type="file" onChange={(e) => {
-            data.setEmployeesFile(e.target.files[0])
+            setEmployeesFile(e.target.files[0])
           }} />
         </div>
 
@@ -43,11 +45,14 @@ function App() {
           <h2 className="file-drop-title">Archivo Handkey</h2>
           <FileDrop
             className="file-drop-upload"
-            onFileDrop={data.setEntriesFile}
+            onFileDrop={setEntriesFile}
           >
             <div class="loader"></div>
             <p className="text-white font-bold">Suelta el archivo</p>
           </FileDrop>
+          <input type="file" onChange={(e) => {
+            setEntriesFile(e.target.files[0])
+          }} />
         </div>
       </div>
 

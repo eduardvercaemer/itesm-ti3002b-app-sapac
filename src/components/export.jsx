@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from "react";
 import Papa from 'papaparse';
 
-import { useData } from "../handkey-module/state";
-
 const df = new Intl.DateTimeFormat('es-MX', {
   timeZone: "America/Mexico_City",
   dateStyle: "short",
@@ -11,14 +9,13 @@ const df = new Intl.DateTimeFormat('es-MX', {
 });
 
 export function ExportCsv() {
-  const data = useData();
   const rows = useMemo(() => {
-    if (!data.entries) {
-      return null;
-    }
+    //if (!data.entries) {
+    //  return null;
+    //}
 
-    return Array.from(data.entries).flatMap(employeeToRows);
-  }, [data])
+    //return Array.from(data.entries).flatMap(employeeToRows);
+  }, [])
 
   const onClick = useCallback(() => {
     if (!rows) {
