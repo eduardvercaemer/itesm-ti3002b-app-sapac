@@ -103,9 +103,29 @@ export const useData = () => {
         const kind = data['TIPO DE PLAZA']
         const name = data['NOMBRE']
 
-        if (newEmployees.has(id)) return;
+        const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(schedule);
+        console.debug(match)
+        if (!match) {
+          return;
+        }
 
-        newEmployees.set(id, { address, schedule, kind, name })
+        const [_, startH, startM, endH, endM] = match;
+
+
+        if (newEmployees.has(id)) {
+          console.warn('found duplicate employee', id);
+          return;
+        }
+
+        newEmployees.set(id, {
+          address,
+          schedule: {
+            start: parseInt(startH) * 60 + parseInt(startM),
+            end: parseInt(endH) * 60 + parseInt(endM),
+          },
+          kind,
+          name,
+        })
       },
     })
   }, [employeesFile]);
