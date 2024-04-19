@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
@@ -23,20 +23,7 @@ function App() {
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
-          <FileDrop
-            className="file-drop"
-            onFileDrop={setFile}
-          >
-            <img
-              className="subir-a-la-nube"
-              src="../public/subir-a-la-nube.png"
-              alt="subir-a-la-nube"
-            />
-            <p className="text-gray-400">Arrastra y suelta aquí</p>
-            <p className="text-gray-400 mb-1">o</p>
-            <button className="button-select-file">Seleccionar archivo</button>
-          </FileDrop>
-
+          <FileDrop onFileDrop={setFile}/>
           <input type="file" onChange={(e) => {
             setFile(e.target.files[0])
           }} />
@@ -44,19 +31,7 @@ function App() {
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Archivo Handkey</h2>
-          <FileDrop
-            className="file-drop"
-            onFileDrop={setFile}
-          >
-            <img
-              className="subir-a-la-nube"
-              src="../public/subir-a-la-nube.png"
-              alt="subir-a-la-nube"
-            />
-            <p className="text-gray-400">Arrastra y suelta aquí</p>
-            <p className="text-gray-400 mb-1">o</p>
-            <button className="button-select-file">Seleccionar archivo</button>
-          </FileDrop>
+          <FileDrop onFileDrop={setFile}/>
         </div>
       </div>
 

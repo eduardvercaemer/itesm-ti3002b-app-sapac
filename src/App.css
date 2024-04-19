@@ -44,58 +44,6 @@
     height: fit-content;
 }
 
-.file-drop {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border: dashed;
-    width: 350px;
-    height: 350px;
-}
-
-.file-drop:hover {
-    border-color: #1d4ed8;
-    background-color: #9ca3af;
-    opacity: 0.8;
-}
-
-.subir-a-la-nube {
-    width: 4em;
-    height: 4em;
-    opacity: 0.5;
-}
-
-.button-select-file {
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #1d4ed8;
-    color: #fff;
-    font-weight: 700;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 0.25rem;
-    width: 12rem;
-}
-
-.button-select-file:hover {
-    background-color: #1e3a8a;
-}
-
-.file-drop-upload {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #9ca3af;
-    border: dashed;
-    width: 350px;
-    height: 350px;
-}
-
 .bottom-container {
     display: flex;
     flex-direction: column;
