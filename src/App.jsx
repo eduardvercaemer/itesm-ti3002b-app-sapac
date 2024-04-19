@@ -1,17 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
-import { useData, useSetFile } from "./handkey-module/state.js";
 import { FileDrop } from "./components/file-drop.jsx";
 import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
+import { useEmployee, useEmployeeList, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
+import { Link, useLocation } from "react-router-dom";
 
 function App() {
-  const setFile = useSetFile();
-  const data = useData();
+  const location = useLocation();
+  const id = useMemo(() => {
+    const search = new URLSearchParams(location.search);
+    return search.get('id');
+  }, [location]);
 
-  useEffect(() => console.debug(data), [data]);
+
+  const setEmployeesFile = useSetEmployeesFile();
+  const setEntriesFile = useSetEntriesFile();
+
+  const employees = useEmployeeList();
+  const employee = useEmployee(id);
 
   return (
     <main className="blue-square">
@@ -20,19 +29,27 @@ function App() {
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
 
+      {/* Cosas de Kenny */}
+      <p>
+        {JSON.stringify(employee)}
+      </p>
+
       <div className="container">
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
-          <FileDrop onFileDrop={setFile}/>
+          <FileDrop onFileDrop={setEmployeesFile} />
           <input type="file" onChange={(e) => {
-            setFile(e.target.files[0])
+            setEmployeesFile(e.target.files[0])
           }} />
         </div>
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Archivo Handkey</h2>
-          <FileDrop onFileDrop={setFile}/>
+          <FileDrop onFileDrop={setEntriesFile} />
+          <input type="file" onChange={(e) => {
+            setEntriesFile(e.target.files[0])
+          }} />
         </div>
       </div>
 
@@ -41,6 +58,10 @@ function App() {
         <a className="bottom-preview">Previsualizar</a>
         <ExportCsv />
       </div>
+
+      <menu>
+        {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
+      </menu>
 
     </main>
   );
