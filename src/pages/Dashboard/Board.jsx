@@ -11,7 +11,7 @@ function TableRow({ user }) {
             <td>{user.tiempo}</td>
             <td>{user.incidencia}</td>
             <td>{user.observaciones}</td>
-            <td>{user.acciones}</td>
+            <td><button className='button'>{user.acciones}</button></td>
         </tr>
     );
 }
@@ -19,6 +19,7 @@ function TableRow({ user }) {
 function Board({ objeto }) {
     return (
         <div>
+            <div className='periodo'>Periodo fecha - fecha</div>
             <table className='cont'>
                 <thead className='navbar'>
                     <tr>

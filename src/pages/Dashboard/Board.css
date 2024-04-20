@@ -16,7 +16,24 @@
 }
 
 
-.cont{
+/* .cont{
     margin-top: 1rem;
+} */
+
+.periodo{
+    background-color: red;
+    margin-top: 1rem;
+    text-align: center;
 }
 
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #04AA6D; /* Green */
+    padding: 0.3rem;
+  }
+
+.button:hover {
+  background-color: #04AA6D; /* Green */
+  color: white;
+}
