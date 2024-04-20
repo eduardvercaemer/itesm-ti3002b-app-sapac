@@ -34,11 +34,6 @@ export function FileDrop(props) {
     setIsDraggingOver(true);
   }, []);
 
-  const onDragEnter = useCallback((e) => {
-    e.preventDefault();
-    setIsDraggingOver(true);
-  }, []);
-
   return (
     <div
       {...rest}
