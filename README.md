@@ -9,6 +9,8 @@
 
 # Developing
 
+Install [bun](https://bun.sh/)
+
 ```shell
 # install dependencies
 bun install
@@ -17,9 +19,10 @@ bun run dev
 # format code
 bun run format
 ```
+
 # Modules
 
 ## Handkey Module
 
-* `useData`: Load employee data map in your component.
-* `useSetFile`: Update employee data map from new uploaded csv file.
+* `useEmployee`: Load employee data from ID.
+* `useEmployeeList`: Get list of employee IDs.
