@@ -73,7 +73,13 @@ function App() {
       </div>
 
       <div className="bottom-container">
-        <button className="bottom-btn">Iniciar</button>
+        <Link
+          to={!incidenceUploaded || !handkeyUploaded ? "/" : "/dashboard"}
+          className="bottom-btn"
+          disabled={!incidenceUploaded || !handkeyUploaded}
+        >
+          Iniciar
+        </Link>
         <a className="bottom-preview">Previsualizar</a>
         <ExportCsv />
       </div>
