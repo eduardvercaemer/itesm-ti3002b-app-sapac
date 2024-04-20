@@ -8,6 +8,7 @@ import "./index.css";
 import App from "./App.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
 import Preview from "./pages/Preview/Preview.jsx"
+import Employee from "./pages/Employee/Employee.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/preview",
     element: <Preview />,
+  },
+  {
+    path: "/employee",
+    element: <Employee />,
   }
 ]);
 
