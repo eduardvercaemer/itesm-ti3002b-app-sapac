@@ -25,14 +25,13 @@ function App() {
   return (
     <main className="blue-square">
 
-      <div className="title-container">
-        <h1 className="title">Sube tus archivos de Excel</h1>
-      </div>
-
-      {/* Cosas de Kenny */}
       <p>
         {JSON.stringify(employee)}
       </p>
+
+      <div className="title-container">
+        <h1 className="title">Sube tus archivos de Excel</h1>
+      </div>
 
       <div className="container">
 
@@ -60,6 +59,7 @@ function App() {
       </div>
 
       <menu>
+        Menu:
         {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
       </menu>
 

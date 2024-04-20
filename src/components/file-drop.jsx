@@ -7,17 +7,13 @@ export function FileDrop(props) {
   const { onFileDrop, ...rest } = props;
   const [isDraggingOver, setIsDraggingOver] = useState(false);
 
-  const onDragEnter = useCallback((e) => {
-    e.preventDefault();
-    setIsDraggingOver(true);
-  }, []);
-
   const onDragLeave = useCallback(() => {
     setIsDraggingOver(false);
   }, []);
 
   const onDrop = useCallback(
     async (e) => {
+      e.stopPropagation();
       e.preventDefault();
       setIsDraggingOver(false);
 
@@ -33,13 +29,20 @@ export function FileDrop(props) {
   );
 
   const prevent = useCallback((e) => {
+    e.stopPropagation();
     e.preventDefault();
+    setIsDraggingOver(true);
+  }, []);
+
+  const onDragEnter = useCallback((e) => {
+    e.preventDefault();
+    setIsDraggingOver(true);
   }, []);
 
   return (
     <div
       {...rest}
-      onDragEnter={onDragEnter}
+      onDragEnter={prevent}
       onDragOver={prevent}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
