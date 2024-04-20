@@ -5,7 +5,7 @@ import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
-import { useEmployee, useEmployeeList, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
+import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
 
 function App() {
@@ -22,11 +22,21 @@ function App() {
   const employees = useEmployeeList();
   const employee = useEmployee(id);
 
+  const setEmployeeQuery = useSetEmployeeQuery();
+  const employeeQueryResults = useEmployeeQueryResults();
+
   return (
     <main className="blue-square">
 
+      <input type="search" name="search" placeholder="search"
+        onChange={e => {
+          e.preventDefault();
+          setEmployeeQuery(e.target.value);
+        }}
+      />
+
       <p>
-        {JSON.stringify(employee)}
+        {JSON.stringify(employeeQueryResults)}
       </p>
 
       <div className="title-container">

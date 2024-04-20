@@ -1,5 +1,6 @@
 import { atom, selector, selectorFamily, useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Papa from "papaparse";
+import trigramSimilarity from 'trigram-similarity';
 
 import { cleanupAlgorithm } from "./cleanup-algorithm.js";
 import { useCallback, useEffect } from "react";
@@ -12,6 +13,11 @@ const employees$ = atom({
 const entries$ = atom({
   key: 'entries',
   default: new Map(),
+});
+
+const employeeQuery$ = atom({
+  key: 'employee-query',
+  default: null,
 });
 
 const employeeSelector$ = selectorFamily({
@@ -33,6 +39,32 @@ const employeeSelector$ = selectorFamily({
     };
   }
 })
+
+const employeeQueryResultsSelector$ = selector({
+  key: 'employee-query-results-selector',
+  get: ({ get }) => {
+    let query = get(employeeQuery$);
+    const employees = get(employees$);
+
+    if (!query) {
+      return null;
+    }
+
+    query = query.toLowerCase();
+    const results = [];
+    for (const [id, e] of employees.entries()) {
+
+      const name = e.name.toLowerCase();
+      const sim = trigramSimilarity(name, query);
+
+      if (sim >= 0.42) {
+        results.push(id);
+      }
+    }
+
+    return results;
+  },
+});
 
 const employeeListSelector$ = selector({
   key: 'employee-list-selector',
@@ -144,5 +176,13 @@ export const useSetEntriesFile = () => {
       },
     });
   }, []);
+}
+
+export const useSetEmployeeQuery = () => {
+  return useSetRecoilState(employeeQuery$);
+}
+
+export const useEmployeeQueryResults = () => {
+  return useRecoilValue(employeeQueryResultsSelector$);
 }
 
