@@ -6,20 +6,25 @@
     background: linear-gradient(to bottom, #1368C5 50%, white 45%);
 }
 
+.title-container {
+    width: 100%;
+    margin-top: 100px;
+    position: absolute; 
+}
+
 .title {
     font-size: 48px;
     font-family: "Roboto Condensed", sans-serif;
     font-weight: bold;
     color: white;
     text-align: center;
-
-    margin-top: 100px;
-    position: absolute;
+    justify-content: center;
     width: 100%;
     top: 0;
 }
 
 .container {
+    max-width: 100%;
     display: flex;
     justify-content: space-evenly;
 }
@@ -39,88 +44,43 @@
     height: fit-content;
 }
 
-.file-drop {
+.bottom-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background-color: white;
-    border: dashed;
-    width: 350px;
-    height: 350px;
+    margin-top: 3rem;
 }
 
-.file-drop-upload {
+.bottom-btn {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #3b82f6;
+    color: #fff;
+    font-weight: 700;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 0.25rem;
+    width: 12rem;
+}
+
+.bottom-btn:hover {
+    background-color: #1d4ed8;
+}
+
+.bottom-preview {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background-color: #9ca3af;
-    border: dashed;
-    width: 350px;
-    height: 350px;
+    text-decoration: underline;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    width: 12rem;
 }
 
-/* HTML: <div class="loader"></div> */
-.loader {
-    width: 30px;
-    height: 60px;
-    padding-top: 60px;
-    box-sizing: border-box;
-    display: grid;
-    background:
-        linear-gradient(white 0 0) bottom/10px calc(100% - 15px),
-        conic-gradient(from 134deg at top, #0000, white 1deg 90deg, #0000 91deg) top/100% 15px;
-    background-origin: content-box;
-    background-repeat: no-repeat;
-    animation: l10-0 2s infinite;
-    color: white;
-}
-
-.loader:before,
-.loader:after {
-    content: "";
-    grid-area: 1/1;
-    background: inherit;
-    background-size: 10px calc(100% - 25px), 100% 25px;
-    animation: l10-1 2s infinite;
-}
-
-.loader:after {
-    background-size: 10px calc(100% - 30px), 100% 30px;
-    animation: l10-2 2s infinite;
-}
-
-@keyframes l10-0 {
-
-    25%,
-    100% {
-        padding-top: 0px
-    }
-}
-
-@keyframes l10-1 {
-
-    0%,
-    25% {
-        margin: 60px -10px 0
-    }
-
-    50%,
-    100% {
-        margin: 8px -10px 0
-    }
-}
-
-@keyframes l10-2 {
-
-    0%,
-    50% {
-        margin: 60px -15px 0
-    }
-
-    75%,
-    100% {
-        margin: 20px -15px 0
-    }
+.bottom-preview:hover {
+    color: #1d4ed8;
 }
