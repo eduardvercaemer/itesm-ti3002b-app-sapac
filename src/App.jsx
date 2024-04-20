@@ -15,7 +15,6 @@ function App() {
     return search.get('id');
   }, [location]);
 
-
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
 
@@ -38,17 +37,11 @@ function App() {
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
           <FileDrop onFileDrop={setEmployeesFile} />
-          <input type="file" onChange={(e) => {
-            setEmployeesFile(e.target.files[0])
-          }} />
         </div>
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Archivo Handkey</h2>
           <FileDrop onFileDrop={setEntriesFile} />
-          <input type="file" onChange={(e) => {
-            setEntriesFile(e.target.files[0])
-          }} />
         </div>
       </div>
 
@@ -59,7 +52,6 @@ function App() {
       </div>
 
       <menu>
-        Menu:
         {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
       </menu>
 
