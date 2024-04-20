@@ -1,0 +1,9 @@
+.dashboard{
+    display: flex;
+}
+
+.persona{
+    background-color: green;
+    padding: 6rem 4rem;
+    margin: 1rem 1rem;
+}

@@ -1,0 +1,22 @@
+.navbar table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*gap: 2rem;*/
+    border-collapse: collapse; /* Combina los bordes de las celdas */
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+}
+
+.navbar th,
+.navbar td {
+    padding: 0.5rem 1rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+}
+
+
+.cont{
+    margin-top: 1rem;
+}
+
