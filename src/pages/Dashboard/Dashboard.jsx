@@ -18,7 +18,7 @@ const users = [
         entrada: "8:03",
         salida: "16:03",
         tiempo: "Tiempo",
-        incidencia: "POP",
+        incidencia: "ROCK",
         observaciones: "NA",
         acciones: "Editar"
     },
@@ -27,7 +27,7 @@ const users = [
         entrada: "8:06",
         salida: "16:06",
         tiempo: "Tiempo",
-        incidencia: "POP",
+        incidencia: "R&B",
         observaciones: "NA",
         acciones: "Editar"
     },
