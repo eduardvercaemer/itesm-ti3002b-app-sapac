@@ -12,7 +12,6 @@ function TableRow({ user }) {
             <td><p style={user.incidencia === "POP" ? { backgroundColor: 'violet' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : { backgroundColor: 'blue' }}>
                 {user.incidencia}
             </p></td>
-            <td>{user.incidencia}</td>
             <td>{user.observaciones}</td>
             <td><button className='button'>{user.acciones}</button></td>
         </tr>
