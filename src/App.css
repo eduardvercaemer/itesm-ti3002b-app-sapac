@@ -9,7 +9,7 @@
 .title-container {
     width: 100%;
     margin-top: 100px;
-    position: absolute; 
+    position: absolute;
 }
 
 .title {
@@ -52,6 +52,7 @@
 }
 
 .bottom-btn {
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
     background-color: #3b82f6;
@@ -63,6 +64,33 @@
     padding-right: 1rem;
     border-radius: 0.25rem;
     width: 12rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.bottom-btn[disabled] {
+    background-color: #e5e7eb;
+    color: #a1a1a1;
+    cursor: not-allowed;
+}
+
+.bottom-btn[disabled]:hover {
+    background-color: #e5e7eb;
+    color: #a1a1a1;
+}
+
+.bottom-btn[disabled]:hover::after {
+    content: "Sube tus archivos para continuar";
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    z-index: 1;
+    white-space: nowrap;
 }
 
 .bottom-btn:hover {

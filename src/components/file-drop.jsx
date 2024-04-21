@@ -50,7 +50,16 @@ export function FileDrop(props) {
       />
       <p className="text-gray-400">Arrastra y suelta aquí</p>
       <p className="text-gray-400 mb-1">o</p>
-      <button className="button-select-file">Seleccionar archivo</button>
+      <label className="button-select-file">
+        <input
+          type="file"
+          className="hidden"
+          onChange={(e) => {
+            onFileDrop(e.target.files[0])
+          }}
+        />
+        Seleccionar archivo
+      </label>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { FileDrop } from "./components/file-drop.jsx";
 import { FileUploaded } from "./components/file-uploaded.jsx";
@@ -15,6 +15,8 @@ function App() {
     return search.get('id');
   }, [location]);
 
+  const [incidenceUploaded, setIncidenceUploaded] = useState(false);
+  const [handkeyUploaded, setHandkeyUploaded] = useState(false);
 
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
@@ -24,6 +26,16 @@ function App() {
 
   const setEmployeeQuery = useSetEmployeeQuery();
   const employeeQueryResults = useEmployeeQueryResults();
+
+  const handleEmployeesFileDrop = (file) => {
+    // Lógica para subir el archivo y actualizar el estado
+    setEmployeesFile(file, () => setIncidenceUploaded(true));
+  };
+
+  const handleEntriesFileDrop = (file) => {
+    // Lógica para subir el archivo de entradas (si es necesario)
+    setEntriesFile(file, () => setHandkeyUploaded(true));
+  };
 
   return (
     <main className="blue-square">
@@ -47,29 +59,42 @@ function App() {
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
-          <FileDrop onFileDrop={setEmployeesFile} />
-          <input type="file" onChange={(e) => {
-            setEmployeesFile(e.target.files[0])
-          }} />
+
+          {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
+          {incidenceUploaded ? (
+            <FileUploaded />
+          ) : (
+            <FileDrop onFileDrop={handleEmployeesFileDrop} />
+          )}
+
         </div>
 
         <div className="file-drop-container">
           <h2 className="file-drop-title">Archivo Handkey</h2>
-          <FileDrop onFileDrop={setEntriesFile} />
-          <input type="file" onChange={(e) => {
-            setEntriesFile(e.target.files[0])
-          }} />
+
+          {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
+          {handkeyUploaded ? (
+            <FileUploaded />
+          ) : (
+            <FileDrop onFileDrop={handleEntriesFileDrop} />
+          )}
         </div>
+
       </div>
 
       <div className="bottom-container">
-        <button className="bottom-btn">Iniciar</button>
+        <Link
+          to={!incidenceUploaded || !handkeyUploaded ? "/" : "/dashboard"}
+          className="bottom-btn"
+          disabled={!incidenceUploaded || !handkeyUploaded}
+        >
+          Iniciar
+        </Link>
         <a className="bottom-preview">Previsualizar</a>
         <ExportCsv />
       </div>
 
       <menu>
-        Menu:
         {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
       </menu>
 

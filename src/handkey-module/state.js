@@ -84,12 +84,17 @@ export const useEmployeeList = () => {
 
 export const useSetEmployeesFile = () => {
   const setEmployees = useSetRecoilState(employees$);
-  return useCallback((file) => {
+  return useCallback((file, callback) => {
     console.debug('loading employee data from', file);
 
     const newEmployees = new Map();
 
-    const complete = () => setEmployees(newEmployees);
+    const complete = () => {
+      setEmployees(newEmployees);
+      if(callback) {
+        callback();
+      }
+    }
 
     Papa.parse(file, {
       complete,
@@ -131,7 +136,7 @@ export const useSetEmployeesFile = () => {
 
 export const useSetEntriesFile = () => {
   const setEntries = useSetRecoilState(entries$);
-  return useCallback((file) => {
+  return useCallback((file, callback) => {
     console.debug('loading entries from', file);
 
     const newEntries = new Map();
@@ -146,6 +151,10 @@ export const useSetEntriesFile = () => {
       });
 
       setEntries(newEntries);
+
+      if(callback) {
+        callback();
+      }
     };
 
     Papa.parse(file, {
