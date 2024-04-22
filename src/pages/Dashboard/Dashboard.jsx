@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState , useEffect } from 'react'
 import Board from '../../components/Board'
+import { useEmployee, useEmployeeList, useEmployeeQueryResults } from "../../handkey-module/state.js";
 
 import "./Dashboard.css";
 
@@ -44,9 +45,20 @@ const users = [
 
 
 function Dashboard() {
+    const employees = useEmployeeList();
+    const [ currIndex, setCurrIndex ] = useState(2);
+    const [ currEmployeeId, setCurrEmployeeId ] = useState(employees[currIndex]);
+    const [ currEmployee, setCurrEmployee ] = useState(useEmployee(employees[2]));
+
+    useEffect(() => {
+        setCurrEmployeeId(employees[currIndex]);
+        setCurrEmployee(useEmployee(employees[currIndex]));
+    }, [currIndex])
+
     return (
         <div className='dashboard'>
-            <div className='persona'>Persona</div>
+            <div>{currEmployeeId}</div>
+            <div className='persona'>{currEmployee.employee.name}</div>
             <Board objeto={users} />
         </div>
     )
