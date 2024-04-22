@@ -112,13 +112,17 @@ function Dashboard() {
 
     return (
         <div>
-            <div className='dashboard'>
-                <div>{currEmployeeId}</div>
-                <div className='persona'>{currEmployee.employee.name}</div>
-                <Board objeto={currEntries} />
+            <div>{currEmployeeId}</div>
+            <div className='dashboard-container'>
+                <div className='cardPerson'>{currEmployee.employee.name}</div>
+                <div className='cardTable'>
+                    <Board objeto={currEntries} />
+                </div>
             </div>
-            {currIndex > 0 && <button onClick={handleBackClick}>Anterior</button>}
-            {currIndex < employees.length && <button onClick={handleNextClick}>Siguiente</button>}
+            <div className='button-container'>
+            {currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>}
+            {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
+            </div>
         </div>
         
     )
