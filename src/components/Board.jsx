@@ -8,7 +8,6 @@ function TableRow({ user }) {
             <td>{user.fecha}</td>
             <td>{user.entrada}</td>
             <td>{user.salida}</td>
-            <td>{user.tiempo}</td>
             <td><p style={user.incidencia === "POP" ? { backgroundColor: 'violet' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : { backgroundColor: 'blue' }}>
                 {user.incidencia}
             </p></td>
@@ -28,7 +27,6 @@ function Board({ objeto }) {
                         <th>Fecha</th>
                         <th>Entrada</th>
                         <th>Salida</th>
-                        <th>Tiempo</th>
                         <th>Incidencia</th>
                         <th>Observaciones</th>
                         <th>Acciones</th>
