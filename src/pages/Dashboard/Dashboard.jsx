@@ -1,8 +1,21 @@
-import React, { useState , useEffect } from 'react'
+import { useState , useEffect } from 'react'
 import Board from '../../components/Board'
-import { useEmployee, useEmployeeList, useEmployeeQueryResults } from "../../handkey-module/state.js";
+import { useEmployee, useEmployeeList } from "../../handkey-module/state.js";
 
 import "./Dashboard.css";
+
+const defaultEmployee = {
+    employee: {
+        address: "",
+        kind: "",
+        name: "",
+        schedule: {
+            end: 0,
+            start: 480
+        }
+    },
+    entries: undefined
+}
 
 const users = [
     {
@@ -47,13 +60,15 @@ const users = [
 function Dashboard() {
     const employees = useEmployeeList();
     const [ currIndex, setCurrIndex ] = useState(2);
-    const [ currEmployeeId, setCurrEmployeeId ] = useState(employees[currIndex]);
-    const [ currEmployee, setCurrEmployee ] = useState(useEmployee(employees[2]));
+    const [ currEmployeeId, setCurrEmployeeId ] = useState('0');
+    const [ currEmployee, setCurrEmployee ] = useState(defaultEmployee);
+
+    const employee = useEmployee(employees[currIndex]);
 
     useEffect(() => {
         setCurrEmployeeId(employees[currIndex]);
-        setCurrEmployee(useEmployee(employees[currIndex]));
-    }, [currIndex])
+        setCurrEmployee(employee);
+    }, [currIndex, employees, employee]);
 
     return (
         <div className='dashboard'>
