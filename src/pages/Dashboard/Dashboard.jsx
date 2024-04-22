@@ -68,13 +68,25 @@ function Dashboard() {
     useEffect(() => {
         setCurrEmployeeId(employees[currIndex]);
         setCurrEmployee(employee);
+        console.log(employee);
     }, [currIndex, employees, employee]);
+
+    const handleBackClick = () => {
+        setCurrIndex(currIndex - 1);
+    }
+    
+
+    const handleNextClick = () => {
+        setCurrIndex(currIndex + 1);
+    }
 
     return (
         <div className='dashboard'>
             <div>{currEmployeeId}</div>
             <div className='persona'>{currEmployee.employee.name}</div>
             <Board objeto={users} />
+            <button onClick={handleBackClick}>Anterior</button>
+            <button onClick={handleNextClick}>Siguiente</button>
         </div>
     )
 }
