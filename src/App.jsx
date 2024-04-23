@@ -5,8 +5,9 @@ import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
-import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile } from "./handkey-module/state.js";
+import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile, startDateState$, endDateState$ } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
+import { atom, useRecoilState } from 'recoil';
 import Swal from 'sweetalert2';
 
 function App() {
@@ -19,9 +20,6 @@ function App() {
   const [incidenceUploaded, setIncidenceUploaded] = useState(false);
   const [handkeyUploaded, setHandkeyUploaded] = useState(false);
 
-  // Estados de fechas para el análisis de documentos
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
 
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
@@ -42,28 +40,32 @@ function App() {
     setEntriesFile(file, () => setHandkeyUploaded(true));
   };
 
+  // Estados de fechas para el análisis de documentos
+  const [startDate, setStartDate] = useRecoilState(startDateState$);
+  const [endDate, setEndDate] = useRecoilState(endDateState$);
+
   const handleDate = async () => {
-    const { value: dates } = await Swal.fire({
+    const { value: formValues } = await Swal.fire({
       title: 'Seleccione las fechas de inicio y fin del análisis',
       html:
         '<input id="start" class="swal2-input" type="date" placeholder="Fecha de inicio">' +
         '<input id="end" class="swal2-input" type="date" placeholder="Fecha de fin">',
       didOpen: () => {
         const startDate = new Date().toISOString().split('T')[0];
-        document.getElementById('start').min = startDate;
-        document.getElementById('end').min = startDate;
+        Swal.update({
+          preConfirm: () => ({
+            start: Swal.getPopup().querySelector('#start').value,
+            end: Swal.getPopup().querySelector('#end').value
+          })
+        });
+        Swal.getPopup().querySelector('#start').value = startDate;
+        Swal.getPopup().querySelector('#end').value = startDate;
       },
-      focusConfirm: false,
-      preConfirm: () => {
-        return [
-          document.getElementById('start').value,
-          document.getElementById('end').value
-        ];
-      }
+      focusConfirm: false
     });
 
-    if (dates) {
-      const [start, end] = dates;
+    if (formValues) {
+      const { start, end } = formValues;
       Swal.fire("Fechas seleccionadas:", `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`);
       const unixStartDate = formatDateToUnix(start);
       const unixEndDate = formatDateToUnix(end);
