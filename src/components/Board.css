@@ -4,36 +4,40 @@
     align-items: center;
     /*gap: 2rem;*/
     border-collapse: collapse; /* Combina los bordes de las celdas */
-    width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
 }
 
 .navbar th,
 .navbar td {
     padding: 0.5rem 1rem;
     color: rgb(0, 0, 0);
-    text-align: center;
-    /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+    text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+    border-bottom: 0.3px solid #dddddd;
 }
 
 
-/* .cont{
-    margin-top: 1rem;
-} */
+.cont {
+    width: 100%;
+}
 
-.periodo{
+.periodo {
     background-color: red;
     margin-top: 1rem;
     text-align: center;
 }
 
 .button {
-    background-color: white;
+    /* background-color: white; */
     color: black;
-    border: 2px solid #04AA6D; /* Green */
+    border: 2px solid #04AA6D;/* Green */
     padding: 0.3rem;
-  }
+}
 
 .button:hover {
-  background-color: #04AA6D; /* Green */
-  color: white;
+    background-color: #04AA6D; /* Green */
+    color: white;
+}
+
+
+.cont tbody tr:nth-child(even) {
+    background-color: #dddddd; /* Cambia el color de fondo de las filas pares a blanco */
 }
