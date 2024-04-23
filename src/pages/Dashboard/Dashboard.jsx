@@ -1,26 +1,10 @@
-import { useState , useEffect } from 'react'
+import { useState , useEffect, useMemo } from 'react'
 import Board from '../../components/Board'
 import { useEmployee, useEmployeeList } from "../../handkey-module/state.js";
 
 import "./Dashboard.css";
 
-const defaultEmployee = {
-    employee: {
-        address: "",
-        kind: "",
-        name: "",
-        schedule: {
-            end: 0,
-            start: 480
-        }
-    },
-    entries: undefined
-}
-
 const formatEntries = (employee, date_from, date_to) => {
-    console.log(employee);
-    console.log(date_from);
-    console.log(date_to);
     const formattedEntries = [];
 
     for (var d = date_from; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
@@ -67,32 +51,22 @@ const formatEntries = (employee, date_from, date_to) => {
 }
 
 function Dashboard() {
+    const employees = useEmployeeList();
     const date_from = new Date(parseInt(localStorage.getItem("date_from"), 10) * 1000);
     const date_to = new Date(parseInt(localStorage.getItem("date_to"), 10) * 1000);
-    const employees = useEmployeeList();
     const [ currIndex, setCurrIndex ] = useState(0);
-    const [ currEmployeeId, setCurrEmployeeId ] = useState('0');
-    const [ currEmployee, setCurrEmployee ] = useState(defaultEmployee);
-    const [ currEntries, setCurrEntries ] = useState([]);
 
-    const employee = useEmployee(employees[currIndex]);
-
-    useEffect(() => {
-        setCurrEmployeeId(employees[currIndex]);
-        setCurrEmployee(employee);
-        setCurrEntries(formatEntries(employee, date_from, date_to));
-    }, [currIndex, employees, employee]);
+    const currEmployee = useEmployee(employees[currIndex]);
+    const currEntries = useMemo(() => formatEntries(currEmployee, date_from, date_to), [currEmployee]);
+    const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
     const handleBackClick = () => {
         setCurrIndex(currIndex - 1);
     }
     
-
     const handleNextClick = () => {
         setCurrIndex(currIndex + 1);
     }
-
-    console.log(currEntries);
 
     return (
         <div>
