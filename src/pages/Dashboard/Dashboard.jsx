@@ -52,15 +52,11 @@ const users = [
     },
 ]
 
-const formatEntries = (employee) => {
+const formatEntries = (employee, date_from, date_to) => {
     if(employee.entries !== undefined){
         const formattedEntries = [];
-        const date_from = parseInt(localStorage.getItem("date_from"), 10) * 1000;
-        const date_to = parseInt(localStorage.getItem("date_to"), 10) * 1000;
 
-        const endDate = new Date(date_to);
-
-        for (var d = new Date(date_from); d <= endDate; d.setUTCDate(d.getUTCDate() + 1)) {
+        for (var d = date_from; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
             const day = d.getUTCDate();
             const month = d.getUTCMonth() + 1;
             const year = d.getUTCFullYear();
@@ -86,6 +82,8 @@ const formatEntries = (employee) => {
 
 
 function Dashboard() {
+    const date_from = new Date(parseInt(localStorage.getItem("date_from"), 10) * 1000);
+    const date_to = new Date(parseInt(localStorage.getItem("date_to"), 10) * 1000);
     const employees = useEmployeeList();
     const [ currIndex, setCurrIndex ] = useState(2);
     const [ currEmployeeId, setCurrEmployeeId ] = useState('0');
@@ -98,7 +96,7 @@ function Dashboard() {
         setCurrEmployeeId(employees[currIndex]);
         setCurrEmployee(employee);
         console.log(employee);
-        setCurrEntries(formatEntries(employee));
+        setCurrEntries(formatEntries(employee, date_from, date_to));
     }, [currIndex, employees, employee]);
 
     const handleBackClick = () => {
@@ -116,7 +114,7 @@ function Dashboard() {
             <div className='dashboard-container'>
                 <div className='cardPerson'>{currEmployee.employee.name}</div>
                 <div className='cardTable'>
-                    <Board objeto={currEntries} />
+                    <Board objeto={currEntries} date_from={date_from} date_to={date_to}/>
                 </div>
             </div>
             <div className='button-container'>

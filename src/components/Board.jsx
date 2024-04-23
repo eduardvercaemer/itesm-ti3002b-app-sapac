@@ -17,10 +17,10 @@ function TableRow({ user }) {
     );
 }
 
-function Board({ objeto }) {
+function Board({ objeto , date_from, date_to}) {
     return (
         <div>
-            <div className='periodo'>Periodo fecha - fecha</div>
+            <div className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</div>
             <table className='cont'>
                 <thead className='navbar'>
                     <tr>
