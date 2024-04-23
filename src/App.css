@@ -73,6 +73,10 @@
     cursor: not-allowed;
 }
 
+.bottom-btn[disabled] button {
+    cursor: not-allowed;
+}
+
 .bottom-btn[disabled]:hover {
     background-color: #e5e7eb;
     color: #a1a1a1;
