@@ -17,75 +17,60 @@ const defaultEmployee = {
     entries: undefined
 }
 
-const users = [
-    {
-        fecha: "20-10-2024",
-        entrada: "8:00",
-        salida: "16:00",
-        incidencia: "POP",
-        observaciones: "NA",
-        acciones: "Editar"
-    },
-    {
-        fecha: "11-11-2024",
-        entrada: "8:03",
-        salida: "16:03",
-        incidencia: "ROCK",
-        observaciones: "NA",
-        acciones: "Editar"
-    },
-    {
-        fecha: "10-10-2024",
-        entrada: "8:06",
-        salida: "16:06",
-        incidencia: "R&B",
-        observaciones: "NA",
-        acciones: "Editar"
-    },
-    {
-        fecha: "21-11-2024",
-        entrada: "8:09",
-        salida: "16:09",
-        incidencia: "POP",
-        observaciones: "NA",
-        acciones: "Editar"
-    },
-]
-
 const formatEntries = (employee, date_from, date_to) => {
-    if(employee.entries !== undefined){
-        const formattedEntries = [];
+    console.log(employee);
+    console.log(date_from);
+    console.log(date_to);
+    const formattedEntries = [];
 
-        for (var d = date_from; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
-            const day = d.getUTCDate();
-            const month = d.getUTCMonth() + 1;
-            const year = d.getUTCFullYear();
+    for (var d = date_from; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
+        const day = d.getUTCDate();
+        const month = d.getUTCMonth() + 1;
+        const year = d.getUTCFullYear();
 
-            const formattedDate = `${day}-${month}-${year}`;
+        const formattedDate = `${day}-${month}-${year}`;
 
+        // Check if there's an entry for this date
+        const entry = employee.entries !== undefined ? employee.entries.entries.find(entry => {
+            const entryDate = new Date(entry);
+            const entryDay = entryDate.getUTCDate();
+            const entryMonth = entryDate.getUTCMonth() + 1;
+            const entryYear = entryDate.getUTCFullYear();
+            return `${entryDay}-${entryMonth}-${entryYear}` === formattedDate;
+        }) : undefined;
+        
+
+        if (entry) {
+            const entryDate = new Date(entry * 1000);
+            const hours = entryDate.getUTCHours();
+            const minutes = "0" + entryDate.getUTCMinutes();
+
+            formattedEntries.push({
+                fecha: formattedDate,
+                entrada: hours + ':' + minutes.slice(-2),
+                salida: "16:00",
+                incidencia: "POP",
+                observaciones: "NA",
+            });
+        } else {
             formattedEntries.push({
                 fecha: formattedDate,
                 entrada: "",
                 salida: "",
                 incidencia: "",
                 observaciones: "",
-                acciones: ""
             });
         }
+    }
 
-        return formattedEntries;
-    }
-    else{
-        return [];
-    }
+    return formattedEntries;
 }
-
 
 function Dashboard() {
     const date_from = new Date(parseInt(localStorage.getItem("date_from"), 10) * 1000);
     const date_to = new Date(parseInt(localStorage.getItem("date_to"), 10) * 1000);
     const employees = useEmployeeList();
-    const [ currIndex, setCurrIndex ] = useState(2);
+    const [ currIndex, setCurrIndex ] = useState(0);
     const [ currEmployeeId, setCurrEmployeeId ] = useState('0');
     const [ currEmployee, setCurrEmployee ] = useState(defaultEmployee);
     const [ currEntries, setCurrEntries ] = useState([]);
@@ -95,7 +80,6 @@ function Dashboard() {
     useEffect(() => {
         setCurrEmployeeId(employees[currIndex]);
         setCurrEmployee(employee);
-        console.log(employee);
         setCurrEntries(formatEntries(employee, date_from, date_to));
     }, [currIndex, employees, employee]);
 
@@ -107,6 +91,8 @@ function Dashboard() {
     const handleNextClick = () => {
         setCurrIndex(currIndex + 1);
     }
+
+    console.log(currEntries);
 
     return (
         <div>
