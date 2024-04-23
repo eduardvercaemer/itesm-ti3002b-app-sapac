@@ -6,8 +6,9 @@ import "./Dashboard.css";
 
 const formatEntries = (employee, date_from, date_to) => {
     const formattedEntries = [];
+    const startDate = new Date(date_from); // Create a new Date object
 
-    for (var d = date_from; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
+    for (var d = startDate; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
         const day = d.getUTCDate();
         const month = d.getUTCMonth() + 1;
         const year = d.getUTCFullYear();
