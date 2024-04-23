@@ -7,7 +7,6 @@ import { ExportCsv } from "./components/export.jsx";
 import "./App.css";
 import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile, useStartDate, useEndDate } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
-import { atom, useRecoilState } from 'recoil';
 import Swal from 'sweetalert2';
 
 function App() {
@@ -19,7 +18,6 @@ function App() {
 
   const [incidenceUploaded, setIncidenceUploaded] = useState(false);
   const [handkeyUploaded, setHandkeyUploaded] = useState(false);
-
 
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();

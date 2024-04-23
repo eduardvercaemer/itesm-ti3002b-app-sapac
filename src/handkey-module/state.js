@@ -15,14 +15,6 @@ const endDateState$ = atom({
   default: new Date().toISOString().split('T')[0]
 });
 
-export const useStartDate = () => {
-  return useSetRecoilState(startDateState$);
-}
-
-export const useEndDate = () => {
-  return useSetRecoilState(endDateState$);
-}
-
 const employees$ = atom({
   key: 'employees',
   default: new Map(),
@@ -211,5 +203,13 @@ export const useSetEmployeeQuery = () => {
 
 export const useEmployeeQueryResults = () => {
   return useRecoilValue(employeeQueryResultsSelector$);
+}
+
+export const useStartDate = () => {
+  return useSetRecoilState(startDateState$);
+}
+
+export const useEndDate = () => {
+  return useSetRecoilState(endDateState$);
 }
 
