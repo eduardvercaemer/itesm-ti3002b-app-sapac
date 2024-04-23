@@ -53,8 +53,7 @@
 
 .bottom-btn {
     text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0.5em auto;
     background-color: #3b82f6;
     color: #fff;
     font-weight: 700;
@@ -95,20 +94,4 @@
 
 .bottom-btn:hover {
     background-color: #1d4ed8;
-}
-
-.bottom-preview {
-    display: flex;
-    justify-content: center;
-    text-decoration: underline;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    width: 12rem;
-}
-
-.bottom-preview:hover {
-    color: #1d4ed8;
 }

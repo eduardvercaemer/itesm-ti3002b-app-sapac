@@ -62,7 +62,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {incidenceUploaded ? (
-            <FileUploaded />
+            <FileUploaded deleteFile={setIncidenceUploaded}/>
           ) : (
             <FileDrop onFileDrop={handleEmployeesFileDrop} />
           )}
@@ -74,7 +74,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {handkeyUploaded ? (
-            <FileUploaded />
+            <FileUploaded deleteFile={setHandkeyUploaded}/>
           ) : (
             <FileDrop onFileDrop={handleEntriesFileDrop} />
           )}
@@ -90,7 +90,6 @@ function App() {
         >
           Iniciar
         </Link>
-        <a className="bottom-preview">Previsualizar</a>
         <ExportCsv />
       </div>
 
