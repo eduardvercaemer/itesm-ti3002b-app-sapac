@@ -55,27 +55,27 @@ const users = [
 const formatEntries = (employee) => {
     if(employee.entries !== undefined){
         const formattedEntries = [];
+        const date_from = parseInt(localStorage.getItem("date_from"), 10) * 1000;
+        const date_to = parseInt(localStorage.getItem("date_to"), 10) * 1000;
 
-        employee.entries.entries.forEach((entry) => {
-            var date = new Date(entry);
+        const endDate = new Date(date_to);
 
-            var day = date.getDate();
-            var month = date.getMonth() + 1;
-            var year = date.getFullYear();
-        
-            var hours = date.getUTCHours();
-            var minutes = "0" + date.getUTCMinutes();
-    
-            const formattedEntry = {
-                fecha: `${day}-${month}-${year}`,
-                entrada: hours + ':' + minutes.slice(-2),
-                salida: "16:00",
-                incidencia: "POP",
-                observaciones: "NA",
-                acciones: "Editar"
-            }
-            formattedEntries.push(formattedEntry);
-        }); 
+        for (var d = new Date(date_from); d <= endDate; d.setUTCDate(d.getUTCDate() + 1)) {
+            const day = d.getUTCDate();
+            const month = d.getUTCMonth() + 1;
+            const year = d.getUTCFullYear();
+
+            const formattedDate = `${day}-${month}-${year}`;
+
+            formattedEntries.push({
+                fecha: formattedDate,
+                entrada: "",
+                salida: "",
+                incidencia: "",
+                observaciones: "",
+                acciones: ""
+            });
+        }
 
         return formattedEntries;
     }

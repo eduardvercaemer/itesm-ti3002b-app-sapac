@@ -12,7 +12,7 @@ function TableRow({ user }) {
                 {user.incidencia}
             </p></td>
             <td>{user.observaciones}</td>
-            <td><button className='button'>{user.acciones}</button></td>
+            <td><button className='button'>Editar</button></td>
         </tr>
     );
 }
