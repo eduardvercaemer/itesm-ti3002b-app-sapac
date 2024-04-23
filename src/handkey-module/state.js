@@ -5,15 +5,23 @@ import trigramSimilarity from 'trigram-similarity';
 import { cleanupAlgorithm } from "./cleanup-algorithm.js";
 import { useCallback, useEffect } from "react";
 
-export const startDateState$ = atom({
+const startDateState$ = atom({
   key: 'startDateState',
   default: new Date().toISOString().split('T')[0]
 });
 
-export const endDateState$ = atom({
+const endDateState$ = atom({
   key: 'endDateState',
   default: new Date().toISOString().split('T')[0]
 });
+
+export const useStartDate = () => {
+  return useSetRecoilState(startDateState$);
+}
+
+export const useEndDate = () => {
+  return useSetRecoilState(endDateState$);
+}
 
 const employees$ = atom({
   key: 'employees',

@@ -5,7 +5,7 @@ import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
-import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile, startDateState$, endDateState$ } from "./handkey-module/state.js";
+import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile, useStartDate, useEndDate } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
 import { atom, useRecoilState } from 'recoil';
 import Swal from 'sweetalert2';
@@ -41,8 +41,8 @@ function App() {
   };
 
   // Estados de fechas para el análisis de documentos
-  const [startDate, setStartDate] = useRecoilState(startDateState$);
-  const [endDate, setEndDate] = useRecoilState(endDateState$);
+  const startDate = useStartDate();
+  const endDate = useEndDate();
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -69,8 +69,8 @@ function App() {
       Swal.fire("Fechas seleccionadas:", `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`);
       const unixStartDate = formatDateToUnix(start);
       const unixEndDate = formatDateToUnix(end);
-      setStartDate(unixStartDate);
-      setEndDate(unixEndDate);
+      localStorage.setItem("date_from", unixStartDate);
+      localStorage.setItem("date_to", unixEndDate);
       console.log(`Start: ${unixStartDate}, End: ${unixEndDate}`);
     }
   };
