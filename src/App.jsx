@@ -139,7 +139,10 @@ function App() {
           className="bottom-btn"
           disabled={!incidenceUploaded || !handkeyUploaded}
         >
-          <button onClick={() => handleDate()} disabled={!incidenceUploaded || !handkeyUploaded}>
+          <button
+            onClick={() => handleDate()}
+            disabled={!incidenceUploaded || !handkeyUploaded}
+          >
             Iniciar
           </button>
         </Link>

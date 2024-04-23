@@ -53,18 +53,32 @@
 
 .bottom-btn {
     text-align: center;
+    justify-content: center;
     margin: 0.5em auto;
     background-color: #3b82f6;
     color: #fff;
     font-weight: 700;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
     border-radius: 0.25rem;
     width: 12rem;
     cursor: pointer;
     position: relative;
+}
+
+.bottom-btn button {
+    text-align: center;
+    background-color: inherit;
+    color: inherit;
+    font-weight: inherit;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: inherit;
+    width: inherit;
+    cursor: inherit;
+    position: inherit;
+    border: none;
+    outline: none;
 }
 
 .bottom-btn[disabled] {
