@@ -51,6 +51,12 @@ const formatEntries = (employee, date_from, date_to) => {
     return formattedEntries;
 }
 
+function formatTime(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours < 10 ? '0' + hours : hours}:${mins < 10 ? '0' + mins : mins}`;
+}
+
 function Dashboard() {
     const employees = useEmployeeList();
     const date_from = new Date(parseInt(localStorage.getItem("date_from"), 10) * 1000);
@@ -71,19 +77,38 @@ function Dashboard() {
 
     return (
         <div>
-            <div>{currEmployeeId}</div>
             <div className='dashboard-container'>
-                <div className='cardPerson'>{currEmployee.employee.name}</div>
+                <div className='cardPerson'>
+                    <img src='\public\profilepic.jpg'/>
+                    <div className='employee-id'>
+                        <span className='label-id'>Número de empleado:</span> {currEmployeeId}
+                    </div>
+                    <div className='employee-name'>
+                        <span className='label'>Nombre:</span> {currEmployee.employee.name}
+                    </div>
+                    <div className='employee-address'>
+                        <span className='label'>Dirección:</span> {currEmployee.employee.address}
+                    </div>
+                    <div className='employee-kind'>
+                        <span className='label'>Tipo:</span> {currEmployee.employee.kind}
+                    </div>
+                    <div className='schedule-time'>
+                        <span className='label'>Horario: </span>
+                        <span>
+                        {formatTime(currEmployee.employee.schedule.start)} - {formatTime(currEmployee.employee.schedule.end)}
+                        </span>
+                    </div>
+                </div>
+
                 <div className='cardTable'>
                     <Board objeto={currEntries} date_from={date_from} date_to={date_to}/>
                 </div>
             </div>
             <div className='button-container'>
-            {currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>}
-            {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
+                {currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>}
+                {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
             </div>
         </div>
-        
     )
 }
 
