@@ -25,7 +25,7 @@ export function FileDrop(props) {
       console.debug("file drop:", file.name);
       onFileDrop(file);
     },
-    [onFileDrop]
+    [onFileDrop],
   );
 
   const prevent = useCallback((e) => {
@@ -55,7 +55,7 @@ export function FileDrop(props) {
           type="file"
           className="hidden"
           onChange={(e) => {
-            onFileDrop(e.target.files[0])
+            onFileDrop(e.target.files[0]);
           }}
         />
         Seleccionar archivo
