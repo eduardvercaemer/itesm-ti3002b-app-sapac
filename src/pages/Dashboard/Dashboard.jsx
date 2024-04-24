@@ -79,7 +79,7 @@ function Dashboard() {
         <div>
             <div className='dashboard-container'>
                 <div className='cardPerson'>
-                    <img src='\public\profilepic.jpg'/>
+                    <img src='\profilepic.jpg'/>
                     <div className='employee-id'>
                         <span className='label-id'>Número de empleado:</span> {currEmployeeId}
                     </div>
