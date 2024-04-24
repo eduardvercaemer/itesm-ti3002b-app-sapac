@@ -7,12 +7,12 @@ import { useCallback, useEffect } from "react";
 
 const startDateState$ = atom({
   key: 'startDateState',
-  default: new Date().toISOString().split('T')[0]
+  default: new Date()
 });
 
 const endDateState$ = atom({
   key: 'endDateState',
-  default: new Date().toISOString().split('T')[0]
+  default: new Date()
 });
 
 const employees$ = atom({
@@ -206,10 +206,10 @@ export const useEmployeeQueryResults = () => {
 }
 
 export const useStartDate = () => {
-  return useSetRecoilState(startDateState$);
+  return useRecoilValue(startDateState$);
 }
 
 export const useEndDate = () => {
-  return useSetRecoilState(endDateState$);
+  return useRecoilValue(endDateState$);
 }
 
