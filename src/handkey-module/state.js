@@ -211,8 +211,21 @@ export const useStartDate = () => {
   return useRecoilValue(startDateState$);
 };
 
+export const useSetStartDate = () => {
+  return useSetRecoilState(startDateState$);
+};
+
+export const useSetEndDate = () => {
+  return useSetRecoilState(endDateState$);
+};
+
 export const useEndDate = () => {
   return useRecoilValue(endDateState$);
+};
+
+export const useHasEntries = () => {
+  const entries = useRecoilValue(entries$);
+  return entries.size > 0;
 };
 
 const STORAGE_KEY = "state";
@@ -246,6 +259,8 @@ export const useInitFromLocalStorage = () => {
   const desMap = (m) => new Map(JSON.parse(m));
   const sedDate = (m) => m;
   const desDate = (m) => Date.parse(m);
+
+  console.debug({ startDate, endDate });
 
   useLocalStorage(
     "employees",
