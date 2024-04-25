@@ -45,7 +45,7 @@ export function FileDrop(props) {
     >
       <HeroiconsOutlineCloudUpload className="subir-a-la-nube" />
       <p className="text-gray-400">Arrastra y suelta aquí</p>
-      <p className="text-gray-400 mb-1">o</p>
+      <p className="text-gray-400 mb-1">ó</p>
       <label className="button-select-file">
         <input
           type="file"
