@@ -55,6 +55,16 @@
     background-color: #007bff;
     color: #fff;
   }
+
+  .left-button.disabled {
+    background-color: #ccc;
+    pointer-events: none;
+}
+
+.left-button.disabled:hover {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
   
   .right-button {
     background-color: #28a745;
@@ -93,3 +103,14 @@
     color: #555;
   }
   
+  .gray-button {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.gray-button:hover {
+    background-color: #ccc;
+    color: #666;
+    pointer-events: none; /* Deshabilita el hover */
+}
