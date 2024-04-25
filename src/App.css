@@ -53,24 +53,41 @@
 
 .bottom-btn {
   text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: center;
+  margin: 0.5em auto;
   background-color: #3b82f6;
   color: #fff;
   font-weight: 700;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
   border-radius: 0.25rem;
   width: 12rem;
   cursor: pointer;
   position: relative;
 }
 
+.bottom-btn button {
+  text-align: center;
+  background-color: inherit;
+  color: inherit;
+  font-weight: inherit;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: inherit;
+  width: inherit;
+  cursor: inherit;
+  position: inherit;
+  border: none;
+  outline: none;
+}
+
 .bottom-btn[disabled] {
   background-color: #e5e7eb;
   color: #a1a1a1;
+  cursor: not-allowed;
+}
+
+.bottom-btn[disabled] button {
   cursor: not-allowed;
 }
 
@@ -95,20 +112,4 @@
 
 .bottom-btn:hover {
   background-color: #1d4ed8;
-}
-
-.bottom-preview {
-  display: flex;
-  justify-content: center;
-  text-decoration: underline;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
-  width: 12rem;
-}
-
-.bottom-preview:hover {
-  color: #1d4ed8;
 }

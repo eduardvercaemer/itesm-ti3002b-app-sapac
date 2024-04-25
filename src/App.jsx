@@ -13,8 +13,11 @@ import {
   useSetEmployeesFile,
   useSetEntriesFile,
   useInitFromLocalStorage,
+  useStartDate,
+  useEndDate,
 } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function App() {
   const location = useLocation();
@@ -47,6 +50,61 @@ function App() {
     setEntriesFile(file, () => setHandkeyUploaded(true));
   };
 
+  // Estados de fechas para el análisis de documentos
+  const startDate = useStartDate();
+  const endDate = useEndDate();
+
+  const handleDate = async () => {
+    const { value: formValues } = await Swal.fire({
+      title: "Seleccione las fechas de inicio y fin del análisis",
+      html:
+        '<input id="start" class="swal2-input" type="date" placeholder="Fecha de inicio">' +
+        '<input id="end" class="swal2-input" type="date" placeholder="Fecha de fin">',
+      didOpen: () => {
+        const startDate = new Date().toISOString().split("T")[0];
+        Swal.update({
+          preConfirm: () => ({
+            start: Swal.getPopup().querySelector("#start").value,
+            end: Swal.getPopup().querySelector("#end").value,
+          }),
+        });
+        Swal.getPopup().querySelector("#start").value = startDate;
+        Swal.getPopup().querySelector("#end").value = startDate;
+      },
+      focusConfirm: false,
+    });
+
+    if (formValues) {
+      const { start, end } = formValues;
+      Swal.fire(
+        "Fechas seleccionadas:",
+        `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
+      );
+      const unixStartDate = formatDateToUnix(start);
+      const unixEndDate = formatDateToUnix(end);
+      localStorage.setItem("date_from", unixStartDate);
+      localStorage.setItem("date_to", unixEndDate);
+      console.log(`Start: ${unixStartDate}, End: ${unixEndDate}`);
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(`${dateString}T00:00:00Z`); // Establecer la zona horaria a UTC
+    const localDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60000,
+    ); // Ajustar a la zona horaria local
+    const day = String(localDate.getDate()).padStart(2, "0");
+    const month = String(localDate.getMonth() + 1).padStart(2, "0");
+    const year = localDate.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const formatDateToUnix = (dateString) => {
+    const date = new Date(dateString);
+    return date.getTime() / 1000; // dividido por 1000 para obtener segundos en lugar de milisegundos
+  };
+
   return (
     <main className="blue-square">
       <input
@@ -71,7 +129,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {incidenceUploaded ? (
-            <FileUploaded />
+            <FileUploaded deleteFile={setIncidenceUploaded} />
           ) : (
             <FileDrop onFileDrop={handleEmployeesFileDrop} />
           )}
@@ -82,7 +140,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {handkeyUploaded ? (
-            <FileUploaded />
+            <FileUploaded deleteFile={setHandkeyUploaded} />
           ) : (
             <FileDrop onFileDrop={handleEntriesFileDrop} />
           )}
@@ -95,9 +153,13 @@ function App() {
           className="bottom-btn"
           disabled={!incidenceUploaded || !handkeyUploaded}
         >
-          Iniciar
+          <button
+            onClick={() => handleDate()}
+            disabled={!incidenceUploaded || !handkeyUploaded}
+          >
+            Iniciar
+          </button>
         </Link>
-        <a className="bottom-preview">Previsualizar</a>
         <ExportCsv />
       </div>
 

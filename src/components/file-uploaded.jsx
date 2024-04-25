@@ -1,10 +1,15 @@
 import "./file-uploaded.css";
 
-export function FileUploaded() {
+export function FileUploaded(props) {
+  const { deleteFile } = props;
+
   return (
     <div className="file-uploaded-container">
       <FluentMdl2BulkUpload className="file-uploaded" />
       <p className="text-black-400 font-bold">Archivo subido</p>
+      <button className="btn-file-uploaded" onClick={() => deleteFile(false)}>
+        Borrar archivo
+      </button>
     </div>
   );
 }

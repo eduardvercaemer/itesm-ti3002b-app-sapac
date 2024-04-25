@@ -12,6 +12,16 @@ import trigramSimilarity from "trigram-similarity";
 import { cleanupAlgorithm } from "./cleanup-algorithm.js";
 import { useCallback, useEffect } from "react";
 
+const startDateState$ = atom({
+  key: "startDateState",
+  default: new Date(),
+});
+
+const endDateState$ = atom({
+  key: "endDateState",
+  default: new Date(),
+});
+
 const employees$ = atom({
   key: "employees",
   default: new Map(),
@@ -195,6 +205,14 @@ export const useSetEmployeeQuery = () => {
 
 export const useEmployeeQueryResults = () => {
   return useRecoilValue(employeeQueryResultsSelector$);
+};
+
+export const useStartDate = () => {
+  return useRecoilValue(startDateState$);
+};
+
+export const useEndDate = () => {
+  return useRecoilValue(endDateState$);
 };
 
 const STORAGE_KEY = "state";
