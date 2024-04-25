@@ -1,0 +1,13 @@
+.tableContainer{
+    display: flex;
+    flex-direction: column;
+    padding-left: 5em;
+    padding-right: 5em;
+}
+
+.headerContainer{
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+    padding-bottom: 1em;
+}
