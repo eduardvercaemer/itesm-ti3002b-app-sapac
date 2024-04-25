@@ -8,7 +8,7 @@ function TableRow({ user }) {
             <td>{user.fecha}</td>
             <td>{user.entrada}</td>
             <td>{user.salida}</td>
-            <td><p style={user.incidencia === "POP" ? { backgroundColor: 'violet' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : { backgroundColor: 'blue' }}>
+            <td><p style={user.incidencia === "POP" ? { backgroundColor: 'lightgreen' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : { backgroundColor: 'blue' }}>
                 {user.incidencia}
             </p></td>
             <td>{user.observaciones}</td>
@@ -20,7 +20,7 @@ function TableRow({ user }) {
 function Board({ objeto , date_from, date_to}) {
     return (
         <div>
-            <div className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</div>
+            <h1 className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</h1>
             <table className='cont'>
                 <thead className='navbar'>
                     <tr>

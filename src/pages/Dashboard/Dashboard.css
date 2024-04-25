@@ -2,8 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-left: calc(10%);
-    margin-right: calc(10%);
+    margin-left: 5rem;
+    margin-right: 5rem;
   }
   
   .cardPerson {
@@ -11,7 +11,7 @@
     background-color: #f0f0f0;
     padding: 1em;
     border-radius: 1em;
-    margin-bottom: 2em;
+    margin: 1rem 0 0 0 !important;
     box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -19,16 +19,18 @@
     justify-content: center; /* Centra verticalmente el contenido */
     text-align: center; /* Centra horizontalmente el texto */
     line-height: 1.5; /* Altura de línea para permitir saltos */
-    height: auto; /* Ajusta automáticamente la altura según el contenido */
+    height: 44rem; /* Ajusta automáticamente la altura según el contenido */
   }
   
 
   .cardTable {
-    width: calc(65%);
+    width: calc(70%);
+    height: 44rem;
     background-color: #f0f0f0;
-    padding: 1em;
+    padding: 0 1rem 1rem !important;
     border-radius: 1em;
     margin-bottom: 2em;
+    margin: 1rem 0 0 0 !important;
     box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
   }
   
@@ -38,7 +40,7 @@
     margin-top: 20px;
     margin-left: calc(10%);
     margin-right: calc(10%);
-    margin-bottom: 5em;
+    margin-bottom: 0;
   }
   
   .button {

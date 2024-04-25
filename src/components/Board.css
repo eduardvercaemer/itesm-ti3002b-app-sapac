@@ -1,43 +1,57 @@
-.navbar table {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /*gap: 2rem;*/
-    border-collapse: collapse; /* Combina los bordes de las celdas */
-}
+    .navbar table {
+        /*gap: 2rem;*/
+        border-collapse: collapse; /* Combina los bordes de las celdas */
+        overflow-y: scroll;
+    }
 
-.navbar th,
-.navbar td {
-    padding: 0.5rem 1rem;
-    color: rgb(0, 0, 0);
-    text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
-    border-bottom: 0.3px solid #dddddd;
-}
-
-
-.cont {
-    width: 100%;
-}
-
-.periodo {
-    background-color: red;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.button {
-    /* background-color: white; */
-    color: black;
-    border: 2px solid #04AA6D;/* Green */
-    padding: 0.3rem;
-}
-
-.button:hover {
-    background-color: #04AA6D; /* Green */
-    color: white;
-}
+    .navbar th,
+    .navbar td {
+        padding: 0.5em 1em;
+        color: rgb(0, 0, 0);
+        text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+        border-bottom: 0.3px solid #dddddd;
+        width: 10vw;
+    }
 
 
-.cont tbody tr:nth-child(even) {
-    background-color: #dddddd; /* Cambia el color de fondo de las filas pares a blanco */
-}
+    .cont {
+        height: 5em;
+        line-height: 0.8em;
+    }
+
+    /* Ajusta el ancho del encabezado de la tabla para tener en cuenta la barra de desplazamiento */
+    .cont thead {
+        display: table;
+        width: 100%; /* Ancho total menos el ancho de la barra de desplazamiento */
+    }
+    
+    .cont tbody {
+        display: block;
+        overflow: auto; /* Añade desplazamiento a tbody si el contenido es demasiado grande */
+        height: 600px; /* Altura máxima de la tabla, ajusta según sea necesario */
+    }
+
+    .periodo {
+        background-color: rgb(144, 218, 238);
+        margin-top: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .button {
+        /* background-color: white; */
+        color: black;
+        border: 2px solid #04AA6D;/* Green */
+        padding: 0.3rem;
+    }
+
+    .button:hover {
+        background-color: #04AA6D; /* Green */
+        color: white;
+    }
+
+
+    .cont tbody tr:nth-child(even) {
+        background-color: #dddddd; /* Cambia el color de fondo de las filas pares a blanco */
+    }
+    

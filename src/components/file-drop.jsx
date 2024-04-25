@@ -45,7 +45,7 @@ export function FileDrop(props) {
     >
       <img
         className="subir-a-la-nube"
-        src="../public/subir-a-la-nube.png"
+        src="/subir-a-la-nube.png"
         alt="subir-a-la-nube"
       />
       <p className="text-gray-400">Arrastra y suelta aquí</p>
