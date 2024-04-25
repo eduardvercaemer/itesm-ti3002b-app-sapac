@@ -293,3 +293,19 @@ export const useInitFromLocalStorage = () => {
     (m) => m !== null,
   );
 };
+
+export const useResetEntries = () => {
+  const setEntries = useSetRecoilState(entries$);
+  return useCallback(() => {
+    const newEntries = new Map();
+    setEntries(newEntries);
+  })
+}
+
+export const useResetEmployees = () => {
+  const setEmployees = useSetRecoilState(employees$);
+  return useCallback(() => {
+    const newEmployees = new Map();
+    setEmployees(newEmployees);
+  })
+}
