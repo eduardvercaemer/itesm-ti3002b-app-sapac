@@ -4,15 +4,16 @@
     justify-content: space-between;
     margin-left: 5rem;
     margin-right: 5rem;
+    background-color: #f0f0f0;
   }
   
   .cardPerson {
     width: calc(25%);
-    background-color: #f0f0f0;
+    background-color: white !important;
     padding: 1em;
-    border-radius: 1em;
+    border-radius: 0.2em;
     margin: 1rem 0 0 0 !important;
-    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+    box-shadow: 0.5em rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,12 +27,12 @@
   .cardTable {
     width: calc(70%);
     height: 44rem;
-    background-color: #f0f0f0;
+    background-color: white !important;
     padding: 0 1rem 1rem !important;
-    border-radius: 1em;
+    border-radius: 0.2em;
     margin-bottom: 2em;
     margin: 1rem 0 0 0 !important;
-    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+    box-shadow: 0.5em rgba(0, 0, 0, 0.1);
   }
   
   .button-container {
@@ -113,4 +114,8 @@
     background-color: #ccc;
     color: #666;
     pointer-events: none; /* Deshabilita el hover */
+}
+
+body{
+  background-color: #f0f0f0;
 }

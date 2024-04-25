@@ -8,7 +8,7 @@ function TableRow({ user }) {
             <td>{user.fecha}</td>
             <td>{user.entrada}</td>
             <td>{user.salida}</td>
-            <td><p style={user.incidencia === "POP" ? { backgroundColor: 'lightgreen' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : { backgroundColor: 'blue' }}>
+            <td><p style={user.incidencia === "POP" ? { backgroundColor: 'lightgreen' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : {}}>
                 {user.incidencia}
             </p></td>
             <td>{user.observaciones}</td>

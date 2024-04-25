@@ -76,7 +76,7 @@ function Dashboard() {
     }
 
     return (
-        <div>
+        <div className='contdash'>
             <div className='dashboard-container'>
                 <div className='cardPerson'>
                     <img src='\profilepic.jpg'/>
