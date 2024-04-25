@@ -14,12 +14,12 @@ import { useCallback, useEffect } from "react";
 
 const startDateState$ = atom({
   key: "startDateState",
-  default: new Date(),
+  default: null,
 });
 
 const endDateState$ = atom({
   key: "endDateState",
-  default: new Date(),
+  default: null,
 });
 
 const employees$ = atom({
@@ -239,9 +239,13 @@ const useLocalStorage = (name, value, setter, sed, des, should) => {
 export const useInitFromLocalStorage = () => {
   const [employees, setEmployees] = useRecoilState(employees$);
   const [entries, setEntries] = useRecoilState(entries$);
+  const [startDate, setStartDate] = useRecoilState(startDateState$);
+  const [endDate, setEndDate] = useRecoilState(endDateState$);
 
   const sedMap = (m) => JSON.stringify(Array.from(m.entries()));
   const desMap = (m) => new Map(JSON.parse(m));
+  const sedDate = (m) => m;
+  const desDate = (m) => Date.parse(m);
 
   useLocalStorage(
     "employees",
@@ -258,5 +262,21 @@ export const useInitFromLocalStorage = () => {
     sedMap,
     desMap,
     (m) => m.size > 0,
+  );
+  useLocalStorage(
+    "start-date",
+    startDate,
+    setStartDate,
+    sedDate,
+    desDate,
+    (m) => m !== null,
+  );
+  useLocalStorage(
+    "end-date",
+    endDate,
+    setEndDate,
+    sedDate,
+    desDate,
+    (m) => m !== null,
   );
 };
