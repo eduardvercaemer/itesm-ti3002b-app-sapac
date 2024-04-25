@@ -14,12 +14,12 @@ import { useCallback, useEffect } from "react";
 
 const startDateState$ = atom({
   key: "startDateState",
-  default: new Date(),
+  default: null,
 });
 
 const endDateState$ = atom({
   key: "endDateState",
-  default: new Date(),
+  default: null,
 });
 
 const employees$ = atom({
@@ -211,40 +211,85 @@ export const useStartDate = () => {
   return useRecoilValue(startDateState$);
 };
 
+export const useSetStartDate = () => {
+  return useSetRecoilState(startDateState$);
+};
+
+export const useSetEndDate = () => {
+  return useSetRecoilState(endDateState$);
+};
+
 export const useEndDate = () => {
   return useRecoilValue(endDateState$);
 };
 
+export const useHasEntries = () => {
+  const entries = useRecoilValue(entries$);
+  return entries.size > 0;
+};
+
 const STORAGE_KEY = "state";
+
+const useLocalStorage = (name, value, setter, sed, des, should) => {
+  const key = `${STORAGE_KEY}/${name}`;
+
+  useEffect(() => {
+    const stored = localStorage.getItem(key);
+    if (!stored) return;
+
+    console.debug(`loading ${name} from cache`);
+    setter(des(stored));
+  }, []);
+
+  useEffect(() => {
+    if (!should(value)) return;
+
+    console.debug(`storing ${name} in cache`);
+    localStorage.setItem(key, sed(value));
+  }, [value]);
+};
 
 export const useInitFromLocalStorage = () => {
   const [employees, setEmployees] = useRecoilState(employees$);
   const [entries, setEntries] = useRecoilState(entries$);
+  const [startDate, setStartDate] = useRecoilState(startDateState$);
+  const [endDate, setEndDate] = useRecoilState(endDateState$);
 
-  useEffect(() => {
-    let cached = localStorage.getItem(STORAGE_KEY);
-    if (!cached) {
-      console.debug("cache is empty");
-      return;
-    }
+  const sedMap = (m) => JSON.stringify(Array.from(m.entries()));
+  const desMap = (m) => new Map(JSON.parse(m));
+  const sedDate = (m) => m.getTime();
+  const desDate = (m) => new Date(JSON.parse(m));
 
-    cached = JSON.parse(cached);
-
-    console.debug("loading from cache");
-    setEmployees(new Map(cached.employees));
-    setEntries(new Map(cached.entries));
-  }, []);
-
-  useEffect(() => {
-    if (employees.size === 0 || entries.size === 0) return;
-
-    console.debug("saving to cache");
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        employees: Array.from(employees.entries()),
-        entries: Array.from(entries.entries()),
-      }),
-    );
-  }, [employees, entries]);
+  useLocalStorage(
+    "employees",
+    employees,
+    setEmployees,
+    sedMap,
+    desMap,
+    (m) => m.size > 0,
+  );
+  useLocalStorage(
+    "entries",
+    entries,
+    setEntries,
+    sedMap,
+    desMap,
+    (m) => m.size > 0,
+  );
+  useLocalStorage(
+    "start-date",
+    startDate,
+    setStartDate,
+    sedDate,
+    desDate,
+    (m) => m !== null,
+  );
+  useLocalStorage(
+    "end-date",
+    endDate,
+    setEndDate,
+    sedDate,
+    desDate,
+    (m) => m !== null,
+  );
 };

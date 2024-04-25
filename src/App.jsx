@@ -12,9 +12,11 @@ import {
   useSetEmployeeQuery,
   useSetEmployeesFile,
   useSetEntriesFile,
-  useInitFromLocalStorage,
+  useHasEntries,
   useStartDate,
   useEndDate,
+  useSetStartDate,
+  useSetEndDate,
 } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -26,33 +28,23 @@ function App() {
     return search.get("id");
   }, [location]);
 
-  const [incidenceUploaded, setIncidenceUploaded] = useState(false);
-  const [handkeyUploaded, setHandkeyUploaded] = useState(false);
-
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
 
   const employees = useEmployeeList();
   const employee = useEmployee(id);
+  const hasEntries = useHasEntries();
+
+  const ready = employees.length > 0 && hasEntries;
 
   const setEmployeeQuery = useSetEmployeeQuery();
   const employeeQueryResults = useEmployeeQueryResults();
 
-  useInitFromLocalStorage();
-
-  const handleEmployeesFileDrop = (file) => {
-    // Lógica para subir el archivo y actualizar el estado
-    setEmployeesFile(file, () => setIncidenceUploaded(true));
-  };
-
-  const handleEntriesFileDrop = (file) => {
-    // Lógica para subir el archivo de entradas (si es necesario)
-    setEntriesFile(file, () => setHandkeyUploaded(true));
-  };
-
   // Estados de fechas para el análisis de documentos
   const startDate = useStartDate();
   const endDate = useEndDate();
+  const setStartDate = useSetStartDate();
+  const setEndDate = useSetEndDate();
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -80,11 +72,9 @@ function App() {
         "Fechas seleccionadas:",
         `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
       );
-      const unixStartDate = formatDateToUnix(start);
-      const unixEndDate = formatDateToUnix(end);
-      localStorage.setItem("date_from", unixStartDate);
-      localStorage.setItem("date_to", unixEndDate);
-      console.log(`Start: ${unixStartDate}, End: ${unixEndDate}`);
+
+      setStartDate(new Date(start));
+      setEndDate(new Date(end));
     }
   };
 
@@ -128,10 +118,10 @@ function App() {
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
-          {incidenceUploaded ? (
-            <FileUploaded deleteFile={setIncidenceUploaded} />
+          {employees.length > 0 ? (
+            <FileUploaded deleteFile={() => {}} />
           ) : (
-            <FileDrop onFileDrop={handleEmployeesFileDrop} />
+            <FileDrop onFileDrop={setEmployeesFile} />
           )}
         </div>
 
@@ -139,24 +129,21 @@ function App() {
           <h2 className="file-drop-title">Archivo Handkey</h2>
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
-          {handkeyUploaded ? (
-            <FileUploaded deleteFile={setHandkeyUploaded} />
+          {hasEntries ? (
+            <FileUploaded deleteFile={() => {}} />
           ) : (
-            <FileDrop onFileDrop={handleEntriesFileDrop} />
+            <FileDrop onFileDrop={setEntriesFile} />
           )}
         </div>
       </div>
 
       <div className="bottom-container">
         <Link
-          to={!incidenceUploaded || !handkeyUploaded ? "/" : "/dashboard"}
+          to={!ready ? "/" : "/dashboard"}
           className="bottom-btn"
-          disabled={!incidenceUploaded || !handkeyUploaded}
+          disabled={!ready}
         >
-          <button
-            onClick={() => handleDate()}
-            disabled={!incidenceUploaded || !handkeyUploaded}
-          >
+          <button onClick={() => handleDate()} disabled={!ready}>
             Iniciar
           </button>
         </Link>
