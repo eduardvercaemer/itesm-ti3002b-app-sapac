@@ -5,7 +5,17 @@ import { FileUploaded } from "./components/file-uploaded.jsx";
 import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
-import { useEmployee, useEmployeeList, useEmployeeQueryResults, useSetEmployeeQuery, useSetEmployeesFile, useSetEntriesFile, useStartDate, useEndDate } from "./handkey-module/state.js";
+import {
+  useEmployee,
+  useEmployeeList,
+  useEmployeeQueryResults,
+  useSetEmployeeQuery,
+  useSetEmployeesFile,
+  useSetEntriesFile,
+  useInitFromLocalStorage,
+  useStartDate, 
+  useEndDate
+} from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
 import Swal from 'sweetalert2';
 
@@ -13,7 +23,7 @@ function App() {
   const location = useLocation();
   const id = useMemo(() => {
     const search = new URLSearchParams(location.search);
-    return search.get('id');
+    return search.get("id");
   }, [location]);
 
   const [incidenceUploaded, setIncidenceUploaded] = useState(false);
@@ -27,6 +37,8 @@ function App() {
 
   const setEmployeeQuery = useSetEmployeeQuery();
   const employeeQueryResults = useEmployeeQueryResults();
+
+  useInitFromLocalStorage();
 
   const handleEmployeesFileDrop = (file) => {
     // Lógica para subir el archivo y actualizar el estado
@@ -90,24 +102,23 @@ function App() {
 
   return (
     <main className="blue-square">
-
-      <input type="search" name="search" placeholder="search"
-        onChange={e => {
+      <input
+        type="search"
+        name="search"
+        placeholder="search"
+        onChange={(e) => {
           e.preventDefault();
           setEmployeeQuery(e.target.value);
         }}
       />
 
-      <p>
-        {JSON.stringify(employeeQueryResults)}
-      </p>
+      <p>{JSON.stringify(employeeQueryResults)}</p>
 
       <div className="title-container">
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
 
       <div className="container">
-
         <div className="file-drop-container">
           <h2 className="file-drop-title">Plantilla Incidentes</h2>
 
@@ -117,7 +128,6 @@ function App() {
           ) : (
             <FileDrop onFileDrop={handleEmployeesFileDrop} />
           )}
-
         </div>
 
         <div className="file-drop-container">
@@ -130,7 +140,6 @@ function App() {
             <FileDrop onFileDrop={handleEntriesFileDrop} />
           )}
         </div>
-
       </div>
 
       <div className="bottom-container">
@@ -150,9 +159,12 @@ function App() {
       </div>
 
       <menu>
-        {employees.map(id => <li><Link to={`/?id=${id}`}>{id}</Link></li>)}
+        {employees.map((id) => (
+          <li>
+            <Link to={`/?id=${id}`}>{id}</Link>
+          </li>
+        ))}
       </menu>
-
     </main>
   );
 }

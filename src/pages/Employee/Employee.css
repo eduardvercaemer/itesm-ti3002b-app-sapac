@@ -1,52 +1,51 @@
 .employee-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: calc(10%);
-    margin-right: calc(10%);
-  }
-  
-  .cardPerson {
-    width: calc(25%);
-    background-color: #f0f0f0;
-    padding: 1em;
-    border-radius: 1em;
-    margin-bottom: 2em;
-    margin-top: 5em;
-    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: calc(10%);
+  margin-right: calc(10%);
+}
 
-  .cardTable {
-    width: calc(65%);
-    background-color: #f0f0f0;
-    padding: 1em;
-    border-radius: 1em;
-    margin-bottom: 2em;
-    margin-top: 5em;
-    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .left-button {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .right-button {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
+.cardPerson {
+  width: calc(25%);
+  background-color: #f0f0f0;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 2em;
+  margin-top: 5em;
+  box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+}
+
+.cardTable {
+  width: calc(65%);
+  background-color: #f0f0f0;
+  padding: 1em;
+  border-radius: 1em;
+  margin-bottom: 2em;
+  margin-top: 5em;
+  box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.left-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.right-button {
+  background-color: #28a745;
+  color: #fff;
+}
