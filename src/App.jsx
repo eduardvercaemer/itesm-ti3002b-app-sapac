@@ -20,15 +20,24 @@ import {
   useResetEntries,
   useResetEmployees,
 } from "./handkey-module/state.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function App() {
+  const navigate = useNavigate();
   const location = useLocation();
   const id = useMemo(() => {
     const search = new URLSearchParams(location.search);
     return search.get("id");
   }, [location]);
+
+  useEffect(() => {
+
+    if(ready){
+      navigate("/dashboard");
+    }
+
+  }, [])
 
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
