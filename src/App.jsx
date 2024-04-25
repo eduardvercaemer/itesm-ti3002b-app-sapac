@@ -13,11 +13,11 @@ import {
   useSetEmployeesFile,
   useSetEntriesFile,
   useInitFromLocalStorage,
-  useStartDate, 
-  useEndDate
+  useStartDate,
+  useEndDate,
 } from "./handkey-module/state.js";
 import { Link, useLocation } from "react-router-dom";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 function App() {
   const location = useLocation();
@@ -56,27 +56,30 @@ function App() {
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
-      title: 'Seleccione las fechas de inicio y fin del análisis',
+      title: "Seleccione las fechas de inicio y fin del análisis",
       html:
         '<input id="start" class="swal2-input" type="date" placeholder="Fecha de inicio">' +
         '<input id="end" class="swal2-input" type="date" placeholder="Fecha de fin">',
       didOpen: () => {
-        const startDate = new Date().toISOString().split('T')[0];
+        const startDate = new Date().toISOString().split("T")[0];
         Swal.update({
           preConfirm: () => ({
-            start: Swal.getPopup().querySelector('#start').value,
-            end: Swal.getPopup().querySelector('#end').value
-          })
+            start: Swal.getPopup().querySelector("#start").value,
+            end: Swal.getPopup().querySelector("#end").value,
+          }),
         });
-        Swal.getPopup().querySelector('#start').value = startDate;
-        Swal.getPopup().querySelector('#end').value = startDate;
+        Swal.getPopup().querySelector("#start").value = startDate;
+        Swal.getPopup().querySelector("#end").value = startDate;
       },
-      focusConfirm: false
+      focusConfirm: false,
     });
 
     if (formValues) {
       const { start, end } = formValues;
-      Swal.fire("Fechas seleccionadas:", `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`);
+      Swal.fire(
+        "Fechas seleccionadas:",
+        `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
+      );
       const unixStartDate = formatDateToUnix(start);
       const unixEndDate = formatDateToUnix(end);
       localStorage.setItem("date_from", unixStartDate);
@@ -87,9 +90,11 @@ function App() {
 
   const formatDate = (dateString) => {
     const date = new Date(`${dateString}T00:00:00Z`); // Establecer la zona horaria a UTC
-    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000); // Ajustar a la zona horaria local
-    const day = String(localDate.getDate()).padStart(2, '0');
-    const month = String(localDate.getMonth() + 1).padStart(2, '0');
+    const localDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60000,
+    ); // Ajustar a la zona horaria local
+    const day = String(localDate.getDate()).padStart(2, "0");
+    const month = String(localDate.getMonth() + 1).padStart(2, "0");
     const year = localDate.getFullYear();
 
     return `${day}/${month}/${year}`;

@@ -13,13 +13,13 @@ import { cleanupAlgorithm } from "./cleanup-algorithm.js";
 import { useCallback, useEffect } from "react";
 
 const startDateState$ = atom({
-  key: 'startDateState',
-  default: new Date()
+  key: "startDateState",
+  default: new Date(),
 });
 
 const endDateState$ = atom({
-  key: 'endDateState',
-  default: new Date()
+  key: "endDateState",
+  default: new Date(),
 });
 
 const employees$ = atom({
@@ -209,11 +209,11 @@ export const useEmployeeQueryResults = () => {
 
 export const useStartDate = () => {
   return useRecoilValue(startDateState$);
-}
+};
 
 export const useEndDate = () => {
   return useRecoilValue(endDateState$);
-}
+};
 
 const STORAGE_KEY = "state";
 
