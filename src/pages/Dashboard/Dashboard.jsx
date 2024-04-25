@@ -105,9 +105,16 @@ function Dashboard() {
                 </div>
             </div>
             <div className='button-container'>
-                {currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>}
+                {currIndex > 0 ?
+                    <button className='button left-button' onClick={handleBackClick}>Anterior</button> :
+                    <button className='button left-button disabled' disabled>Anterior</button>
+                }   
+                {/*currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>*/}
                 {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
             </div>
+                {/*<button className='button left-button' onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
+                {/*<button className={`button left-button ${currIndex === 0 ? 'gray-button' : ''}`} onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
+
         </div>
     )
 }
