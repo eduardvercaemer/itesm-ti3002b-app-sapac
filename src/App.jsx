@@ -73,8 +73,8 @@ function App() {
         `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
       );
 
-      setStartDate(start);
-      setEndDate(end);
+      setStartDate(new Date(start));
+      setEndDate(new Date(end));
     }
   };
 

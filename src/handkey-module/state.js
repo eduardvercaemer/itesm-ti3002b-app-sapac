@@ -257,10 +257,8 @@ export const useInitFromLocalStorage = () => {
 
   const sedMap = (m) => JSON.stringify(Array.from(m.entries()));
   const desMap = (m) => new Map(JSON.parse(m));
-  const sedDate = (m) => m;
-  const desDate = (m) => Date.parse(m);
-
-  console.debug({ startDate, endDate });
+  const sedDate = (m) => m.getTime();
+  const desDate = (m) => new Date(JSON.parse(m));
 
   useLocalStorage(
     "employees",
