@@ -19,6 +19,7 @@ import {
   useSetEndDate,
   useResetEntries,
   useResetEmployees,
+  useHasDateRange,
 } from "./handkey-module/state.js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -31,14 +32,6 @@ function App() {
     return search.get("id");
   }, [location]);
 
-  useEffect(() => {
-
-    if(ready){
-      navigate("/dashboard");
-    }
-
-  }, [])
-
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
   const resetEntries = useResetEntries();
@@ -47,27 +40,26 @@ function App() {
   const employees = useEmployeeList();
   const employee = useEmployee(id);
   const hasEntries = useHasEntries();
+  const hastDates = useHasDateRange();
 
   const ready = employees.length > 0 && hasEntries;
 
   const setEmployeeQuery = useSetEmployeeQuery();
   const employeeQueryResults = useEmployeeQueryResults();
 
-  const handleResetEntries = () => {
-    resetEntries();
-    localStorage.removeItem("state/entries")
-  }
-
-  const handleResetEmployees = () => {
-    resetEmployees();
-    localStorage.removeItem("state/employees");
-  }
-
   // Estados de fechas para el análisis de documentos
   const startDate = useStartDate();
   const endDate = useEndDate();
   const setStartDate = useSetStartDate();
   const setEndDate = useSetEndDate();
+
+  useEffect(() => {
+
+    if (ready && hastDates) {
+      navigate("/dashboard");
+    }
+
+  }, [])
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -143,7 +135,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {employees.length > 0 ? (
-            <FileUploaded deleteFile={handleResetEmployees} />
+            <FileUploaded deleteFile={resetEmployees} />
           ) : (
             <FileDrop onFileDrop={setEmployeesFile} />
           )}
@@ -154,7 +146,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {hasEntries ? (
-            <FileUploaded deleteFile={handleResetEntries} />
+            <FileUploaded deleteFile={resetEntries} />
           ) : (
             <FileDrop onFileDrop={setEntriesFile} />
           )}
