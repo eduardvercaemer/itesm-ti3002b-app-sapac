@@ -20,13 +20,13 @@
     justify-content: center; /* Centra verticalmente el contenido */
     text-align: center; /* Centra horizontalmente el texto */
     line-height: 1.5; /* Altura de línea para permitir saltos */
-    height: 44rem; /* Ajusta automáticamente la altura según el contenido */
+    height: 40rem; /* Ajusta automáticamente la altura según el contenido */
   }
   
 
   .cardTable {
     width: calc(70%);
-    height: 44rem;
+    height: 40rem;
     background-color: white !important;
     padding: 0 1rem 1rem !important;
     border-radius: 0.2em;
@@ -39,8 +39,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    margin-left: calc(10%);
-    margin-right: calc(10%);
+    margin-left: calc(37.5%);
+    margin-right: calc(5.5%);
     margin-bottom: 0;
   }
   

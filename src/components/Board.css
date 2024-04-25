@@ -1,65 +1,57 @@
-    .navbar table {
-        /*gap: 2rem;*/
-        border-collapse: collapse; /* Combina los bordes de las celdas */
-        overflow-y: auto;
-    }
+.navbar th,
+.navbar td {
+    padding: 0.5em 1em;
+    color: rgb(0, 0, 0);
+    text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+    border-bottom: 0.3px solid #dddddd;
+    width: 10vw;
+}
 
-    .navbar th,
-    .navbar td {
-        padding: 0.5em 1em;
-        color: rgb(0, 0, 0);
-        text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
-        border-bottom: 0.3px solid #dddddd;
-        width: 10vw;
-    }
+.cont {
+    height: 5em;
+    line-height: 0.8em;
+}
 
-    .cont {
-        height: 5em;
-        line-height: 0.8em;
-    }
+/* Ajusta el ancho del encabezado de la tabla para tener en cuenta la barra de desplazamiento */
+.cont thead {
+    display: table;
+    width: calc(100% - 2px); 
+}
 
-    /* Ajusta el ancho del encabezado de la tabla para tener en cuenta la barra de desplazamiento */
-    .cont thead {
-        display: table;
-        width: 100%; /* Ancho total menos el ancho de la barra de desplazamiento */
-        width: calc(100% - 1.5em);
-    }
-    
-    .cont tbody {
-        display: block;
-        overflow: auto; /* Añade desplazamiento a tbody si el contenido es demasiado grande */
-        height: 540px; /* Altura máxima de la tabla, ajusta según sea necesario */
+.cont tbody {
+    display: block;
+    overflow: overlay;
+    height: 490px; /* Altura máxima de la tabla, ajusta según sea necesario */
+}
 
-    }
+.periodo {
+    background-color: #3498db;
+    border-radius: 0.2em;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1em;
+    color: #fff;
+}
 
-    .periodo {
-        background-color: #3498db;
-        border-radius: 0.2em;
-        margin-top: 1rem;
-        text-align: center;
-        font-size: 1.5rem;
-        padding: 1em;
-        color: #fff;
-    }
+.button {
+    color: #fff;
+    background-color: #4caf50;
+    border: 2px solid #4caf50;
+    padding: 0.5em 1em;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-    .button {
-        color: #fff;
-        background-color: #4caf50;
-        border: 2px solid #4caf50;
-        padding: 0.5em 1em;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .button:hover {
-        background-color: #45a049;
-        border-color: #45a049;
-    }
+.button:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
 
 
-    .cont tbody tr:nth-child(even) {
-        background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares a blanco */
-    }
-    
-    .cont p {
-        padding: 0.4em;
-    }
+.cont tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares a blanco */
+}
+
+.cont p {
+    padding: 0.4em;
+}

@@ -17,28 +17,30 @@ function TableRow({ user }) {
     );
 }
 
-function Board({ objeto , date_from, date_to}) {
+function Board({ objeto, date_from, date_to }) {
     return (
-        <div>
+        <>
             <h1 className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</h1>
-            <table className='cont'>
-                <thead className='navbar'>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                        <th>Incidencia</th>
-                        <th>Observaciones</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody className='navbar'>
-                    {objeto.map((user, i) => (
-                        <TableRow key={i} user={user} />
-                    ))}
-                </tbody>
-            </table>
-        </div>
+            <div className='one'>
+                <table className='cont'>
+                    <thead className='navbar'>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Incidencia</th>
+                            <th>Observaciones</th>
+                            <th style={{textAlign: 'start'}}>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody className='navbar'>
+                        {objeto.map((user, i) => (
+                            <TableRow key={i} user={user} />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </>
     );
 }
 
