@@ -17,11 +17,15 @@ import {
   useEndDate,
   useSetStartDate,
   useSetEndDate,
+  useResetEntries,
+  useResetEmployees,
+  useHasDateRange,
 } from "./handkey-module/state.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function App() {
+  const navigate = useNavigate();
   const location = useLocation();
   const id = useMemo(() => {
     const search = new URLSearchParams(location.search);
@@ -30,10 +34,13 @@ function App() {
 
   const setEmployeesFile = useSetEmployeesFile();
   const setEntriesFile = useSetEntriesFile();
+  const resetEntries = useResetEntries();
+  const resetEmployees = useResetEmployees();
 
   const employees = useEmployeeList();
   const employee = useEmployee(id);
   const hasEntries = useHasEntries();
+  const hastDates = useHasDateRange();
 
   const ready = employees.length > 0 && hasEntries;
 
@@ -45,6 +52,14 @@ function App() {
   const endDate = useEndDate();
   const setStartDate = useSetStartDate();
   const setEndDate = useSetEndDate();
+
+  useEffect(() => {
+
+    if (ready && hastDates) {
+      navigate("/dashboard");
+    }
+
+  }, [])
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -97,6 +112,7 @@ function App() {
 
   return (
     <main className="blue-square">
+
       <input
         type="search"
         name="search"
@@ -119,7 +135,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {employees.length > 0 ? (
-            <FileUploaded deleteFile={() => {}} />
+            <FileUploaded deleteFile={resetEmployees} />
           ) : (
             <FileDrop onFileDrop={setEmployeesFile} />
           )}
@@ -130,7 +146,7 @@ function App() {
 
           {/* Si se subio el archivo muestra FileUploaded, caso contrario FileDrop */}
           {hasEntries ? (
-            <FileUploaded deleteFile={() => {}} />
+            <FileUploaded deleteFile={resetEntries} />
           ) : (
             <FileDrop onFileDrop={setEntriesFile} />
           )}

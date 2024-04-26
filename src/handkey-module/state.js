@@ -320,6 +320,29 @@ export const useInitFromLocalStorage = () => {
   );
 };
 
+export const useResetEntries = () => {
+  const setEntries = useSetRecoilState(entries$);
+  localStorage.removeItem("state/entries");
+  return useCallback(() => {
+    const newEntries = new Map();
+    setEntries(newEntries);
+  })
+}
+
+export const useResetEmployees = () => {
+  const setEmployees = useSetRecoilState(employees$);
+  localStorage.removeItem("state/employees");
+  return useCallback(() => {
+    const newEmployees = new Map();
+    setEmployees(newEmployees);
+  })
+}
+
+export const useHasDateRange = () => {
+  const startDate = useRecoilValue(startDateState$);
+  const endDate = useRecoilValue(endDateState$);
+  return startDate !== null && endDate !== null;
+};
 export const useCreateIncidence = () => {
   const [employees, setEmployees] = useRecoilState(employees$);
 
