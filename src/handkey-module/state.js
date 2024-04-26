@@ -44,10 +44,30 @@ const employeeSelector$ = selectorFamily({
     ({ get }) => {
       const employees = get(employees$);
       const entries = get(entries$);
+      const start = get(startDateState$);
+      const end = get(endDateState$);
 
       const employee = employees.get(id);
       if (!employee) {
         return null;
+      }
+
+      let days = null;
+      if (start !== null && end !== null) {
+        const numberOfDays =
+          1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        const days = Array.from({ length: numberOfDays }, (_, i) => ({
+          date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
+        }));
+
+        for (const day of days) {
+          day.incidences = employee.incidences.filter(
+            (i) => i.date.getTime() === day.date.getTime(),
+          );
+          day.observations = employee.observations.filter(
+            (i) => i.date.getTime() === day.date.getTime(),
+          );
+        }
       }
 
       // TODO: further process entries by filtering with employee schedule
@@ -55,6 +75,7 @@ const employeeSelector$ = selectorFamily({
       return {
         employee,
         entries: entries.get(id),
+        days,
       };
     },
 });
@@ -145,6 +166,8 @@ export const useSetEmployeesFile = () => {
           },
           kind,
           name,
+          incidences: [],
+          observations: [],
         });
       },
     });
