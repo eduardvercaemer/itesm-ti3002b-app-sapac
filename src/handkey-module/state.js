@@ -53,19 +53,22 @@ const employeeSelector$ = selectorFamily({
       }
 
       let days = null;
+
+      console.debug({ start, end });
       if (start !== null && end !== null) {
         const numberOfDays =
           1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-        const days = Array.from({ length: numberOfDays }, (_, i) => ({
+        days = Array.from({ length: numberOfDays }, (_, i) => ({
           date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
         }));
 
         for (const day of days) {
+          const ts = day.date.getTime();
           day.incidences = employee.incidences.filter(
-            (i) => i.date.getTime() === day.date.getTime(),
+            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
           );
           day.observations = employee.observations.filter(
-            (i) => i.date.getTime() === day.date.getTime(),
+            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
           );
         }
       }
@@ -314,5 +317,38 @@ export const useInitFromLocalStorage = () => {
     sedDate,
     desDate,
     (m) => m !== null,
+  );
+};
+
+export const useCreateIncidence = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, incidence) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.incidences = [...e.incidences, { ...incidence, date: date.getTime() }];
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
+  );
+};
+
+export const useCreateObservation = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, observation) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.observations = [
+        ...e.observations,
+        { ...observation, date: date.getTime() },
+      ];
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
   );
 };
