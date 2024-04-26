@@ -54,12 +54,10 @@ function App() {
   const setEndDate = useSetEndDate();
 
   useEffect(() => {
-
     if (ready && hastDates) {
       navigate("/dashboard");
     }
-
-  }, [])
+  }, []);
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -112,7 +110,6 @@ function App() {
 
   return (
     <main className="blue-square">
-
       <input
         type="search"
         name="search"

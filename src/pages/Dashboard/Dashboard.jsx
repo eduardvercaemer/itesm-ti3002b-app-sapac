@@ -25,13 +25,17 @@ function Dashboard() {
       >
         click me to add an incidence
       </button>
-      <button onClick={() => {
+      <button
+        onClick={() => {
           const date = e.employee.incidences[0].date;
-        editIncidence("124", date, { foo: "new bar" });
-      }}>edit incidence</button>
-      <pre><code>
-      {JSON.stringify(e, null, 2)}
-      </code></pre>
+          editIncidence("124", date, { foo: "new bar" });
+        }}
+      >
+        edit incidence
+      </button>
+      <pre>
+        <code>{JSON.stringify(e, null, 2)}</code>
+      </pre>
     </main>
   );
 }

@@ -326,8 +326,8 @@ export const useResetEntries = () => {
   return useCallback(() => {
     const newEntries = new Map();
     setEntries(newEntries);
-  })
-}
+  });
+};
 
 export const useResetEmployees = () => {
   const setEmployees = useSetRecoilState(employees$);
@@ -335,8 +335,8 @@ export const useResetEmployees = () => {
   return useCallback(() => {
     const newEmployees = new Map();
     setEmployees(newEmployees);
-  })
-}
+  });
+};
 
 export const useHasDateRange = () => {
   const startDate = useRecoilValue(startDateState$);
@@ -366,13 +366,28 @@ export const useEditIncidence = () => {
     (employeeId, date, incidence) => {
       const newEmployees = new Map(employees);
       const e = { ...newEmployees.get(employeeId) };
-      e.incidences = e.incidences.map(i => {
+      e.incidences = e.incidences.map((i) => {
         if (i.date === date) {
-            return { ...incidence, date };
+          return { ...incidence, date };
         } else {
-            return i;
+          return i;
         }
-      })
+      });
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
+  );
+};
+
+export const useDeleteIncidence = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, incidence) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.incidences = e.incidences.filter((i) => i.date !== date);
       newEmployees.set(employeeId, e);
       setEmployees(newEmployees);
     },
@@ -405,13 +420,13 @@ export const useEditObservation = () => {
     (employeeId, date, observation) => {
       const newEmployees = new Map(employees);
       const e = { ...newEmployees.get(employeeId) };
-      e.observations = e.observations.map(o => {
+      e.observations = e.observations.map((o) => {
         if (o.date === date) {
-            return { ...observation, date };
+          return { ...observation, date };
         } else {
-            return o;
+          return o;
         }
-      })
+      });
       newEmployees.set(employeeId, e);
       setEmployees(newEmployees);
     },
@@ -419,3 +434,17 @@ export const useEditObservation = () => {
   );
 };
 
+export const useDeleteObservation = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, observation) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.observations = e.observations.filter((o) => o.date !== date);
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
+  );
+};
