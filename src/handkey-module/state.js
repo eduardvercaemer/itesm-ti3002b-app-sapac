@@ -343,6 +343,7 @@ export const useHasDateRange = () => {
   const endDate = useRecoilValue(endDateState$);
   return startDate !== null && endDate !== null;
 };
+
 export const useCreateIncidence = () => {
   const [employees, setEmployees] = useRecoilState(employees$);
 
@@ -351,6 +352,27 @@ export const useCreateIncidence = () => {
       const newEmployees = new Map(employees);
       const e = { ...newEmployees.get(employeeId) };
       e.incidences = [...e.incidences, { ...incidence, date: date.getTime() }];
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
+  );
+};
+
+export const useEditIncidence = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, incidence) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.incidences = e.incidences.map(i => {
+        if (i.date === date) {
+            return { ...incidence, date };
+        } else {
+            return i;
+        }
+      })
       newEmployees.set(employeeId, e);
       setEmployees(newEmployees);
     },
@@ -375,3 +397,25 @@ export const useCreateObservation = () => {
     [employees],
   );
 };
+
+export const useEditObservation = () => {
+  const [employees, setEmployees] = useRecoilState(employees$);
+
+  return useCallback(
+    (employeeId, date, observation) => {
+      const newEmployees = new Map(employees);
+      const e = { ...newEmployees.get(employeeId) };
+      e.observations = e.observations.map(o => {
+        if (o.date === date) {
+            return { ...observation, date };
+        } else {
+            return o;
+        }
+      })
+      newEmployees.set(employeeId, e);
+      setEmployees(newEmployees);
+    },
+    [employees],
+  );
+};
+
