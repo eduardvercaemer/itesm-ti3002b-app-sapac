@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 const previewTable = ({data}) =>{
 
-    const headers = ["ID", "Nombre", "Días", "Observaciones"];
+    const headers = ["ID", "Nombre", "Días", "Observaciones", "Acciones"];
     const [columnWidths, setColumnWidths] = useState([]);
     const [adjustedHeaders, setAdjustedHeaders] = useState();
 
@@ -14,26 +14,14 @@ const previewTable = ({data}) =>{
     useEffect(() => {
 
         setAdjustedHeaders(headers.map((key, index) => (
-            <th key={key} style={{ "width": `${columnWidths[key]}px` }}>{headers[index]}</th>
+            <th key={key} style={{ "width": `${columnWidths[index]/16}em` }}>{headers[index]}</th>
         )));
 
 
     }, [columnWidths]);
-
-
-    useEffect(()=>{
-        
-    },[columnWidths])
     
     const onWidthsCalculated = (widths) => {
-
-        const exists = Object.keys(widths).some(key => key in columnWidths);
-
-        if (!exists && Object.keys(widths).length > 0) {
-            const newColumnWidths = { ...columnWidths, ...widths };
-
-            setColumnWidths(newColumnWidths);
-        }
+        setColumnWidths(widths);
     };
 
     return (
@@ -44,17 +32,13 @@ const previewTable = ({data}) =>{
                     {adjustedHeaders}
                 </tr>
 
-                <tbody>
+                <tbody className="bottomTable"> 
                     {data.map((element, index) =>
                         <PreviewRow key={element.key} row={element} rowKey={headers[index]} onWidthsCalculated={onWidthsCalculated} />
                     )}
                 </tbody>
-
-                
             </table>
             
-
-
         </div>
     )
 
