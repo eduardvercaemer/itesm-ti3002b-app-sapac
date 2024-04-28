@@ -12,7 +12,7 @@ function Dashboard() {
   const editIncidence = useEditIncidence();
   const list = useEmployeeList();
   //console.debug(list);
-  const e = useEmployee("124");
+  const e = useEmployee("127");
   console.debug(e);
 
   return (
@@ -20,7 +20,7 @@ function Dashboard() {
       <div>Dashboard</div>
       <button
         onClick={() => {
-          createIncidence("124", new Date(), { foo: "bar" });
+          createIncidence("127", new Date(), { foo: "bar" });
         }}
       >
         click me to add an incidence
@@ -28,7 +28,7 @@ function Dashboard() {
       <button
         onClick={() => {
           const date = e.employee.incidences[0].date;
-          editIncidence("124", date, { foo: "new bar" });
+          editIncidence("127", date, { foo: "new bar" });
         }}
       >
         edit incidence
