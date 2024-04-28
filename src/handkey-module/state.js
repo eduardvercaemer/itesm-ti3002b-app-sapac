@@ -70,6 +70,9 @@ const employeeSelector$ = selectorFamily({
           day.observations = employee.observations.filter(
             (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
           );
+          day.entries = entries
+            .get(id)
+            .entries.filter((i) => i >= ts && i < ts + 1000 * 60 * 60 * 24);
         }
       }
 
@@ -322,18 +325,18 @@ export const useInitFromLocalStorage = () => {
 
 export const useResetEntries = () => {
   const setEntries = useSetRecoilState(entries$);
-  localStorage.removeItem("state/entries");
   return useCallback(() => {
     const newEntries = new Map();
+    localStorage.removeItem("state/entries");
     setEntries(newEntries);
   });
 };
 
 export const useResetEmployees = () => {
   const setEmployees = useSetRecoilState(employees$);
-  localStorage.removeItem("state/employees");
   return useCallback(() => {
     const newEmployees = new Map();
+    localStorage.removeItem("state/employees");
     setEmployees(newEmployees);
   });
 };
