@@ -20,7 +20,7 @@ function Dashboard() {
       <div>Dashboard</div>
       <button
         onClick={() => {
-          createIncidence("127", new Date(), { foo: "bar" });
+          createIncidence("127", new Date(), 'r');
         }}
       >
         click me to add an incidence
@@ -28,7 +28,7 @@ function Dashboard() {
       <button
         onClick={() => {
           const date = e.employee.incidences[0].date;
-          editIncidence("127", date, { foo: "new bar" });
+          editIncidence("127", date, 'nr');
         }}
       >
         edit incidence

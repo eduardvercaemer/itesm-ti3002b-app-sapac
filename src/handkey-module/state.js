@@ -54,7 +54,6 @@ const employeeSelector$ = selectorFamily({
 
       let days = null;
 
-      console.debug({ start, end });
       if (start !== null && end !== null) {
         const numberOfDays =
           1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
@@ -64,12 +63,12 @@ const employeeSelector$ = selectorFamily({
 
         for (const day of days) {
           const ts = day.date.getTime();
-          day.incidences = employee.incidences.filter(
+          day.incidence = employee.incidences.filter(
             (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          );
-          day.observations = employee.observations.filter(
+          )[0]?.value ?? null;
+          day.observation = employee.observations.filter(
             (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          );
+          )[0]?.value ?? null;
           day.entries =
             entries
               .get(id)
@@ -357,7 +356,7 @@ export const useCreateIncidence = () => {
     (employeeId, date, incidence) => {
       const newEmployees = new Map(employees);
       const e = { ...newEmployees.get(employeeId) };
-      e.incidences = [...e.incidences, { ...incidence, date: date.getTime() }];
+      e.incidences = [...e.incidences, { value: incidence, date: date.getTime() }];
       newEmployees.set(employeeId, e);
       setEmployees(newEmployees);
     },
@@ -374,7 +373,7 @@ export const useEditIncidence = () => {
       const e = { ...newEmployees.get(employeeId) };
       e.incidences = e.incidences.map((i) => {
         if (i.date === date) {
-          return { ...incidence, date };
+          return { value: incidence, date };
         } else {
           return i;
         }
@@ -410,7 +409,7 @@ export const useCreateObservation = () => {
       const e = { ...newEmployees.get(employeeId) };
       e.observations = [
         ...e.observations,
-        { ...observation, date: date.getTime() },
+        { value: observation, date: date.getTime() },
       ];
       newEmployees.set(employeeId, e);
       setEmployees(newEmployees);
@@ -428,7 +427,7 @@ export const useEditObservation = () => {
       const e = { ...newEmployees.get(employeeId) };
       e.observations = e.observations.map((o) => {
         if (o.date === date) {
-          return { ...observation, date };
+          return { value: observation, date };
         } else {
           return o;
         }
