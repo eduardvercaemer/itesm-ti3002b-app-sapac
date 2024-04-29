@@ -1,0 +1,93 @@
+
+/* X de modal */
+.crossButton {
+    color: #1f2937;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-radius: 0.25rem;
+}
+.crossButton:hover {
+    background-color: #8d8d8d; 
+    color: #F7F7F7; 
+}
+
+/* Boton Guardar */
+.saveButton{
+    background-color: #1368C5;
+    color: #F7F7F7;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+}
+.saveButton:hover{
+    background-color: #113052;
+}
+
+/* Boton Incidenncia */
+.incidenceOption{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 1rem; 
+    height: 1rem;
+    border: 2px solid #1368C5; 
+    border-radius: 0.25rem; 
+    outline: none; 
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+.incidenceOption:hover{
+    background-color: #1368C5;
+    border-color: #1368C5;
+}
+.incidenceOption:checked{
+    background-color: #1368C5;
+}
+.incidenceText{
+    margin-left: 0.5rem;
+    font-size: 1.25rem;
+    font-family: sans-serif;
+    font-weight: normal;
+}
+
+/* Contenedor del modal */
+.modalContent {
+    /* Mantén la anchura fija */
+    width: 300px;
+    /* Establece una altura máxima */
+    max-height: 70vh; /* Por ejemplo, el 70% de la altura de la ventana */
+    /* Agrega desbordamiento vertical */
+    overflow-y: auto;
+}
+.optionContainer {
+    /* Ajusta el tamaño al contenido */
+    width: 100%;
+}
+
+  
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+h1{
+    font-size: 2rem; 
+    font-weight: 700;
+    font-family: sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+h3{
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: sans-serif;
+    margin-bottom: 1rem;
+}
