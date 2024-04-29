@@ -3,14 +3,40 @@ import './Board.css';
 
 // Componente para renderizar una fila de la tabla
 function TableRow({ user }) {
+    const incidencias = {
+        "f": { backgroundColor: '#ff3b30', label: "Falta" },
+        "de": { backgroundColor: '#ffcc00', label: "Día económico" },
+        "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
+        "perm": { backgroundColor: '#ff2d54', label: "Permuta" },
+        "inc": { backgroundColor: '#007bff', label: "Incapacidad" },
+        "je": { backgroundColor: '#00c7be', label: "Justificación entrada" },
+        "js": { backgroundColor: '#00c7be', label: "Justificación salida" },
+        "lcgs": { backgroundColor: '#55bef0', label: "Lic. con goce de sueldo" },
+        "r": { backgroundColor: '#ff9500', label: "Retardo" },
+        "ok": { backgroundColor: '#34c759', label: "Correcto" },
+        "lsgs": { backgroundColor: '#55bef0', label: "Lic. sin goce de sueldo" },
+        "ono": { backgroundColor: '#af52de', label: "Onomástico" },
+        "rl": { backgroundColor: '#ff9500', label: "Retardo leve" },
+        "rg": { backgroundColor: '#ff9500', label: "Retardo grave" },
+        "j": { backgroundColor: '#00c7be', label: "Justificación" },
+        "fs": { backgroundColor: '#8e8e93', label: "Falta salida" },
+        "fe": { backgroundColor: '#8e8e93', label: "Falta entrada" },
+        "d": { backgroundColor: '#ffcc00', label: "Descanso" }
+    };
+
+    // Obtener el estilo y la etiqueta de la incidencia actual
+    const { backgroundColor, label } = incidencias[user.incidencia] || {};
+
     return (
         <tr>
             <td>{user.fecha}</td>
             <td>{user.entrada}</td>
             <td>{user.salida}</td>
-            <td><p style={user.incidencia === "POP" ? { backgroundColor: 'lightgreen' } : user.incidencia === "ROCK" ? { backgroundColor: 'Gray' } : {}}>
-                {user.incidencia}
-            </p></td>
+            <td>
+                <p style={backgroundColor ? { backgroundColor } : {}}>
+                    {label || user.incidencia}
+                </p>
+            </td>
             <td>{user.observaciones}</td>
             <td><button className='button'>Editar</button></td>
         </tr>
@@ -30,7 +56,7 @@ function Board({ objeto, date_from, date_to }) {
                             <th>Salida</th>
                             <th>Incidencia</th>
                             <th>Observaciones</th>
-                            <th style={{textAlign: 'start'}}>Acciones</th>
+                            <th style={{ textAlign: 'start' }}>Acciones</th>
                         </tr>
                     </thead>
                     <tbody className='navbar'>

@@ -34,7 +34,7 @@ const formatEntries = (employee, date_from, date_to) => {
                 fecha: formattedDate,
                 entrada: hours + ':' + minutes.slice(-2),
                 salida: "16:00",
-                incidencia: "POP",
+                incidencia: "ok",
                 observaciones: "NA",
             });
         } else {
