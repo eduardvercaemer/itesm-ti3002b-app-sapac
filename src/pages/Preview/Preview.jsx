@@ -1,9 +1,11 @@
 import "./Preview.css";
+import PreviewTable from "../../components/preview-table";
+import testingData from "../../../testing-array";
 
 function Preview() {
   return (
     <main>
-      <div>Preview</div>
+      <PreviewTable data={testingData} />
     </main>
   );
 }
