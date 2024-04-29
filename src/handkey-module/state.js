@@ -72,7 +72,8 @@ const employeeSelector$ = selectorFamily({
           );
           day.entries = entries
             .get(id)
-            .entries.filter((i) => i >= ts && i < ts + 1000 * 60 * 60 * 24);
+            ?.entries.filter((i) => i >= ts && i < ts + 1000 * 60 * 60 * 24)
+            ?? [];
         }
       }
 
