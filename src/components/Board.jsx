@@ -80,7 +80,7 @@ function Board({ objeto, date_from, date_to }) {
                 </table>
             </div>
 
-            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} />}
+            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
         </>
     );
 }

@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import './incidence.css';
 
-export const Incidence = ({ onClose }) => {
+export const Incidence = ({ onClose, options }) => {
   const [selectedOption, setSelectedOption] = useState(null);
+  const optionToId = {
+    'Retardo': 'r',
+    'Falta': 'f',
+    'Día Económico': 'de',
+    'Vacaciones': 'vac',
+    'Permuta': 'perm',
+    'Incapacidad': 'inc',
+    'Justificación Entrada': 'je',
+    'Justificación salida': 'js',
+    'Retardo Leve': 'rl',
+    'Retardo Grave': 'rg',
+    'Correcto': 'ok',
+    'Justificación': 'j',
+    'Falta Entrada': 'fe',
+  };
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -10,9 +25,7 @@ export const Incidence = ({ onClose }) => {
 
   const handleSave = () => {
     if (selectedOption) {
-      // Guardar la información del radio button de alguna manera
       console.log('Opción seleccionada:', selectedOption);
-      // Cerrar el modal
       onClose();
     } else {
       alert('Por favor, selecciona una opción antes de guardar.');
@@ -26,7 +39,7 @@ export const Incidence = ({ onClose }) => {
 
   return (
     <div className="fixed z-50 inset-0 overflow-y-auto flex items-center justify-center">
-      <div className="bg-white rounded-lg p-6 w-[300px] h-[370px]">
+      <div className="modalContent bg-white rounded-lg p-6 w-[300px] h-[370px]">
         {/* Contenido del modal */}
         <div className="flex justify-between mb-4">
           <div className='container'>
@@ -42,33 +55,24 @@ export const Incidence = ({ onClose }) => {
         </div>
             
             {/* Opciones de selección */}
-            <div className='container'>
-            <div className="mb-4">
-              <div className="mb-2">
-                <label className="inline-flex items-center">
-                  <input type="radio" name="incidencia" className="incidenceOption" value={"retardo_leve"} onChange={handleOptionChange}/>
-                  <span className="incidenceText">Retardo Leve</span>
-                </label>
+            <div className='optionContainer'>
+              <div className="mb-4">
+                {options.map((option, index) => (
+                  <div key={index} className='mb-2'>
+                    <label htmlFor={option} className='inline-flex items-center'>
+                      <input
+                      className='incidenceOption'
+                      type="radio"
+                      id={option}
+                      value={option}
+                      checked={selectedOption === option}
+                      onChange={handleOptionChange}
+                      />
+                      <span className='incidenceText'>{option}</span>
+                    </label>
+                  </div>
+                ))}
               </div>
-              <div className="mb-2">
-                <label className="inline-flex items-center">
-                  <input type="radio" name="retardo_grave" className="incidenceOption" value={"retardo_grave"} onChange={handleOptionChange} />
-                  <span className="incidenceText">Retardo Grave</span>
-                </label>
-              </div>
-              <div className="mb-2">
-                <label className="inline-flex items-center">
-                  <input type="radio" name="vacaciones" className="incidenceOption" value={"vacaciones"} onChange={handleOptionChange}/>
-                  <span className="incidenceText">Vacaciones</span>
-                </label>
-              </div>
-              <div className="mb-2">
-                <label className="inline-flex items-center">
-                  <input type="radio" name="correcto" className="incidenceOption" value={"correcto"} onChange={handleOptionChange}/>
-                  <span className="incidenceText">Correcto</span>
-                </label>
-              </div>
-            </div>
             </div>
             {/* Botón de guardar */}
             <div className='container'>
