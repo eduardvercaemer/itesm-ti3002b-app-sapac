@@ -9,14 +9,11 @@ const previewTable = ({data}) =>{
     const [columnWidths, setColumnWidths] = useState([]);
     const [adjustedHeaders, setAdjustedHeaders] = useState();
 
-    console.log(columnWidths)
-
     useEffect(() => {
 
         setAdjustedHeaders(headers.map((key, index) => (
             <th key={key} style={{ "width": `${columnWidths[index]/16}em` }}>{headers[index]}</th>
         )));
-
 
     }, [columnWidths]);
     

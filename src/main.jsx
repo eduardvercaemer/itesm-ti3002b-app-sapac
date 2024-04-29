@@ -37,6 +37,7 @@ function Wrapper({ children }) {
 }
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <RecoilRoot>
       <React.Suspense fallback={<p>loading</p>}>
         <Wrapper>
@@ -44,4 +45,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Wrapper>
       </React.Suspense>
     </RecoilRoot>
+    </React.StrictMode>
+
 );
