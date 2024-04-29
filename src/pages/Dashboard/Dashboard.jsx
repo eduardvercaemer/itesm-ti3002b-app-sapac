@@ -15,12 +15,14 @@ function Dashboard() {
   const e = useEmployee("127");
   console.debug(e);
 
+  e?.inferIncidences();
+
   return (
     <main>
       <div>Dashboard</div>
       <button
         onClick={() => {
-          createIncidence("127", new Date(), 'r');
+          createIncidence("127", new Date(), "r");
         }}
       >
         click me to add an incidence
@@ -28,7 +30,7 @@ function Dashboard() {
       <button
         onClick={() => {
           const date = e.employee.incidences[0].date;
-          editIncidence("127", date, 'nr');
+          editIncidence("127", date, "nr");
         }}
       >
         edit incidence
