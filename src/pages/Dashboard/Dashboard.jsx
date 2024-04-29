@@ -7,15 +7,23 @@ import {
   useEmployee,
 } from "../../handkey-module/state";
 
+import { useEffect, useState } from "react";
+
 function Dashboard() {
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
   const list = useEmployeeList();
-  //console.debug(list);
   const e = useEmployee("127");
-  console.debug(e);
+  const [ready, setReady] = useState(false);
 
-  e?.inferIncidences();
+  useEffect(() => {
+    if (!e) return;
+    if (ready) return;
+
+    console.log("about to infer");
+    setReady(true);
+    setTimeout(() => e.inferIncidences(), 0);
+  }, [e]);
 
   return (
     <main>

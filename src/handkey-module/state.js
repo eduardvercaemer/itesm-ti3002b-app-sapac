@@ -81,9 +81,21 @@ const employeeSelector$ = selectorFamily({
       }
 
       const inferIncidences = getCallback(({ set }) => () => {
-        console.debug(`calculating incidences for ${id}`, days);
+        if (days === null) {
+          return;
+        }
+
+        const setEmployees = (...args) => set(employees$, ...args);
+
         for (const day of days) {
           if (day.entries.length === 0) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "f", date: day.date.getTime() },
+              ];
+              return e;
+            });
           }
         }
       });
@@ -143,8 +155,6 @@ export const useEmployeeList = () => {
 export const useSetEmployeesFile = () => {
   const setEmployees = useSetRecoilState(employees$);
   return useCallback((file, callback) => {
-    console.debug("loading employee data from", file);
-
     const newEmployees = new Map();
 
     const complete = () => {
@@ -196,8 +206,6 @@ export const useSetEmployeesFile = () => {
 export const useSetEntriesFile = () => {
   const setEntries = useSetRecoilState(entries$);
   return useCallback((file, callback) => {
-    console.debug("loading entries from", file);
-
     const newEntries = new Map();
 
     const complete = () => {
@@ -279,14 +287,12 @@ const useLocalStorage = (name, value, setter, sed, des, should) => {
     const stored = localStorage.getItem(key);
     if (!stored) return;
 
-    console.debug(`loading ${name} from cache`);
     setter(des(stored));
   }, []);
 
   useEffect(() => {
     if (!should(value)) return;
 
-    console.debug(`storing ${name} in cache`);
     localStorage.setItem(key, sed(value));
   }, [value]);
 };
@@ -415,7 +421,7 @@ export const useCreateObservation = () => {
   const setEmployees = useSetRecoilState(employees$);
 
   return useCallback((employeeId, date, observation) => {
-    updateEmployee(setEmployees, (e) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.observations = [
         ...e.observations,
         { value: observation, date: date.getTime() },
@@ -443,16 +449,12 @@ export const useEditObservation = () => {
 };
 
 export const useDeleteObservation = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, observation) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, observation) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.observations = e.observations.filter((o) => o.date !== date);
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
