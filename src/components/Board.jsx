@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Board.css';
+import Incidence from './incidence';
 
 // Componente para renderizar una fila de la tabla
-function TableRow({ user }) {
+function TableRow({ user, onEdit }) {
     const incidencias = {
         "": { backgroundColor: '#ccc', label: "Indefinido" },
         "f": { backgroundColor: '#ff3b30', label: "Falta" },
@@ -39,12 +40,24 @@ function TableRow({ user }) {
                 </p>
             </td>
             <td>{user.observaciones}</td>
-            <td><button className='button'>Editar</button></td>
+            <td><button className='button' onClick={() => onEdit(user)}>Editar</button></td>
         </tr>
     );
 }
 
 function Board({ objeto, date_from, date_to }) {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const handleEdit = (user) => {
+        setSelectedUser(user);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
     return (
         <>
             <h1 className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</h1>
@@ -62,11 +75,13 @@ function Board({ objeto, date_from, date_to }) {
                     </thead>
                     <tbody className='navbar'>
                         {objeto.map((user, i) => (
-                            <TableRow key={i} user={user} />
+                            <TableRow key={i} user={user} onEdit={handleEdit} />
                         ))}
                     </tbody>
                 </table>
             </div>
+
+            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
         </>
     );
 }

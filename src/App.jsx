@@ -124,7 +124,7 @@ function App() {
 
       <p>{JSON.stringify(employeeQueryResults)}</p>
 
-      <div className="title-container">
+      <div className="title-container2">
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
 
