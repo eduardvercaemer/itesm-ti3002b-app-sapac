@@ -53,18 +53,19 @@ function Dashboard() {
     const employees = useEmployeeList();
     const date_from = new Date(parseInt(localStorage.getItem("state/start-date"), 10));
     const date_to = new Date(parseInt(localStorage.getItem("state/end-date"), 10));
-    const [ currIndex, setCurrIndex ] = useState(0);
+    const [ currIndex, setCurrIndex ] = useState(localStorage.getItem("currIndex") !== null ? parseInt(localStorage.getItem("currIndex")) : 0);
 
     const currEmployee = useEmployee(employees[currIndex]);
     const currEntries = useMemo(() => formatEntries(currEmployee), [currEmployee]);
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
     const handleBackClick = () => {
+        localStorage.setItem("currIndex", currIndex - 1)
         setCurrIndex(currIndex - 1);
     }
     
     const handleNextClick = () => {
-        console.log(currIndex + 1)
+        localStorage.setItem("currIndex", currIndex + 1)
         setCurrIndex(currIndex + 1);
     }
 
