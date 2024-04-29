@@ -84,10 +84,11 @@ function App() {
       Swal.fire(
         "Fechas seleccionadas:",
         `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
-      );
-
-      setStartDate(new Date(start));
-      setEndDate(new Date(end));
+      ).then(() => {
+        setStartDate(new Date(start));
+        setEndDate(new Date(end));
+        navigate("/dashboard");
+      });
     }
   };
 
@@ -152,15 +153,13 @@ function App() {
       </div>
 
       <div className="bottom-container">
-        <Link
-          to={!ready ? "/" : "/dashboard"}
+        <button
           className="bottom-btn"
+          onClick={() => handleDate()}
           disabled={!ready}
         >
-          <button onClick={() => handleDate()} disabled={!ready}>
-            Iniciar
-          </button>
-        </Link>
+          Iniciar
+        </button>
         <ExportCsv />
       </div>
 
