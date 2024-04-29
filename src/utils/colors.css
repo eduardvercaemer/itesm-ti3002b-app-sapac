@@ -1,0 +1,33 @@
+:root {
+    /* Colors for surfaces */
+    --primary-color: #007bff;
+    --surface-main-blue: #1368C5;
+    --surface-secondary-blue: #4F9BC8;
+    --surface-white: #F7F7F7;
+
+    /* Colors for text */
+    --text-primary: #202020;
+    --text-alternative: #AFAFAF;
+    --text-inverse: #FAFAFA;
+    --text-disabled: #B8B8B8;
+
+    /* Colors for buttons */
+    --button-primary: #2689E4;
+    --button-alternative: #1368C5;
+    --button-inverse: #AFAFAF;
+    --button-disabled: #D3D3D3;
+    --button-hover: #113052;
+    --button-hover-alternative: #8D8D8D;
+
+    /* Colors for incidences */
+    --i-red: #ff3b30;
+    --i-orange: #ff9500;
+    --i-yellow: #ffcc00;
+    --i-green: #34c759;
+    --i-mint: #00c7be;
+    --i-cyan: #55bef0;
+    --i-blue: #007bff;
+    --i-purple: #af52de;
+    --i-pink: #ff2d54;
+    --i-gray: #8e8e93;
+  }
