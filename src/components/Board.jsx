@@ -4,6 +4,7 @@ import './Board.css';
 // Componente para renderizar una fila de la tabla
 function TableRow({ user }) {
     const incidencias = {
+        "": { backgroundColor: '#ccc', label: "Indefinido" },
         "f": { backgroundColor: '#ff3b30', label: "Falta" },
         "de": { backgroundColor: '#ffcc00', label: "Día económico" },
         "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
