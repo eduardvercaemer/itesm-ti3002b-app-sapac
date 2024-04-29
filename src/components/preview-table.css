@@ -1,17 +1,17 @@
-.tableContainer{
-    display: flex;
-    flex-direction: column;
-    padding-left: 5em;
-    padding-right: 5em;
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  padding-left: 5em;
+  padding-right: 5em;
 }
 
-.headerContainer{
-    display: flex;
-    font-weight: 600;
-    align-items: center;
-    padding-bottom: 1em;
+.headerContainer {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  padding-bottom: 1em;
 }
 
-.bottomTable{
-    margin-top: 3em;
+.bottomTable {
+  margin-top: 3em;
 }

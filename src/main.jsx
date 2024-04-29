@@ -45,6 +45,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </Wrapper>
       </React.Suspense>
     </RecoilRoot>
-    </React.StrictMode>
-
+  </React.StrictMode>,
 );

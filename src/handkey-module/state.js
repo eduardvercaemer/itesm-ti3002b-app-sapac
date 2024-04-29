@@ -70,10 +70,12 @@ const employeeSelector$ = selectorFamily({
           day.observations = employee.observations.filter(
             (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
           );
-          day.entries = entries
-            .get(id)
-            ?.entries.filter((i) => i >= ts && i < ts + 1000 * 60 * 60 * 24)
-            ?? [];
+          day.entries =
+            entries
+              .get(id)
+              ?.entries.filter(
+                (i) => i >= ts && i < ts + 1000 * 60 * 60 * 24,
+              ) ?? [];
         }
       }
 
