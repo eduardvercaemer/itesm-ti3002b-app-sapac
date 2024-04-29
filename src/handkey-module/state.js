@@ -41,7 +41,7 @@ const employeeSelector$ = selectorFamily({
   key: "employee-selector",
   get:
     (id) =>
-    ({ get }) => {
+    ({ get, getCallback }) => {
       const employees = get(employees$);
       const entries = get(entries$);
       const start = get(startDateState$);
@@ -54,7 +54,6 @@ const employeeSelector$ = selectorFamily({
 
       let days = null;
 
-      console.debug({ start, end });
       if (start !== null && end !== null) {
         const numberOfDays =
           1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
@@ -64,12 +63,14 @@ const employeeSelector$ = selectorFamily({
 
         for (const day of days) {
           const ts = day.date.getTime();
-          day.incidences = employee.incidences.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          );
-          day.observations = employee.observations.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          );
+          day.incidence =
+            employee.incidences.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null;
+          day.observation =
+            employee.observations.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null;
           day.entries =
             entries
               .get(id)
@@ -79,12 +80,33 @@ const employeeSelector$ = selectorFamily({
         }
       }
 
+      const inferIncidences = getCallback(({ set }) => () => {
+        if (days === null) {
+          return;
+        }
+
+        const setEmployees = (...args) => set(employees$, ...args);
+
+        for (const day of days) {
+          if (day.entries.length === 0) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "f", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          }
+        }
+      });
+
       // TODO: further process entries by filtering with employee schedule
 
       return {
         employee,
         entries: entries.get(id),
         days,
+        inferIncidences,
       };
     },
 });
@@ -133,8 +155,6 @@ export const useEmployeeList = () => {
 export const useSetEmployeesFile = () => {
   const setEmployees = useSetRecoilState(employees$);
   return useCallback((file, callback) => {
-    console.debug("loading employee data from", file);
-
     const newEmployees = new Map();
 
     const complete = () => {
@@ -186,8 +206,6 @@ export const useSetEmployeesFile = () => {
 export const useSetEntriesFile = () => {
   const setEntries = useSetRecoilState(entries$);
   return useCallback((file, callback) => {
-    console.debug("loading entries from", file);
-
     const newEntries = new Map();
 
     const complete = () => {
@@ -269,14 +287,12 @@ const useLocalStorage = (name, value, setter, sed, des, should) => {
     const stored = localStorage.getItem(key);
     if (!stored) return;
 
-    console.debug(`loading ${name} from cache`);
     setter(des(stored));
   }, []);
 
   useEffect(() => {
     if (!should(value)) return;
 
-    console.debug(`storing ${name} in cache`);
     localStorage.setItem(key, sed(value));
   }, [value]);
 };
@@ -350,107 +366,95 @@ export const useHasDateRange = () => {
   return startDate !== null && endDate !== null;
 };
 
-export const useCreateIncidence = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+function updateEmployee(setEmployees, id, update) {
+  setEmployees((employees) => {
+    const newEmployees = new Map(employees);
+    const e = { ...newEmployees.get(id) };
+    newEmployees.set(id, update(e));
+    return newEmployees;
+  });
+}
 
-  return useCallback(
-    (employeeId, date, incidence) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
-      e.incidences = [...e.incidences, { ...incidence, date: date.getTime() }];
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+export const useCreateIncidence = () => {
+  const setEmployees = useSetRecoilState(employees$);
+
+  return useCallback((employeeId, date, incidence) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
+      e.incidences = [
+        ...e.incidences,
+        { value: incidence, date: date.getTime() },
+      ];
+      return e;
+    });
+  }, []);
 };
 
 export const useEditIncidence = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, incidence) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, incidence) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.incidences = e.incidences.map((i) => {
         if (i.date === date) {
-          return { ...incidence, date };
+          return { value: incidence, date };
         } else {
           return i;
         }
       });
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
 
 export const useDeleteIncidence = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, incidence) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, incidence) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.incidences = e.incidences.filter((i) => i.date !== date);
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
 
 export const useCreateObservation = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, observation) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, observation) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.observations = [
         ...e.observations,
-        { ...observation, date: date.getTime() },
+        { value: observation, date: date.getTime() },
       ];
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
 
 export const useEditObservation = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, observation) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, observation) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.observations = e.observations.map((o) => {
         if (o.date === date) {
-          return { ...observation, date };
+          return { value: observation, date };
         } else {
           return o;
         }
       });
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
 
 export const useDeleteObservation = () => {
-  const [employees, setEmployees] = useRecoilState(employees$);
+  const setEmployees = useSetRecoilState(employees$);
 
-  return useCallback(
-    (employeeId, date, observation) => {
-      const newEmployees = new Map(employees);
-      const e = { ...newEmployees.get(employeeId) };
+  return useCallback((employeeId, date, observation) => {
+    updateEmployee(setEmployees, employeeId, (e) => {
       e.observations = e.observations.filter((o) => o.date !== date);
-      newEmployees.set(employeeId, e);
-      setEmployees(newEmployees);
-    },
-    [employees],
-  );
+      return e;
+    });
+  }, []);
 };
