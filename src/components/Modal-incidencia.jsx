@@ -4,9 +4,31 @@ import './Modal-incidencia.css'; // Asegúrate de crear este archivo y agregar l
 function ModalIncidencia({show, onClose, options}) {
   const [selectedOption, setSelectedOption] = useState(null);
 
+  const optionToId = {
+    'Retardo': 'r',
+    'Falta': 'f',
+    'Día Económico': 'de',
+    'Vacaciones': 'vac',
+    'Permuta': 'perm',
+    'Incapacidad': 'inc',
+    'Justificación Entrada': 'je',
+    'Justificación salida': 'js',
+    'Retardo Leve': 'rl',
+    'Retardo Grave': 'rg',
+    'Correcto': 'ok',
+    'Justificación': 'j',
+    'Falta Entrada': 'fe',
+  };
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+
+  const handleButtonClick = () => {
+    console.log(optionToId[selectedOption]); // Imprime el ID correspondiente a la opción seleccionada
+    onClose();
+  };
+
   if (!show) {
     return null;
   }
@@ -32,7 +54,7 @@ function ModalIncidencia({show, onClose, options}) {
           ))}
         </div>
         <div className="modal-footer">
-          <button onClick={onClose}>Cerrar</button>
+          <button onClick={handleButtonClick}>Cerrar</button>
         </div>
       </div>
     </div>
