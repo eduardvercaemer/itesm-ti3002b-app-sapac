@@ -54,12 +54,10 @@ function App() {
   const setEndDate = useSetEndDate();
 
   useEffect(() => {
-
     if (ready && hastDates) {
       navigate("/dashboard");
     }
-
-  }, [])
+  }, []);
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
