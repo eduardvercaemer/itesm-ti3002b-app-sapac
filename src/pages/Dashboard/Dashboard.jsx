@@ -1,51 +1,43 @@
-import { useState , useEffect, useMemo } from 'react'
+import { useState , useMemo } from 'react'
 import Board from '../../components/Board'
-import { useEmployee, useEmployeeList } from "../../handkey-module/state.js";
+import { useCreateIncidence, useEditIncidence, useEmployeeList, useEmployee } from "../../handkey-module/state";
 
 import "./Dashboard.css";
 
-const formatEntries = (employee, date_from, date_to) => {
+const formatEntries = (employee) => {
     const formattedEntries = [];
-    const startDate = new Date(date_from); // Create a new Date object
 
-    for (var d = startDate; d <= date_to; d.setUTCDate(d.getUTCDate() + 1)) {
-        const day = d.getUTCDate();
-        const month = d.getUTCMonth() + 1;
-        const year = d.getUTCFullYear();
+    if(employee.days !== undefined) {
+        employee.days.forEach((day) => {
+            const entryDay = day.date.getUTCDate();
+            const entryMonth = day.date.getUTCMonth() + 1;
+            const entryYear = day.date.getUTCFullYear();
+            const formattedDate = `${entryDay}-${entryMonth}-${entryYear}`;
 
-        const formattedDate = `${day}-${month}-${year}`;
+            let entry = "";
+            let exit = "";
 
-        // Check if there's an entry for this date
-        const entry = employee.entries !== undefined ? employee.entries.entries.find(entry => {
-            const entryDate = new Date(entry);
-            const entryDay = entryDate.getUTCDate();
-            const entryMonth = entryDate.getUTCMonth() + 1;
-            const entryYear = entryDate.getUTCFullYear();
-            return `${entryDay}-${entryMonth}-${entryYear}` === formattedDate;
-        }) : undefined;
-        
-
-        if (entry) {
-            const entryDate = new Date(entry * 1000);
-            const hours = entryDate.getUTCHours();
-            const minutes = "0" + entryDate.getUTCMinutes();
+            if(day.entries[0]) {
+                const entryDate = new Date(day.entries[0]);
+                const entryHours = entryDate.getUTCHours();
+                const entryMinutes = "0" + entryDate.getUTCMinutes();
+                entry = entryHours + ':' + entryMinutes.slice(-2)
+            }
+            if(day.entries[1]){
+                const exitDate = new Date(day.entries[1]);
+                const exitHours = exitDate.getUTCHours();
+                const exitMinutes = "0" + exitDate.getUTCMinutes();
+                exit = exitHours + ':' + exitMinutes.slice(-2)
+            }
 
             formattedEntries.push({
                 fecha: formattedDate,
-                entrada: hours + ':' + minutes.slice(-2),
-                salida: "16:00",
-                incidencia: "ok",
-                observaciones: "NA",
-            });
-        } else {
-            formattedEntries.push({
-                fecha: formattedDate,
-                entrada: "",
-                salida: "",
+                entrada: entry,
+                salida: exit,
                 incidencia: "",
                 observaciones: "",
             });
-        }
+        });
     }
 
     return formattedEntries;
@@ -59,21 +51,26 @@ function formatTime(minutes) {
 
 function Dashboard() {
     const employees = useEmployeeList();
-    const date_from = new Date(parseInt(localStorage.getItem("date_from"), 10) * 1000);
-    const date_to = new Date(parseInt(localStorage.getItem("date_to"), 10) * 1000);
-    const [ currIndex, setCurrIndex ] = useState(0);
+    const date_from = new Date(parseInt(localStorage.getItem("state/start-date"), 10));
+    const date_to = new Date(parseInt(localStorage.getItem("state/end-date"), 10));
+    const [ currIndex, setCurrIndex ] = useState(localStorage.getItem("currIndex") !== null ? parseInt(localStorage.getItem("currIndex")) : 0);
 
     const currEmployee = useEmployee(employees[currIndex]);
-    const currEntries = useMemo(() => formatEntries(currEmployee, date_from, date_to), [currEmployee]);
+    const currEntries = useMemo(() => formatEntries(currEmployee), [currEmployee]);
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
     const handleBackClick = () => {
+        localStorage.setItem("currIndex", currIndex - 1)
         setCurrIndex(currIndex - 1);
     }
     
     const handleNextClick = () => {
+        localStorage.setItem("currIndex", currIndex + 1)
         setCurrIndex(currIndex + 1);
     }
+
+    console.log(employees)
+    console.log(currEmployee)
 
     return (
         <div className='contdash'>
@@ -119,4 +116,4 @@ function Dashboard() {
     )
 }
 
-export default Dashboard;   
+export default Dashboard;

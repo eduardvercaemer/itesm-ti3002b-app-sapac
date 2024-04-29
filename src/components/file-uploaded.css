@@ -1,17 +1,35 @@
 .file-uploaded-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border: solid;
-    width: 350px;
-    height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: solid;
+  width: 350px;
+  height: 350px;
 }
 
 .file-uploaded {
-    width: 4em;
-    height: 4em;
-    opacity: 0.5;
-    margin-bottom: 1rem;
+  width: 4em;
+  height: 4em;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.btn-file-uploaded {
+  text-align: center;
+  margin: 0.5em auto;
+  background-color: #dc2626;
+  color: #fff;
+  font-weight: 700;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.25rem;
+  width: 12rem;
+}
+
+.btn-file-uploaded:hover {
+  background-color: #b91c1c;
 }

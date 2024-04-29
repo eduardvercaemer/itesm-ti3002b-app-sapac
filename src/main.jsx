@@ -7,8 +7,10 @@ import "./index.css";
 
 import App from "./App.jsx";
 import Dashboard from "./pages/Dashboard/Dashboard.jsx";
-import Preview from "./pages/Preview/Preview.jsx"
+import Preview from "./pages/Preview/Preview.jsx";
 import Employee from "./pages/Employee/Employee.jsx";
+
+import { useInitFromLocalStorage } from "./handkey-module/state.js";
 
 const router = createBrowserRouter([
   {
@@ -26,14 +28,21 @@ const router = createBrowserRouter([
   {
     path: "/employee",
     element: <Employee />,
-  }
+  },
 ]);
+
+function Wrapper({ children }) {
+  useInitFromLocalStorage();
+  return <>{children}</>;
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RecoilRoot>
       <React.Suspense fallback={<p>loading</p>}>
-        <RouterProvider router={router} />
+        <Wrapper>
+          <RouterProvider router={router} />
+        </Wrapper>
       </React.Suspense>
     </RecoilRoot>
   </React.StrictMode>,
