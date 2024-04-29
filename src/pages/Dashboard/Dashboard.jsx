@@ -1,8 +1,9 @@
-import { useState , useMemo } from 'react'
+import { useState , useMemo, useEffect } from 'react'
 import Board from '../../components/Board'
 import { useCreateIncidence, useEditIncidence, useEmployeeList, useEmployee } from "../../handkey-module/state";
 
 import "./Dashboard.css";
+import { useFetcher } from 'react-router-dom';
 
 const formatEntries = (employee) => {
     const formattedEntries = [];
@@ -58,6 +59,11 @@ function Dashboard() {
     const currEmployee = useEmployee(employees[currIndex]);
     const currEntries = useMemo(() => formatEntries(currEmployee), [currEmployee]);
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
+
+    useEffect(() => {
+        setTimeout(() => currEmployee.inferIncidences(), 0);
+    }, [currEmployee]);
+    
 
     const handleBackClick = () => {
         localStorage.setItem("currIndex", currIndex - 1)
