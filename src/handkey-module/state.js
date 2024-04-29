@@ -54,7 +54,6 @@ const employeeSelector$ = selectorFamily({
 
       let days = null;
 
-      console.debug({ start, end });
       if (start !== null && end !== null) {
         const numberOfDays =
           1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
