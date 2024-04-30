@@ -40,17 +40,19 @@ function TableRow({ user, onEdit }) {
                 </p>
             </td>
             <td>{user.observaciones}</td>
-            <td><button className='button' onClick={() => onEdit(user)}>Editar</button></td>
+            <td><button className='button' onClick={() => onEdit(user.unformattedDate, user.incidencia)}>Editar</button></td>
         </tr>
     );
 }
 
-function Board({ objeto, date_from, date_to }) {
+function Board({ objeto, date_from, date_to, currEmployeeId }) {
     const [modalOpen, setModalOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [currentIncidence, setCurrentIncidence] = useState(null);
 
-    const handleEdit = (user) => {
-        setSelectedUser(user);
+    const handleEdit = (date, incidence) => {
+        setSelectedDate(date);
+        setCurrentIncidence(incidence);
         setModalOpen(true);
     };
 
@@ -81,7 +83,7 @@ function Board({ objeto, date_from, date_to }) {
                 </table>
             </div>
 
-            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
+            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
         </>
     );
 }
