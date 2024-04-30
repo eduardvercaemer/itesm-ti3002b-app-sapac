@@ -42,7 +42,7 @@ export const Incidence = ({ onClose, options }) => {
       <div className="modalContent bg-white rounded-lg p-6 w-[300px] h-[370px]">
         {/* Contenido del modal */}
         <div className="flex justify-between mb-4">
-          <div className='container'>
+          <div className='containerIncidencia'>
             <h1>Incidencia</h1>
           </div>
           {/* Botón de cierre del modal */}
@@ -50,7 +50,7 @@ export const Incidence = ({ onClose, options }) => {
             <span className="font-bold">X</span>
           </button>
         </div>
-        <div className='container'>
+        <div className='containerIncidencia'>
           <h3>Razón de Incidencia</h3>
         </div>
             
@@ -75,7 +75,7 @@ export const Incidence = ({ onClose, options }) => {
               </div>
             </div>
             {/* Botón de guardar */}
-            <div className='container'>
+            <div className='containerIncidencia'>
               <button className="saveButton" onClick={handleSave}>
                 Guardar
               </button>
