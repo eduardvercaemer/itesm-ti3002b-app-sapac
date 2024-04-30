@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { FileDrop } from "./components/file-drop.jsx";
 import { FileUploaded } from "./components/file-uploaded.jsx";
-import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
 import {
@@ -148,7 +147,6 @@ function App() {
         >
           Iniciar
         </button>
-        <ExportCsv />
       </div>
     </main>
   );
