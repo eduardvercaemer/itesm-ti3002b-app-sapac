@@ -105,7 +105,7 @@ function Dashboard() {
     <div className="h-screen w-screen flex flex-col py-10">
       <div className="grow flex gap-14 px-14 overflow-hidden">
         <div className="cardPerson">
-          <img src="\profilepic.jpg" />
+          <img className='sapacLogo' src="/sapac-logo.png" />
           <div className="employee-id">
             <span className="label-id">Número de empleado:</span>
             <br /> {currEmployeeId ? currEmployeeId : employees[currIndex]}

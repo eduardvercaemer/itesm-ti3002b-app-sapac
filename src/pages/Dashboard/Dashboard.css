@@ -21,6 +21,12 @@
   line-height: 1.5; /* Altura de línea para permitir saltos */
 }
 
+.sapacLogo {
+  max-width: 50%;
+  max-height: 50%;
+  padding-bottom: 2em;
+}
+
 .cardTable {
   background-color: white !important;
   border-radius: 0.2em;
