@@ -7,7 +7,13 @@ export function FileUploaded(props) {
     <div className="file-uploaded-container">
       <FluentMdl2BulkUpload className="file-uploaded" />
       <p className="text-black-400 font-bold">Archivo subido</p>
-      <button className="btn-file-uploaded" onClick={() => {deleteFile(); localStorage.removeItem("currIndex");}}>
+      <button
+        className="btn-file-uploaded"
+        onClick={() => {
+          deleteFile();
+          localStorage.removeItem("currIndex");
+        }}
+      >
         Borrar archivo
       </button>
     </div>

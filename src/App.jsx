@@ -110,7 +110,6 @@ function App() {
 
   return (
     <main className="blue-square">
-
       <div className="title-container">
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
