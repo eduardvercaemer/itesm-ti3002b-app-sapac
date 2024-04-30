@@ -92,7 +92,7 @@ function Dashboard() {
                 <div className='cardPerson'>
                     <img src='\profilepic.jpg'/>
                     <div className='employee-id'>
-                        <span className='label-id'>Número de empleado:</span> {currEmployeeId ? currEmployeeId : employees[currIndex]}
+                        <span className='label-id'>Número de empleado:</span><br /> {currEmployeeId ? currEmployeeId : employees[currIndex]}
                     </div>
                     <div className='employee-name'>
                         <span className='label'>Nombre:</span> {currEmployee.employee.name}
