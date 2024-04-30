@@ -71,6 +71,10 @@
     background-color: #28a745;
     color: #fff;
   }
+  .right-ex-button{
+    background-color: #dc3545;
+    color: #fff;
+  }
   
   .label {
     font-weight: bold;

@@ -141,7 +141,7 @@ function Dashboard() {
                 }   
                 {currIndex < employees.length - 1 ? 
                     <button className='button right-button' onClick={handleNextClick}>Siguiente</button> :
-                    <button className='button right-button' onClick={handleSweetAlertClick}>Exportar</button>
+                    <button className='button right-ex-button' onClick={handleSweetAlertClick}>Exportar</button>
                     /*handleSweetAlertClick*/   
                     /*handleExportClick */
                 }
