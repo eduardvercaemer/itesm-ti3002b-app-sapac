@@ -112,6 +112,9 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
+            localStorage.removeItem('state/start-date');
+            localStorage.removeItem('state/end-date');
+            localStorage.removeItem('currIndex');
             resetEntries();
             resetEmployees();
             navigate("/");
