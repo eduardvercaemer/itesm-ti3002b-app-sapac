@@ -147,41 +147,41 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="cardTable">
-          <Board
-            objeto={currEntries}
-            currEmployeeId={currEmployeeId}
-            date_from={date_from}
-            date_to={date_to}
-          />
+        <div className="grow overflow-hidden flex flex-col gap-4">
+          <div className="grow overflow-scroll">
+            <div className="cardTable">
+              <Board
+                objeto={currEntries}
+                currEmployeeId={currEmployeeId}
+                date_from={date_from}
+                date_to={date_to}
+              />
+            </div>
+          </div>
+          <div className="button-container">
+            {currIndex > 0 ? (
+              <button className="button left-button" onClick={handleBackClick}>
+                Anterior
+              </button>
+            ) : (
+              <button className="button left-button disabled" disabled>
+                Anterior
+              </button>
+            )}
+            {currIndex < employees.length - 1 ? (
+              <button className="button right-button" onClick={handleNextClick}>
+                Siguiente
+              </button>
+            ) : (
+              <button
+                className="button right-ex-button"
+                onClick={handleSweetAlertClick}
+              >
+                Exportar
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="button-container">
-        {currIndex > 0 ? (
-          <button className="button left-button" onClick={handleBackClick}>
-            Anterior
-          </button>
-        ) : (
-          <button className="button left-button disabled" disabled>
-            Anterior
-          </button>
-        )}
-        {
-          currIndex < employees.length - 1 ? (
-            <button className="button right-button" onClick={handleNextClick}>
-              Siguiente
-            </button>
-          ) : (
-            <button
-              className="button right-ex-button"
-              onClick={handleSweetAlertClick}
-            >
-              Exportar
-            </button>
-          )
-          /*handleSweetAlertClick*/
-          /*handleExportClick */
-        }
       </div>
     </div>
   );
