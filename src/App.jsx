@@ -112,18 +112,6 @@ function App() {
   return (
     <main className="blue-square">
 
-      <input
-        type="search"
-        name="search"
-        placeholder="search"
-        onChange={(e) => {
-          e.preventDefault();
-          setEmployeeQuery(e.target.value);
-        }}
-      />
-
-      <p>{JSON.stringify(employeeQueryResults)}</p>
-
       <div className="title-container">
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
@@ -162,14 +150,6 @@ function App() {
         </button>
         <ExportCsv />
       </div>
-
-      <menu>
-        {employees.map((id) => (
-          <li>
-            <Link to={`/?id=${id}`}>{id}</Link>
-          </li>
-        ))}
-      </menu>
     </main>
   );
 }
