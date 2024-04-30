@@ -88,7 +88,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
                 </table>
             </div>
 
-            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
+            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={labels}/>}
         </>
     );
 }
