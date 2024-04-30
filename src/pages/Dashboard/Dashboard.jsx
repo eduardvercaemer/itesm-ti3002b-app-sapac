@@ -1,13 +1,15 @@
-import { useState , useMemo } from 'react'
+import { useState , useMemo, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import Board from '../../components/Board'
 import { useCreateIncidence, useEditIncidence, useEmployeeList, useEmployee } from "../../handkey-module/state";
 
 import "./Dashboard.css";
+import { useFetcher } from 'react-router-dom';
 
 const formatEntries = (employee) => {
     const formattedEntries = [];
 
-    if(employee.days !== undefined) {
+    if(employee  && employee.days) {
         employee.days.forEach((day) => {
             const entryDay = day.date.getUTCDate();
             const entryMonth = day.date.getUTCMonth() + 1;
@@ -34,8 +36,9 @@ const formatEntries = (employee) => {
                 fecha: formattedDate,
                 entrada: entry,
                 salida: exit,
-                incidencia: "",
-                observaciones: "",
+                incidencia: day.incidence ? day.incidence : "" ,
+                observaciones: day.observation ? day.observation : "",
+                unformattedDate: day.date
             });
         });
     }
@@ -50,6 +53,7 @@ function formatTime(minutes) {
 }
 
 function Dashboard() {
+    const navigate = useNavigate();
     const employees = useEmployeeList();
     const date_from = new Date(parseInt(localStorage.getItem("state/start-date"), 10));
     const date_to = new Date(parseInt(localStorage.getItem("state/end-date"), 10));
@@ -59,18 +63,26 @@ function Dashboard() {
     const currEntries = useMemo(() => formatEntries(currEmployee), [currEmployee]);
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
+   useEffect(() => {
+        setTimeout(() => currEmployee.inferIncidences(), 0);
+    }, [currEmployee]);
+    
+
     const handleBackClick = () => {
+        console.log(currEmployee);
         localStorage.setItem("currIndex", currIndex - 1)
         setCurrIndex(currIndex - 1);
     }
     
     const handleNextClick = () => {
+        console.log(currEmployee);
         localStorage.setItem("currIndex", currIndex + 1)
         setCurrIndex(currIndex + 1);
     }
 
-    console.log(employees)
-    console.log(currEmployee)
+    const handleExportClick = () => {
+        navigate("/preview");
+    }
 
     return (
         <div className='contdash'>
@@ -98,7 +110,7 @@ function Dashboard() {
                 </div>
 
                 <div className='cardTable'>
-                    <Board objeto={currEntries} date_from={date_from} date_to={date_to}/>
+                    <Board objeto={currEntries} currEmployeeId={currEmployeeId} date_from={date_from} date_to={date_to}/>
                 </div>
             </div>
             <div className='button-container'>
@@ -106,12 +118,11 @@ function Dashboard() {
                     <button className='button left-button' onClick={handleBackClick}>Anterior</button> :
                     <button className='button left-button disabled' disabled>Anterior</button>
                 }   
-                {/*currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>*/}
-                {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
+                {currIndex < employees.length - 1 ? 
+                    <button className='button right-button' onClick={handleNextClick}>Siguiente</button> :
+                    <button className='button right-button' onClick={handleExportClick}>Exportar</button>    
+                }
             </div>
-                {/*<button className='button left-button' onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
-                {/*<button className={`button left-button ${currIndex === 0 ? 'gray-button' : ''}`} onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
-
         </div>
     )
 }
