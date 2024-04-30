@@ -1,98 +1,139 @@
-import React, { useState } from 'react';
-import './Board.css';
-import Incidence from './incidence';
+import React, { useState } from "react";
+import "./Board.css";
+import Incidence from "./incidence";
 
 //Diccionario con el tipo de incidencias
 const incidencias = {
-    "": { backgroundColor: '#ccc', label: "Indefinido" },
-    "f": { backgroundColor: '#ff3b30', label: "Falta" },
-    "de": { backgroundColor: '#ffcc00', label: "Día económico" },
-    "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
-    "perm": { backgroundColor: '#ff2d54', label: "Permuta" },
-    "inc": { backgroundColor: '#007bff', label: "Incapacidad" },
-    "je": { backgroundColor: '#00c7be', label: "Justificación entrada" },
-    "js": { backgroundColor: '#00c7be', label: "Justificación salida" },
-    "lcgs": { backgroundColor: '#55bef0', label: "Lic. con goce de sueldo" },
-    "r": { backgroundColor: '#ff9500', label: "Retardo" },
-    "ok": { backgroundColor: '#34c759', label: "Correcto" },
-    "lsgs": { backgroundColor: '#55bef0', label: "Lic. sin goce de sueldo" },
-    "ono": { backgroundColor: '#af52de', label: "Onomástico" },
-    "rl": { backgroundColor: '#ff9500', label: "Retardo Leve" },
-    "rg": { backgroundColor: '#ff9500', label: "Retardo Grave" },   
-    "ps": { backgroundColor: '#00c7be', label: "Permiso Sindical" },
-    "fs": { backgroundColor: '#8e8e93', label: "Falta Salida" },
-    "fe": { backgroundColor: '#8e8e93', label: "Falta Entrada" },
-    "d": { backgroundColor: '#ffcc00', label: "Descanso" }
+  "": { backgroundColor: "#ccc", label: "Indefinido" },
+  f: { backgroundColor: "#ff3b30", label: "Falta" },
+  de: { backgroundColor: "#ffcc00", label: "Día económico" },
+  vac: { backgroundColor: "#ffcc00", label: "Vacaciones" },
+  perm: { backgroundColor: "#ff2d54", label: "Permuta" },
+  inc: { backgroundColor: "#007bff", label: "Incapacidad" },
+  je: { backgroundColor: "#00c7be", label: "Justificación entrada" },
+  js: { backgroundColor: "#00c7be", label: "Justificación salida" },
+  lcgs: { backgroundColor: "#55bef0", label: "Lic. con goce de sueldo" },
+  r: { backgroundColor: "#ff9500", label: "Retardo" },
+  ok: { backgroundColor: "#34c759", label: "Correcto" },
+  lsgs: { backgroundColor: "#55bef0", label: "Lic. sin goce de sueldo" },
+  ono: { backgroundColor: "#af52de", label: "Onomástico" },
+  rl: { backgroundColor: "#ff9500", label: "Retardo Leve" },
+  rg: { backgroundColor: "#ff9500", label: "Retardo Grave" },
+  ps: { backgroundColor: "#00c7be", label: "Permiso Sindical" },
+  fs: { backgroundColor: "#8e8e93", label: "Falta Salida" },
+  fe: { backgroundColor: "#8e8e93", label: "Falta Entrada" },
+  d: { backgroundColor: "#ffcc00", label: "Descanso" },
 };
 
-const options = ['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad', 'Lic. con goce de sueldo', 'Lic. sin goce de sueldo', 'Descanso', 'Justificación Entrada', 'Justificación salida', 'Onomástico', 'Retardo', 'Retardo Leve', 'Retardo Grave','Correcto','Permiso Sindical','Falta Entrada', 'Falta Salida'];
+const options = [
+  "Falta",
+  "Día Económico",
+  "Vacaciones",
+  "Permuta",
+  "Incapacidad",
+  "Lic. con goce de sueldo",
+  "Lic. sin goce de sueldo",
+  "Descanso",
+  "Justificación Entrada",
+  "Justificación salida",
+  "Onomástico",
+  "Retardo",
+  "Retardo Leve",
+  "Retardo Grave",
+  "Correcto",
+  "Permiso Sindical",
+  "Falta Entrada",
+  "Falta Salida",
+];
 
 // Componente para renderizar una fila de la tabla
 function TableRow({ user, onEdit }) {
+  // Obtener el estilo y la etiqueta de la incidencia actual
+  const { backgroundColor, label } = incidencias[user.incidencia] || {
+    backgroundColor: "#ccc",
+    label: "Indefinido",
+  };
 
-    // Obtener el estilo y la etiqueta de la incidencia actual
-    const { backgroundColor, label } = incidencias[user.incidencia] || {backgroundColor: '#ccc', label: "Indefinido"};
-
-    return (
-        <tr>
-            <td>{user.fecha}</td>
-            <td>{user.entrada}</td>
-            <td>{user.salida}</td>
-            <td>
-                <p style={backgroundColor ? { backgroundColor } : {}}>
-                    {label || user.incidencia}
-                </p>
-            </td>
-            <td>{user.observaciones}</td>
-            <td><button className='button' onClick={() => onEdit(user.unformattedDate, user.incidencia)}>Editar</button></td>
-        </tr>
-    );
+  return (
+    <tr>
+      <td>{user.fecha}</td>
+      <td>{user.entrada}</td>
+      <td>{user.salida}</td>
+      <td>
+        <p style={backgroundColor ? { backgroundColor } : {}}>
+          {label || user.incidencia}
+        </p>
+      </td>
+      <td>{user.observaciones}</td>
+      <td>
+        <button
+          className="button"
+          onClick={() => onEdit(user.unformattedDate, user.incidencia)}
+        >
+          Editar
+        </button>
+      </td>
+    </tr>
+  );
 }
 
 function Board({ objeto, date_from, date_to, currEmployeeId }) {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [currentIncidence, setCurrentIncidence] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [currentIncidence, setCurrentIncidence] = useState(null);
 
-    const handleEdit = (date, incidence) => {
-        setSelectedDate(date);
-        setCurrentIncidence(incidence);
-        setModalOpen(true);
-    };
+  const handleEdit = (date, incidence) => {
+    setSelectedDate(date);
+    setCurrentIncidence(incidence);
+    setModalOpen(true);
+  };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
-    //Obtner un aray con las labels del objeto incidencias
-    const labels = Object.values(incidencias).map(incidencia => incidencia.label);
+  //Obtner un aray con las labels del objeto incidencias
+  const labels = Object.values(incidencias).map(
+    (incidencia) => incidencia.label,
+  );
 
-    return (
-        <>
-            <h1 className='periodo'>Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}</h1>
-            <div className='one'>
-                <table className='cont'>
-                    <thead className='navbar'>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Entrada</th>
-                            <th>Salida</th>
-                            <th>Incidencia</th>
-                            <th>Observaciones</th>
-                            <th style={{ textAlign: 'start' }}>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody className='navbar'>
-                        {objeto.map((user, i) => (
-                            <TableRow key={i} user={user} onEdit={handleEdit} />
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+  return (
+    <>
+      <h1 className="periodo">
+        Período{" "}
+        {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
+      </h1>
+      <div className="one">
+        <table className="cont">
+          <thead className="navbar">
+            <tr>
+              <th>Fecha</th>
+              <th>Entrada</th>
+              <th>Salida</th>
+              <th>Incidencia</th>
+              <th>Observaciones</th>
+              <th style={{ textAlign: "start" }}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="navbar">
+            {objeto.map((user, i) => (
+              <TableRow key={i} user={user} onEdit={handleEdit} />
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={options}/>}
-        </>
-    );
+      {modalOpen && (
+        <Incidence
+          onClose={handleCloseModal}
+          currEmployeeId={currEmployeeId}
+          currDate={selectedDate}
+          currIncidence={currentIncidence}
+          options={options}
+        />
+      )}
+    </>
+  );
 }
 
 export default Board;
