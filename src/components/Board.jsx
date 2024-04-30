@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './Board.css';
+import Swal from "sweetalert2"; 
 import Incidence from './incidence';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { useResetEntries, useResetEmployees } from '../handkey-module/state';
+import { useNavigate } from "react-router-dom";
 
 //Diccionario con el tipo de incidencias
 const incidencias = {
@@ -80,6 +83,9 @@ function TableRow({ user, onEdit }) {
 }
 
 function Board({ objeto, date_from, date_to, currEmployeeId }) {
+  const navigate = useNavigate();
+  const resetEntries = useResetEntries();
+  const resetEmployees = useResetEmployees();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentIncidence, setCurrentIncidence] = useState(null);
@@ -94,6 +100,25 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
     setModalOpen(false);
   };
 
+  const handleResetClick = () => {
+    Swal.fire({
+        title: 'Advertencia',
+        text: "Estás a punto de eliminar todo tu progreso. Si procedes, tendrás que empezar desde cero. ¿Estás seguro de que deseas continuar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Continuar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            resetEntries();
+            resetEmployees();
+            navigate("/");
+        }
+    })
+  }
+
   //Obtner un aray con las labels del objeto incidencias
   const labels = Object.values(incidencias).map(
     (incidencia) => incidencia.label,
@@ -105,7 +130,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
             <h1>
                 Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
             </h1>
-            <div className='deleteButton'>
+            <div className='deleteButton' onClick={handleResetClick}>
                 <FontAwesomeIcon icon={faTrashCan}/>
             </div>
         </div>
