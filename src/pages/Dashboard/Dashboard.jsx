@@ -64,7 +64,7 @@ function Dashboard() {
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
    useEffect(() => {
-        setTimeout(() => currEmployee.inferIncidences(), 0);
+        setTimeout(() => currEmployee?.inferIncidences(), 0);
     }, [currEmployee]);
     
 
