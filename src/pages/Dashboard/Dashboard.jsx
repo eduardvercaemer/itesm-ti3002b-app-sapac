@@ -37,6 +37,7 @@ const formatEntries = (employee) => {
                 salida: exit,
                 incidencia: day.incidence ? day.incidence : "" ,
                 observaciones: day.observation ? day.observation : "",
+                unformattedDate: day.date
             });
         });
     }
@@ -60,23 +61,22 @@ function Dashboard() {
     const currEntries = useMemo(() => formatEntries(currEmployee), [currEmployee]);
     const currEmployeeId = useMemo(() => employees[currIndex], [currIndex]);
 
-    useEffect(() => {
+   useEffect(() => {
         setTimeout(() => currEmployee.inferIncidences(), 0);
     }, [currEmployee]);
     
 
     const handleBackClick = () => {
+        console.log(currEmployee);
         localStorage.setItem("currIndex", currIndex - 1)
         setCurrIndex(currIndex - 1);
     }
     
     const handleNextClick = () => {
+        console.log(currEmployee);
         localStorage.setItem("currIndex", currIndex + 1)
         setCurrIndex(currIndex + 1);
     }
-
-    console.log(employees)
-    console.log(currEmployee)
 
     return (
         <div className='contdash'>
@@ -104,7 +104,7 @@ function Dashboard() {
                 </div>
 
                 <div className='cardTable'>
-                    <Board objeto={currEntries} date_from={date_from} date_to={date_to}/>
+                    <Board objeto={currEntries} currEmployeeId={currEmployeeId} date_from={date_from} date_to={date_to}/>
                 </div>
             </div>
             <div className='button-container'>
@@ -112,12 +112,8 @@ function Dashboard() {
                     <button className='button left-button' onClick={handleBackClick}>Anterior</button> :
                     <button className='button left-button disabled' disabled>Anterior</button>
                 }   
-                {/*currIndex > 0 && <button className='button left-button' onClick={handleBackClick}>Anterior</button>*/}
                 {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
             </div>
-                {/*<button className='button left-button' onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
-                {/*<button className={`button left-button ${currIndex === 0 ? 'gray-button' : ''}`} onClick={handleBackClick} disabled={currIndex === 0}>Anterior</button>*/}
-
         </div>
     )
 }
