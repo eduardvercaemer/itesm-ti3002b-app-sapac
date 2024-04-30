@@ -212,6 +212,7 @@ export const useSetEntriesFile = () => {
       newEntries.forEach((value) => {
         // for entries 10 minutes apart, remove them
         value.entries = cleanupAlgorithm(value.originalEntries, 10 * 60 * 1000);
+        delete value.originalEntries;
       });
 
       setEntries(newEntries);
