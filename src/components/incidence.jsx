@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './incidence.css';
 import { useCreateIncidence, useEditIncidence } from "../handkey-module/state";
 
@@ -6,7 +6,9 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
     const createIncidence = useCreateIncidence();
     const editIncidence = useEditIncidence();
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState("");
+    
+    console.log(currIncidence);
     const optionToId = {
         'Retardo': 'r',
         'Falta': 'f',
@@ -21,7 +23,29 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
         'Correcto': 'ok',
         'Justificación': 'j',
         'Falta Entrada': 'fe',
+        'Falta Salida': 'fs',
     };
+
+    const idToOption = {
+        'r': 'Retardo',
+        'f': 'Falta',
+        'de': 'Día Económico',
+        'vac': 'Vacaciones',
+        'perm': 'Permuta',
+        'inc': 'Incapacidad',
+        'je': 'Justificación Entrada',
+        'js': 'Justificación salida',
+        'rl': 'Retardo Leve',
+        'rg': 'Retardo Grave',
+        'ok': 'Correcto',
+        'j': 'Justificación',
+        'fe': 'Falta Entrada',
+        'fs': 'Falta Salida',
+    };
+
+    useEffect(() => {
+        setSelectedOption(idToOption[currIncidence]);
+    }, [currIncidence]);
 
     const handleOptionChange = (event) => {
         setSelectedOption(event.target.value);
