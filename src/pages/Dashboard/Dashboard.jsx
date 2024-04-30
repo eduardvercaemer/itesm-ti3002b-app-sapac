@@ -8,13 +8,6 @@ import {
   useEmployee,
 } from "../../handkey-module/state";
 import Swal from "sweetalert2";
-import Board from "../../components/Board";
-import {
-  useCreateIncidence,
-  useEditIncidence,
-  useEmployeeList,
-  useEmployee,
-} from "../../handkey-module/state";
 
 import "./Dashboard.css";
 import { useFetcher } from "react-router-dom";
@@ -189,44 +182,6 @@ function Dashboard() {
           /*handleSweetAlertClick*/
           /*handleExportClick */
         }
-      </div>
-    </div>
-  );
-        <div className="grow overflow-hidden flex flex-col gap-4">
-          <div className="grow overflow-scroll">
-            <div className="cardTable">
-              <Board
-                objeto={currEntries}
-                currEmployeeId={currEmployeeId}
-                date_from={date_from}
-                date_to={date_to}
-              />
-            </div>
-          </div>
-          <div className="button-container">
-            {currIndex > 0 ? (
-              <button className="button left-button" onClick={handleBackClick}>
-                Anterior
-              </button>
-            ) : (
-              <button className="button left-button disabled" disabled>
-                Anterior
-              </button>
-            )}
-            {currIndex < employees.length - 1 ? (
-              <button className="button right-button" onClick={handleNextClick}>
-                Siguiente
-              </button>
-            ) : (
-              <button
-                className="button right-button"
-                onClick={handleExportClick}
-              >
-                Exportar
-              </button>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   );
