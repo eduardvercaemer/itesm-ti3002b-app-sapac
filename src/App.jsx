@@ -57,7 +57,7 @@ function App() {
     if (ready && hastDates) {
       navigate("/dashboard");
     }
-  }, []);
+  }, [ready, hastDates]);
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
