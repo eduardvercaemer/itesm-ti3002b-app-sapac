@@ -84,13 +84,15 @@ function Dashboard() {
         navigate("/preview");
     }
 
+    if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
+
     return (
         <div className='contdash'>
             <div className='dashboard-container'>
                 <div className='cardPerson'>
                     <img src='\profilepic.jpg'/>
                     <div className='employee-id'>
-                        <span className='label-id'>Número de empleado:</span> {currEmployeeId}
+                        <span className='label-id'>Número de empleado:</span> {currEmployeeId ? currEmployeeId : employees[currIndex]}
                     </div>
                     <div className='employee-name'>
                         <span className='label'>Nombre:</span> {currEmployee.employee.name}

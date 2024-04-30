@@ -8,7 +8,6 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
 
     const [selectedOption, setSelectedOption] = useState("");
     
-    console.log(currIncidence);
     const optionToId = {
         'Retardo': 'r',
         'Falta': 'f',
