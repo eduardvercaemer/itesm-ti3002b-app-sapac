@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "./incidence.css";
+import React, { useEffect, useState } from 'react';
+import './incidence.css';
 import { useCreateIncidence, useEditIncidence } from "../handkey-module/state";
 
 export const Incidence = ({
@@ -12,45 +12,71 @@ export const Incidence = ({
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
 
-  const [selectedOption, setSelectedOption] = useState(null);
-  const optionToId = {
-    Retardo: "r",
-    Falta: "f",
-    "Día Económico": "de",
-    Vacaciones: "vac",
-    Permuta: "perm",
-    Incapacidad: "inc",
-    "Justificación Entrada": "je",
-    "Justificación salida": "js",
-    "Retardo Leve": "rl",
-    "Retardo Grave": "rg",
-    Correcto: "ok",
-    Justificación: "j",
-    "Falta Entrada": "fe",
-  };
+    const [selectedOption, setSelectedOption] = useState("");
+    
+    const optionToId = {
+        'Retardo': 'r',
+        'Falta': 'f',
+        'Día Económico': 'de',
+        'Vacaciones': 'vac',
+        'Permuta': 'perm',
+        'Incapacidad': 'inc',
+        'Justificación Entrada': 'je',
+        'Justificación salida': 'js',
+        'Retardo Leve': 'rl',
+        'Retardo Grave': 'rg',
+        'Correcto': 'ok',
+        'Permiso Sindical': 'ps',
+        'Falta Entrada': 'fe',
+        'Falta Salida': 'fs',
+        'Descanso': 'd',
+        'Lic. con goce de sueldo': 'lcgs',
+        'Lic. sin goce de sueldo': 'lsgs',
+        'Onomástico': 'ono' 
+    };
+
+    const idToOption = {
+        'r': 'Retardo',
+        'f': 'Falta',
+        'de': 'Día Económico',
+        'vac': 'Vacaciones',
+        'perm': 'Permuta',
+        'inc': 'Incapacidad',
+        'je': 'Justificación Entrada',
+        'js': 'Justificación salida',
+        'rl': 'Retardo Leve',
+        'rg': 'Retardo Grave',
+        'ok': 'Correcto',
+        'ps': 'Permiso Sindical',
+        'fe': 'Falta Entrada',
+        'fs': 'Falta Salida',
+        'd': 'Descanso',
+        'lcgs': 'Lic. con goce de sueldo',
+        'lsgs': 'Lic. sin goce de sueldo',
+        'ono': 'Onomástico'
+    };
+
+    useEffect(() => {
+        setSelectedOption(idToOption[currIncidence]);
+    }, [currIncidence]);
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
-  const handleSave = () => {
-    if (selectedOption) {
-      console.log(currIncidence);
-      console.log(currEmployeeId, currDate, optionToId[selectedOption]);
-      if (currIncidence === "") {
-        createIncidence(currEmployeeId, currDate, optionToId[selectedOption]);
-      } else {
-        editIncidence(
-          currEmployeeId,
-          currDate.getTime(),
-          optionToId[selectedOption]
-        );
-      }
-      onClose();
-    } else {
-      alert("Por favor, selecciona una opción antes de guardar.");
-    }
-  };
+    const handleSave = () => {
+        if (selectedOption) {
+            if(currIncidence === ""){
+                createIncidence(currEmployeeId, currDate, optionToId[selectedOption])
+            }
+            else{
+                editIncidence(currEmployeeId, currDate.getTime(), optionToId[selectedOption])
+            } 
+            onClose();
+        } else {
+        alert('Por favor, selecciona una opción antes de guardar.');
+        }
+    };
 
   const handleCloseModal = () => {
     onClose();

@@ -1,4 +1,5 @@
 import { useState , useMemo, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import Board from '../../components/Board'
 import { useCreateIncidence, useEditIncidence, useEmployeeList, useEmployee } from "../../handkey-module/state";
 
@@ -52,6 +53,7 @@ function formatTime(minutes) {
 }
 
 function Dashboard() {
+    const navigate = useNavigate();
     const employees = useEmployeeList();
     const date_from = new Date(parseInt(localStorage.getItem("state/start-date"), 10));
     const date_to = new Date(parseInt(localStorage.getItem("state/end-date"), 10));
@@ -78,13 +80,19 @@ function Dashboard() {
         setCurrIndex(currIndex + 1);
     }
 
+    const handleExportClick = () => {
+        navigate("/preview");
+    }
+
+    if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
+
     return (
         <div className='contdash'>
             <div className='dashboard-container'>
                 <div className='cardPerson'>
                     <img src='\profilepic.jpg'/>
                     <div className='employee-id'>
-                        <span className='label-id'>Número de empleado:</span> {currEmployeeId}
+                        <span className='label-id'>Número de empleado:</span> {currEmployeeId ? currEmployeeId : employees[currIndex]}
                     </div>
                     <div className='employee-name'>
                         <span className='label'>Nombre:</span> {currEmployee.employee.name}
@@ -112,7 +120,10 @@ function Dashboard() {
                     <button className='button left-button' onClick={handleBackClick}>Anterior</button> :
                     <button className='button left-button disabled' disabled>Anterior</button>
                 }   
-                {currIndex < employees.length && <button className='button right-button' onClick={handleNextClick}>Siguiente</button>}
+                {currIndex < employees.length - 1 ? 
+                    <button className='button right-button' onClick={handleNextClick}>Siguiente</button> :
+                    <button className='button right-button' onClick={handleExportClick}>Exportar</button>    
+                }
             </div>
         </div>
     )
