@@ -85,14 +85,30 @@ const employeeSelector$ = selectorFamily({
           return;
         }
 
+        if (employee.inferred) {
+          return;
+        }
+
         const setEmployees = (...args) => set(employees$, ...args);
 
+        updateEmployee(setEmployees, id, (e) => {
+          e.inferred = true;
+          return e;
+        });
         for (const day of days) {
           if (day.entries.length === 0) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
                 { value: "f", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else if (day.entries.length === 1) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "fs", date: day.date.getTime() },
               ];
               return e;
             });
