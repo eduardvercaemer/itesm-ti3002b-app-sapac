@@ -25,6 +25,8 @@ const incidencias = {
     "d": { backgroundColor: '#ffcc00', label: "Descanso" }
 };
 
+const options = ['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada'];
+
 // Componente para renderizar una fila de la tabla
 function TableRow({ user, onEdit }) {
 
@@ -88,7 +90,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
                 </table>
             </div>
 
-            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={labels}/>}
+            {modalOpen && <Incidence onClose={handleCloseModal} currEmployeeId={currEmployeeId} currDate={selectedDate}  currIncidence={currentIncidence} options={options}/>}
         </>
     );
 }

@@ -8,7 +8,7 @@ import { useFetcher } from 'react-router-dom';
 const formatEntries = (employee) => {
     const formattedEntries = [];
 
-    if(employee.days !== undefined) {
+    if(employee  && employee.days) {
         employee.days.forEach((day) => {
             const entryDay = day.date.getUTCDate();
             const entryMonth = day.date.getUTCMonth() + 1;
