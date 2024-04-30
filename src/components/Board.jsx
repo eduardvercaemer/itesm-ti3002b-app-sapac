@@ -2,29 +2,31 @@ import React, { useState } from 'react';
 import './Board.css';
 import Incidence from './incidence';
 
+//Diccionario con el tipo de incidencias
+const incidencias = {
+    "": { backgroundColor: '#ccc', label: "Indefinido" },
+    "f": { backgroundColor: '#ff3b30', label: "Falta" },
+    "de": { backgroundColor: '#ffcc00', label: "Día económico" },
+    "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
+    "perm": { backgroundColor: '#ff2d54', label: "Permuta" },
+    "inc": { backgroundColor: '#007bff', lalbel: "Incapacidad" },
+    "je": { backgroundColor: '#00c7be', label: "Justificación entrada" },
+    "js": { backgroundColor: '#00c7be', label: "Justificación salida" },
+    "lcgs": { backgroundColor: '#55bef0', label: "Lic. con goce de sueldo" },
+    "r": { backgroundColor: '#ff9500', label: "Retardo" },
+    "ok": { backgroundColor: '#34c759', label: "Correcto" },
+    "lsgs": { backgroundColor: '#55bef0', label: "Lic. sin goce de sueldo" },
+    "ono": { backgroundColor: '#af52de', label: "Onomástico" },
+    "rl": { backgroundColor: '#ff9500', label: "Retardo leve" },
+    "rg": { backgroundColor: '#ff9500', label: "Retardo grave" },
+    "j": { backgroundColor: '#00c7be', label: "Justificación" },
+    "fs": { backgroundColor: '#8e8e93', label: "Falta salida" },
+    "fe": { backgroundColor: '#8e8e93', label: "Falta entrada" },
+    "d": { backgroundColor: '#ffcc00', label: "Descanso" }
+};
+
 // Componente para renderizar una fila de la tabla
 function TableRow({ user, onEdit }) {
-    const incidencias = {
-        "": { backgroundColor: '#ccc', label: "Indefinido" },
-        "f": { backgroundColor: '#ff3b30', label: "Falta" },
-        "de": { backgroundColor: '#ffcc00', label: "Día económico" },
-        "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
-        "perm": { backgroundColor: '#ff2d54', label: "Permuta" },
-        "inc": { backgroundColor: '#007bff', label: "Incapacidad" },
-        "je": { backgroundColor: '#00c7be', label: "Justificación entrada" },
-        "js": { backgroundColor: '#00c7be', label: "Justificación salida" },
-        "lcgs": { backgroundColor: '#55bef0', label: "Lic. con goce de sueldo" },
-        "r": { backgroundColor: '#ff9500', label: "Retardo" },
-        "ok": { backgroundColor: '#34c759', label: "Correcto" },
-        "lsgs": { backgroundColor: '#55bef0', label: "Lic. sin goce de sueldo" },
-        "ono": { backgroundColor: '#af52de', label: "Onomástico" },
-        "rl": { backgroundColor: '#ff9500', label: "Retardo leve" },
-        "rg": { backgroundColor: '#ff9500', label: "Retardo grave" },
-        "j": { backgroundColor: '#00c7be', label: "Justificación" },
-        "fs": { backgroundColor: '#8e8e93', label: "Falta salida" },
-        "fe": { backgroundColor: '#8e8e93', label: "Falta entrada" },
-        "d": { backgroundColor: '#ffcc00', label: "Descanso" }
-    };
 
     // Obtener el estilo y la etiqueta de la incidencia actual
     const { backgroundColor, label } = incidencias[user.incidencia] || {};
@@ -49,6 +51,7 @@ function Board({ objeto, date_from, date_to }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
+
     const handleEdit = (user) => {
         setSelectedUser(user);
         setModalOpen(true);
@@ -57,6 +60,9 @@ function Board({ objeto, date_from, date_to }) {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
+
+    //Obtner un aray con las labels del objeto incidencias
+    const labels = Object.values(incidencias).map(incidencia => incidencia.label);
 
     return (
         <>
@@ -79,9 +85,8 @@ function Board({ objeto, date_from, date_to }) {
                         ))}
                     </tbody>
                 </table>
-            </div>
-
-            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} options={['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada']}/>}
+            </div>        
+            {modalOpen && <Incidence user={selectedUser} onClose={handleCloseModal} options={labels}/>}
         </>
     );
 }
