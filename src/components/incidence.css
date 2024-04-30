@@ -11,13 +11,23 @@
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(0.18em);
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .topContent {
   display: flex;
   justify-content: space-between;
   align-items: center; /* Alineamos verticalmente */
-  margin-bottom: 1rem; /* Puedes ajustar el valor según sea necesario */
 }
 
 /* X de modal */
@@ -28,8 +38,6 @@
   padding-top: 0.5rem;
   padding-bottom: 0.25rem;
   border-radius: 0.25rem;
-  margin-left: auto; /* Movemos el botón hacia la izquierda */
-  margin-bottom: auto;
 }
 
 .crossButton:hover {
@@ -47,7 +55,6 @@
   padding-bottom: 0.5rem;
   border-radius: 0.375rem;
   font-weight: bold;
-  margin-top: 1rem; /* Espacio de división */
 }
 .saveButton:hover {
   background-color: #113052;
@@ -67,7 +74,6 @@
   transition:
     background-color 0.3s,
     border-color 0.3s;
-  margin-right: 0.5rem;
 }
 .incidenceOption:hover {
   background-color: #1368c5;
@@ -77,7 +83,6 @@
   background-color: #1368c5;
 }
 .incidenceText {
-  margin-left: 0.5rem;
   font-size: 1.25rem;
   font-family: sans-serif;
   font-weight: normal;
@@ -112,14 +117,6 @@ h1 {
   text-align: center;
   display: flex;
   justify-content: center;
-}
-
-.marginBotOne {
-  margin-bottom: 1rem;
-}
-
-.marginOptions {
-  margin-bottom: 0.25rem;
 }
 
 .labelMap {

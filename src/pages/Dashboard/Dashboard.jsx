@@ -8,6 +8,13 @@ import {
   useEmployee,
 } from "../../handkey-module/state";
 import Swal from "sweetalert2";
+import Board from "../../components/Board";
+import {
+  useCreateIncidence,
+  useEditIncidence,
+  useEmployeeList,
+  useEmployee,
+} from "../../handkey-module/state";
 
 import "./Dashboard.css";
 import { useFetcher } from "react-router-dom";
@@ -120,8 +127,8 @@ function Dashboard() {
   if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
 
   return (
-    <div className="contdash">
-      <div className="dashboard-container">
+    <div className="h-screen w-screen flex flex-col py-10">
+      <div className="grow flex gap-14 px-14 overflow-hidden">
         <div className="cardPerson">
           <img src="\profilepic.jpg" />
           <div className="employee-id">
@@ -182,6 +189,44 @@ function Dashboard() {
           /*handleSweetAlertClick*/
           /*handleExportClick */
         }
+      </div>
+    </div>
+  );
+        <div className="grow overflow-hidden flex flex-col gap-4">
+          <div className="grow overflow-scroll">
+            <div className="cardTable">
+              <Board
+                objeto={currEntries}
+                currEmployeeId={currEmployeeId}
+                date_from={date_from}
+                date_to={date_to}
+              />
+            </div>
+          </div>
+          <div className="button-container">
+            {currIndex > 0 ? (
+              <button className="button left-button" onClick={handleBackClick}>
+                Anterior
+              </button>
+            ) : (
+              <button className="button left-button disabled" disabled>
+                Anterior
+              </button>
+            )}
+            {currIndex < employees.length - 1 ? (
+              <button className="button right-button" onClick={handleNextClick}>
+                Siguiente
+              </button>
+            ) : (
+              <button
+                className="button right-button"
+                onClick={handleExportClick}
+              >
+                Exportar
+              </button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -4,30 +4,29 @@
   color: rgb(0, 0, 0);
   text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
   border-bottom: 0.3px solid #dddddd;
-  width: 10vw;
+  /*width: 10vw;*/
+}
+
+.navbar th {
 }
 
 .cont {
-  height: 5em;
   line-height: 0.8em;
+  width: 100%;
 }
 
 /* Ajusta el ancho del encabezado de la tabla para tener en cuenta la barra de desplazamiento */
 .cont thead {
-  display: table;
-  width: calc(100% - 2px);
 }
 
 .cont tbody {
-  display: block;
   overflow: overlay;
-  height: 490px; /* Altura máxima de la tabla, ajusta según sea necesario */
 }
 
 .periodo {
   background-color: #3498db;
   border-radius: 0.2em;
-  margin-top: 1rem;
+
   text-align: center;
   font-size: 1.5rem;
   padding: 1em;

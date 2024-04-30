@@ -2,8 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-left: 5rem;
-  margin-right: 5rem;
+
   background-color: #f0f0f0;
 }
 
@@ -12,7 +11,7 @@
   background-color: white !important;
   padding: 1em;
   border-radius: 0.2em;
-  margin: 1rem 0 0 0 !important;
+
   box-shadow: 0.5em rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -20,27 +19,19 @@
   justify-content: center; /* Centra verticalmente el contenido */
   text-align: center; /* Centra horizontalmente el texto */
   line-height: 1.5; /* Altura de línea para permitir saltos */
-  height: 40rem; /* Ajusta automáticamente la altura según el contenido */
 }
 
 .cardTable {
-  width: calc(70%);
-  height: 40rem;
   background-color: white !important;
-  padding: 0 1rem 1rem !important;
   border-radius: 0.2em;
-  margin-bottom: 2em;
-  margin: 1rem 0 0 0 !important;
   box-shadow: 0.5em rgba(0, 0, 0, 0.1);
+
+  width: 100% !important;
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  margin-left: calc(37.5%);
-  margin-right: calc(5.5%);
-  margin-bottom: 0;
 }
 
 .button {
@@ -80,6 +71,16 @@
   color: #333;
 }
 
+.right-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+}
+
 .label-id {
   font-weight: bold;
   color: #333;
@@ -90,7 +91,6 @@
 .employee-id {
   font-size: 4em;
   color: #555;
-  margin-bottom: 0;
 }
 
 .employee-name,
@@ -98,7 +98,6 @@
 .employee-kind {
   font-size: 1.1em;
   color: #555;
-  margin-bottom: 0.8em;
 }
 
 .schedule-time {

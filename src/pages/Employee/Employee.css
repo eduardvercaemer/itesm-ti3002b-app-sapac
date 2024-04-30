@@ -2,8 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-left: calc(10%);
-  margin-right: calc(10%);
 }
 
 .cardPerson {
@@ -11,8 +9,7 @@
   background-color: #f0f0f0;
   padding: 1em;
   border-radius: 1em;
-  margin-bottom: 2em;
-  margin-top: 5em;
+
   box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
 }
 
@@ -21,15 +18,13 @@
   background-color: #f0f0f0;
   padding: 1em;
   border-radius: 1em;
-  margin-bottom: 2em;
-  margin-top: 5em;
+
   box-shadow: 0 1em 2em rgba(0, 0, 0, 0.1);
 }
 
 .button-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
 .button {

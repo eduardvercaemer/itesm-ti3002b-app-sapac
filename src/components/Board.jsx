@@ -112,7 +112,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
               <th>Salida</th>
               <th>Incidencia</th>
               <th>Observaciones</th>
-              <th style={{ textAlign: "start" }}>Acciones</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody className="navbar">

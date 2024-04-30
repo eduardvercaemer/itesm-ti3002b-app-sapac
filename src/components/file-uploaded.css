@@ -13,12 +13,11 @@
   width: 4em;
   height: 4em;
   opacity: 0.5;
-  margin-bottom: 1rem;
 }
 
 .btn-file-uploaded {
   text-align: center;
-  margin: 0.5em auto;
+
   background-color: #dc2626;
   color: #fff;
   font-weight: 700;
