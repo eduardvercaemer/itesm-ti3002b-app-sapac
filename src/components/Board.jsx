@@ -9,7 +9,7 @@ const incidencias = {
     "de": { backgroundColor: '#ffcc00', label: "Día económico" },
     "vac": { backgroundColor: '#ffcc00', label: "Vacaciones" },
     "perm": { backgroundColor: '#ff2d54', label: "Permuta" },
-    "inc": { backgroundColor: '#007bff', lalbel: "Incapacidad" },
+    "inc": { backgroundColor: '#007bff', label: "Incapacidad" },
     "je": { backgroundColor: '#00c7be', label: "Justificación entrada" },
     "js": { backgroundColor: '#00c7be', label: "Justificación salida" },
     "lcgs": { backgroundColor: '#55bef0', label: "Lic. con goce de sueldo" },
@@ -17,21 +17,21 @@ const incidencias = {
     "ok": { backgroundColor: '#34c759', label: "Correcto" },
     "lsgs": { backgroundColor: '#55bef0', label: "Lic. sin goce de sueldo" },
     "ono": { backgroundColor: '#af52de', label: "Onomástico" },
-    "rl": { backgroundColor: '#ff9500', label: "Retardo leve" },
-    "rg": { backgroundColor: '#ff9500', label: "Retardo grave" },
-    "j": { backgroundColor: '#00c7be', label: "Justificación" },
-    "fs": { backgroundColor: '#8e8e93', label: "Falta salida" },
-    "fe": { backgroundColor: '#8e8e93', label: "Falta entrada" },
+    "rl": { backgroundColor: '#ff9500', label: "Retardo Leve" },
+    "rg": { backgroundColor: '#ff9500', label: "Retardo Grave" },   
+    "ps": { backgroundColor: '#00c7be', label: "Permiso Sindical" },
+    "fs": { backgroundColor: '#8e8e93', label: "Falta Salida" },
+    "fe": { backgroundColor: '#8e8e93', label: "Falta Entrada" },
     "d": { backgroundColor: '#ffcc00', label: "Descanso" }
 };
 
-const options = ['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad','Justificación Entrada', 'Justificación salida','Retardo','Retardo Leve','Retardo Grave','Correcto','Justificación','Falta Entrada'];
+const options = ['Falta', 'Día Económico', 'Vacaciones', 'Permuta','Incapacidad', 'Lic. con goce de sueldo', 'Lic. sin goce de sueldo', 'Descanso', 'Justificación Entrada', 'Justificación salida', 'Onomástico', 'Retardo', 'Retardo Leve', 'Retardo Grave','Correcto','Permiso Sindical','Falta Entrada', 'Falta Salida'];
 
 // Componente para renderizar una fila de la tabla
 function TableRow({ user, onEdit }) {
 
     // Obtener el estilo y la etiqueta de la incidencia actual
-    const { backgroundColor, label } = incidencias[user.incidencia] || {};
+    const { backgroundColor, label } = incidencias[user.incidencia] || {backgroundColor: '#ccc', label: "Indefinido"};
 
     return (
         <tr>

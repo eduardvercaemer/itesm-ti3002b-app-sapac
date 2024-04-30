@@ -20,9 +20,13 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
         'Retardo Leve': 'rl',
         'Retardo Grave': 'rg',
         'Correcto': 'ok',
-        'Justificación': 'j',
+        'Permiso Sindical': 'ps',
         'Falta Entrada': 'fe',
         'Falta Salida': 'fs',
+        'Descanso': 'd',
+        'Lic. con goce de sueldo': 'lcgs',
+        'Lic. sin goce de sueldo': 'lsgs',
+        'Onomástico': 'ono' 
     };
 
     const idToOption = {
@@ -37,9 +41,13 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
         'rl': 'Retardo Leve',
         'rg': 'Retardo Grave',
         'ok': 'Correcto',
-        'j': 'Justificación',
+        'ps': 'Permiso Sindical',
         'fe': 'Falta Entrada',
         'fs': 'Falta Salida',
+        'd': 'Descanso',
+        'lcgs': 'Lic. con goce de sueldo',
+        'lsgs': 'Lic. sin goce de sueldo',
+        'ono': 'Onomástico'
     };
 
     useEffect(() => {
@@ -52,8 +60,6 @@ export const Incidence = ({ onClose, options , currEmployeeId, currDate, currInc
 
     const handleSave = () => {
         if (selectedOption) {
-            console.log(currIncidence);
-            console.log(currEmployeeId, currDate, optionToId[selectedOption]);
             if(currIncidence === ""){
                 createIncidence(currEmployeeId, currDate, optionToId[selectedOption])
             }
