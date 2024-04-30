@@ -101,10 +101,14 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
 
   return (
     <>
-      <h1 className="periodo">
-        Período{" "}
-        {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
-      </h1>
+      <div className='periodo'>
+            <h1>
+                Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
+            </h1>
+            <div className='deleteButton'>
+                <FontAwesomeIcon icon={faTrashCan}/>
+            </div>
+        </div>
       <div className="one">
         <table className="cont">
           <thead className="navbar">
