@@ -63,7 +63,7 @@ function Dashboard() {
 
    useEffect(() => {
         setTimeout(() => currEmployee.inferIncidences(), 0);
-    }, []);
+    }, [currEmployee]);
     
 
     const handleBackClick = () => {
