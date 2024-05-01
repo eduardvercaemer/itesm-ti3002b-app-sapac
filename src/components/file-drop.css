@@ -11,11 +11,12 @@
     border-color 0.3s,
     background-color 0.3s,
     opacity 0.3s;
+    border-radius: 2%;
 }
 
 .file-drop.file-drop-dragging-over {
-  border-color: #1d4ed8;
-  background-color: #9ca3af;
+  border-color: var(--surface-main-blue);
+  background-color: var(--text-inverse);
   opacity: 0.8;
 }
 
@@ -23,20 +24,25 @@
   width: 4em;
   height: 4em;
   opacity: 0.5;
+  margin-bottom: 1rem;
 }
 
 .button-select-file {
-  background-color: #1d4ed8;
-  color: #fff;
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  background-color: var(--button-alternative);
+  color: white;
   font-weight: 700;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.5rem 2rem;
   border-radius: 0.25rem;
-  width: 12rem;
 }
 
 .button-select-file:hover {
   background-color: #1e3a8a;
+}
+
+.card-bg {
+  background-color: var(--surface-main-blue);
+  border-radius: 2%;
 }
