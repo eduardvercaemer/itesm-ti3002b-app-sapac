@@ -1,11 +1,12 @@
 import "./Employee.css";
-import { useAllDataForExport } from "../../handkey-module/state";
+import { useAllDataForExport, useAllDataForPreview } from "../../handkey-module/state";
 
 function Employee() {
   const exportData = useAllDataForExport();
+  const previewData = useAllDataForPreview();
 
   const handleClick = () => {
-    console.log(exportData);
+    console.log(previewData);
   }
 
   return (

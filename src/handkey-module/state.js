@@ -165,7 +165,6 @@ const allEmployeesDataSelectorExport$ = selector({
   get: ({get}) => {
     const employeeIds = get(employeeListSelector$);
     const employees = get(employees$);
-    const entries = get(entries$);
     const start = get(startDateState$);
     const end = get(endDateState$); 
 
@@ -223,6 +222,68 @@ const allEmployeesDataSelectorExport$ = selector({
   }
 });
 
+const allEmployeesDataSelectorPreview$ = selector({
+  key: 'all-employees-data-selector-preview',
+  get: ({get}) => {
+    const employeeIds = get(employeeListSelector$);
+    const employees = get(employees$);
+    const start = get(startDateState$);
+    const end = get(endDateState$); 
+
+    const result = { 
+      addresses: [],
+      employees: [],
+    };
+
+    employeeIds.forEach((id, index) => {
+      const employee = employees.get(id);
+      if (!employee) return;
+
+      const addressIndex = result.addresses.findIndex(item => item.replace(/\s/g, "")  === employee.address.replace(/\s/g, ""));
+
+      //Get days
+      let days = null;
+      const incidences = [];
+      const observations = [];
+
+      if (start !== null && end !== null) {
+        const numberOfDays =
+          1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        days = Array.from({ length: numberOfDays }, (_, i) => ({
+          date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
+        }));
+
+        
+
+        for (const day of days) {
+          const ts = day.date.getTime();
+          incidences.push(employee.incidences.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null);
+          observations.push(employee.observations.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null);
+        }
+      }
+
+      const employeeFormatted = {
+        id: id,
+        name: employee.name,
+        address: employee.address,
+        incidences: incidences,
+        observations: observations.filter(value => value !== null).join(' + '),
+        index: index
+      };
+
+      if (addressIndex === -1) {
+        result.addresses.push(employee.address);
+      }
+      result.employees.push(employeeFormatted)
+    });
+
+    return result;
+  }
+});
 
 export const useEmployee = (id) => {
   return useRecoilValue(employeeSelector$(id));
@@ -263,6 +324,32 @@ export const useAllDataForExport = () => {
   };
 };
 
+export const useAllDataForPreview = () => {
+  const startDate = useRecoilValue(startDateState$);
+  const endDate = useRecoilValue(endDateState$);
+  const allEmployeeData = useRecoilValue(allEmployeesDataSelectorPreview$);
+
+  if (!startDate || !endDate) return null;
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const formattedDays = [];
+
+  let currentDate = new Date(start);
+  while (currentDate <= end) {
+    formattedDays.push(`${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`);
+    currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
+  }
+
+  const timeFrame = `${start.getUTCDate()}/${start.getUTCMonth() + 1}/${start.getUTCFullYear()} AL ${end.getUTCDate()}/${end.getUTCMonth() + 1}/${end.getUTCFullYear()}`;
+
+  return {
+    timeFrame,
+    days: formattedDays,
+    addresses: allEmployeeData.addresses,
+    data: allEmployeeData.employees
+  };
+};
 
 export const useSetEmployeesFile = () => {
   const setEmployees = useSetRecoilState(employees$);
