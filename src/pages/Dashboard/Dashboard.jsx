@@ -7,6 +7,7 @@ import {
   useEmployeeList,
   useEmployee,
 } from "../../handkey-module/state";
+import Swal from "sweetalert2";
 
 import "./Dashboard.css";
 import { useFetcher } from "react-router-dom";
@@ -99,6 +100,23 @@ function Dashboard() {
     navigate("/preview");
   };
 
+  const handleSweetAlertClick = () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Confirmas tu decisión de exportar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Exportar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleExportClick();
+      }
+    });
+  };
+
   if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
 
   return (
@@ -156,8 +174,8 @@ function Dashboard() {
               </button>
             ) : (
               <button
-                className="button right-button"
-                onClick={handleExportClick}
+                className="button right-ex-button"
+                onClick={handleSweetAlertClick}
               >
                 Exportar
               </button>
