@@ -95,20 +95,23 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const [delays, setDelays] = useState([]);
 
   useEffect(() => {
-    const tempDelays= [];
-    const tempDelaysWithObservation = [];
-    objeto.map((entry) => {
-      if(entry.incidencia === 'r'){
-        tempDelays.push(entry.unformattedDate)
-        if(entry.observaciones === 0.25){
-          tempDelaysWithObservation.push(entry.unformattedDate);
-        } 
+    const tempDelays = objeto.reduce((acc, entry) => {
+      if (entry.incidencia === 'r') {
+        acc.push(entry.unformattedDate);
       }
-    })
-
-    setDelaysWithObservation(tempDelaysWithObservation);
+      return acc;
+    }, []);
+  
+    const tempDelaysWithObservation = objeto.reduce((acc, entry) => {
+      if (entry.incidencia === 'r' && entry.observaciones === 0.25) {
+        acc.push(entry.unformattedDate);
+      }
+      return acc;
+    }, []);
+  
     setDelays(tempDelays);
-  }, [objeto])
+    setDelaysWithObservation(tempDelaysWithObservation);
+  }, [objeto]);
   
 
   const handleEdit = (date, incidence, observations) => {
