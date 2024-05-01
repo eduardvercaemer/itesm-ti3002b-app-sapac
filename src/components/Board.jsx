@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Board.css';
 import Swal from "sweetalert2"; 
 import Incidence from './incidence';
@@ -91,6 +91,18 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentIncidence, setCurrentIncidence] = useState(null);
   const [ currentObservation, setCurrentObservation ] = useState(null);
+  const [delaysCount, setDelaysCount] = useState(0);
+
+  useEffect(() => {
+    let tempDelaysCount = 0;
+    objeto.map((entry) => {
+      if(entry.incidencia === 'r'){
+        tempDelaysCount +=1;
+      }
+    })
+    setDelaysCount(tempDelaysCount);
+  }, [objeto])
+  
 
   const handleEdit = (date, incidence, observations) => {
     setSelectedDate(date);
@@ -167,6 +179,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
           currIncidence={currentIncidence}
           options={options}
           currObservation={currentObservation}
+          delaysCount={delaysCount}
         />
       )}
     </>

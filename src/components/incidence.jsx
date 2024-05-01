@@ -7,13 +7,21 @@ const penalties = {
   "rg": 0.50
 }
 
-const automatedObservations = (selectedIncidence, currObservation, currEmployeeId, currDate, createObservation, editObservation) => {
+const automatedObservations = (selectedIncidence, currObservation, currEmployeeId, currDate, delaysCount, createObservation, editObservation) => {
   if(selectedIncidence in penalties){
     if(currObservation === null){
       createObservation(currEmployeeId, currDate, penalties[selectedIncidence])
     }
     else{
       editObservation(currEmployeeId, currDate.getTime(), penalties[selectedIncidence])
+    }
+  }
+  else if(selectedIncidence === 'r' && (delaysCount + 1) % 3 === 0){
+    if(currObservation === null){
+      createObservation(currEmployeeId, currDate, 0.25)
+    }
+    else{
+      editObservation(currEmployeeId, currDate.getTime(), 0.25)
     }
   }
   else{
@@ -29,7 +37,8 @@ export const Incidence = ({
   currEmployeeId,
   currDate,
   currIncidence,
-  currObservation
+  currObservation,
+  delaysCount
 }) => {
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
@@ -101,7 +110,7 @@ export const Incidence = ({
         );
       }
 
-      automatedObservations(selectedIncidence, currObservation, currEmployeeId, currDate, createObservation, editObservation);
+      automatedObservations(selectedIncidence, currObservation, currEmployeeId, currDate, delaysCount, createObservation, editObservation);
 
       onClose();
     } else {
