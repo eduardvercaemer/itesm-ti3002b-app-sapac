@@ -15,7 +15,7 @@
 
 .file-drop.file-drop-dragging-over {
   border-color: var(--surface-main-blue);
-  background-color: var(--button-disabled);
+  background-color: var(--text-inverse);
   opacity: 0.8;
 }
 
@@ -39,4 +39,8 @@
 
 .button-select-file:hover {
   background-color: #1e3a8a;
+}
+
+.card-bg {
+  background-color: var(--surface-main-blue);
 }
