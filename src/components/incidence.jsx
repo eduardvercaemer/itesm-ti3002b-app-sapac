@@ -1,6 +1,27 @@
 import React, { useEffect, useState } from "react";
 import "./incidence.css";
-import { useCreateIncidence, useEditIncidence } from "../handkey-module/state";
+import { useCreateIncidence, useEditIncidence, useCreateObservation, useEditObservation } from "../handkey-module/state";
+
+const penalties = {
+  "rl": 0.25,
+  "rg": 0.50
+}
+
+const automatedObservations = (selectedIncidence, currObservation, currEmployeeId, currDate, createObservation, editObservation) => {
+  if(selectedIncidence in penalties){
+    if(currObservation === null){
+      createObservation(currEmployeeId, currDate, penalties[selectedIncidence])
+    }
+    else{
+      editObservation(currEmployeeId, currDate.getTime(), penalties[selectedIncidence])
+    }
+  }
+  else{
+    if(currObservation !== null){
+      editObservation(currEmployeeId, currDate.getTime(), "")
+    }
+  }
+}
 
 export const Incidence = ({
   onClose,
@@ -8,9 +29,12 @@ export const Incidence = ({
   currEmployeeId,
   currDate,
   currIncidence,
+  currObservation
 }) => {
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
+  const createObservation = useCreateObservation();
+  const editObservation = useEditObservation();
 
   const [selectedOption, setSelectedOption] = useState("");
 
@@ -66,15 +90,19 @@ export const Incidence = ({
 
   const handleSave = () => {
     if (selectedOption) {
+      const selectedIncidence = optionToId[selectedOption];
       if (currIncidence === "") {
-        createIncidence(currEmployeeId, currDate, optionToId[selectedOption]);
+        createIncidence(currEmployeeId, currDate, selectedIncidence);
       } else {
         editIncidence(
           currEmployeeId,
           currDate.getTime(),
-          optionToId[selectedOption],
+          selectedIncidence,
         );
       }
+
+      automatedObservations(selectedIncidence, currObservation, currEmployeeId, currDate, createObservation, editObservation);
+
       onClose();
     } else {
       alert("Por favor, selecciona una opción antes de guardar.");

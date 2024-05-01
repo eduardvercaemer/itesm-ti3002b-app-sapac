@@ -73,7 +73,7 @@ function TableRow({ user, onEdit }) {
       <td>
         <button
           className="button"
-          onClick={() => onEdit(user.unformattedDate, user.incidencia)}
+          onClick={() => onEdit(user.unformattedDate, user.incidencia, user.observaciones)}
         >
           Editar
         </button>
@@ -90,10 +90,12 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentIncidence, setCurrentIncidence] = useState(null);
+  const [ currentObservation, setCurrentObservation ] = useState(null);
 
-  const handleEdit = (date, incidence) => {
+  const handleEdit = (date, incidence, observations) => {
     setSelectedDate(date);
     setCurrentIncidence(incidence);
+    setCurrentObservation(observations);
     setModalOpen(true);
   };
 
@@ -164,6 +166,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
           currDate={selectedDate}
           currIncidence={currentIncidence}
           options={options}
+          currObservation={currentObservation}
         />
       )}
     </>
