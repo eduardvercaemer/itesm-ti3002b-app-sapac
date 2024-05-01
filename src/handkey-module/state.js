@@ -160,8 +160,8 @@ const employeeListSelector$ = selector({
   },
 });
 
-const allEmployeesDataSelector$ = selector({
-  key: 'all-employees-data',
+const allEmployeesDataSelectorExport$ = selector({
+  key: 'all-employees-data-selector-export',
   get: ({get}) => {
     const employeeIds = get(employeeListSelector$);
     const employees = get(employees$);
@@ -179,6 +179,8 @@ const allEmployeesDataSelector$ = selector({
 
       //Get days
       let days = null;
+      const incidences = [];
+      const observations = [];
 
       if (start !== null && end !== null) {
         const numberOfDays =
@@ -187,29 +189,24 @@ const allEmployeesDataSelector$ = selector({
           date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
         }));
 
+        
+
         for (const day of days) {
           const ts = day.date.getTime();
-          day.incidence =
-            employee.incidences.filter(
+          incidences.push(employee.incidences.filter(
               (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-            )[0]?.value ?? null;
-          day.observation =
-            employee.observations.filter(
+            )[0]?.value ?? null);
+          observations.push(employee.observations.filter(
               (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-            )[0]?.value ?? null;
-          day.entries =
-            entries
-              .get(id)
-              ?.entries.filter(
-                (i) => i >= ts && i < ts + 1000 * 60 * 60 * 24,
-              ) ?? [];
+            )[0]?.value ?? null);
         }
       }
 
       const employeeFormatted = {
         id: id,
         name: employee.name,
-        days: days
+        incidences: incidences,
+        observations: observations.filter(value => value !== null).join(' + ')
       };
 
       if (addressIndex > -1) {
@@ -238,7 +235,7 @@ export const useEmployeeList = () => {
 export const useAllDataForExport = () => {
   const startDate = useRecoilValue(startDateState$);
   const endDate = useRecoilValue(endDateState$);
-  const allEmployeeData = useRecoilValue(allEmployeesDataSelector$);
+  const allEmployeeData = useRecoilValue(allEmployeesDataSelectorExport$);
 
   if (!startDate || !endDate) return null;
 
