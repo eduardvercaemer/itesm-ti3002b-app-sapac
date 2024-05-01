@@ -3,6 +3,7 @@ import Papa from "papaparse";
 import { useEmployeeList, useEmployee } from "../handkey-module/state";
 import tEmployee from "../../testing-employee";
 import ExcelJS from 'exceljs';
+import '../utils/colors.css';
 
 const df = new Intl.DateTimeFormat("es-MX", {
   timeZone: "America/Mexico_City",
@@ -12,11 +13,32 @@ const df = new Intl.DateTimeFormat("es-MX", {
 });
 
 export function ExportCsv() {
-  const [addresses, setAddresses] = useState([]);
-  const [filteredData, setFilterData] = useState([]);
-  const employees = tEmployee;
+  const [addresses, setAddresses] = useState(tEmployee.addresses);
+  const [filteredData, setFilterData] = useState(tEmployee.data);
 
-  const getAddresses = () =>{
+
+  const palette = {
+    'f': 'ff3b30',
+    'de': 'ffcc00',
+    'vac': 'ffcc00',
+    'perm': 'ff2d54',
+    'inc': '007bff',
+    'je': '00c7be',
+    'js': '00c7be',
+    'lcgs': '55bef0',
+    'r': 'ff9500',
+    'ok': '34c759',
+    'lsgs': '55bef0',
+    'ono': 'af52de',
+    'rl': 'ff9500',
+    'rg': 'ff9500',
+    'j': '00c7be',
+    'fs': '8e8e93',
+    'fe': '8e8e93',
+    'd': 'ffcc00'
+  };
+
+ /*  const getAddresses = () =>{
     // still need to update with local memo
     let decoyArr = []
 
@@ -81,7 +103,7 @@ export function ExportCsv() {
       }
     }
 
-  },[addresses])
+  },[addresses]) */
 
   function numberToLetter(number) {
     let letter = '';
@@ -99,33 +121,24 @@ export function ExportCsv() {
 
 
 
-  //start = 'C'
-  //s = 0;
-  //let letter = letterToNumber(start);
-  //let current = numberToLetter(letter + s);
-
-  const fillDays = (worksheet, start, end, rowIndex) =>{
+  const fillDays = (worksheet, start, end, rowIndex, incidences) =>{
     let letter = letterToNumber(start);
     let current = 0;
     const delta = letterToNumber(end) - letterToNumber(start);
-    console.log(delta);
 
+    console.log(incidences);
     for(let s = 0; s <= delta; s++){
       current = numberToLetter(letter + s);
 
       worksheet.getCell(`${current}+${rowIndex}`).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FFFF00' }
+        fgColor: { argb: `${palette[incidences[s].value]}` }
       };;
 
     }
 
   } 
-
-
-
-
 
   const onClick = async() => {
 
@@ -143,22 +156,18 @@ export function ExportCsv() {
       currWorksheet.getCell('B1').value = "Nombre";
       currWorksheet.mergeCells('C1:Q1');
       currWorksheet.getCell('C1').value = "Días";
-      currWorksheet.getCell('R1').value = "Observaciones";
+      currWorksheet.getCell('Q1').value = "Observaciones";
 
 
       let rowIndex = 2;
-      for (let z = 0; z < filteredData[p].employees.length; z++) {
+      for (let z = 0; z < filteredData[p].length; z++) {
         //fill rows
         currWorksheet.getCell(`A${ rowIndex }`).value = z + 1;
-        currWorksheet.getCell(`B${ rowIndex }`).value = filteredData[p].employees[z].employee.name;
-        /* currWorksheet.getCell(`C${rowIndex}:Q${rowIndex}`).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'FFFF00' }
-        }; */
-        fillDays(currWorksheet,'C','Q',rowIndex);
+        currWorksheet.getCell(`B${ rowIndex }`).value = filteredData[p].employees[z].name;
+      
+        fillDays(currWorksheet,'C','P',rowIndex, filteredData[p].employees[z].employee.incidences);
 
-        currWorksheet.getCell(`R${ rowIndex }`).value = filteredData[p].employees[z].employee.observations;
+        currWorksheet.getCell(`Q${ rowIndex }`).value = filteredData[p].employees[z].employee.observations;
         rowIndex++;
       }
 
