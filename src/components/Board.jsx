@@ -91,16 +91,23 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentIncidence, setCurrentIncidence] = useState(null);
   const [ currentObservation, setCurrentObservation ] = useState(null);
-  const [delaysCount, setDelaysCount] = useState(0);
+  const [delaysWithObservation, setDelaysWithObservation ] = useState([]);
+  const [delays, setDelays] = useState([]);
 
   useEffect(() => {
-    let tempDelaysCount = 0;
+    const tempDelays= [];
+    const tempDelaysWithObservation = [];
     objeto.map((entry) => {
       if(entry.incidencia === 'r'){
-        tempDelaysCount +=1;
+        tempDelays.push(entry.unformattedDate)
+        if(entry.observaciones === 0.25){
+          tempDelaysWithObservation.push(entry.unformattedDate);
+        } 
       }
     })
-    setDelaysCount(tempDelaysCount);
+
+    setDelaysWithObservation(tempDelaysWithObservation);
+    setDelays(tempDelays);
   }, [objeto])
   
 
@@ -179,7 +186,8 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
           currIncidence={currentIncidence}
           options={options}
           currObservation={currentObservation}
-          delaysCount={delaysCount}
+          delays={delays}
+          delaysWithObservation={delaysWithObservation}
         />
       )}
     </>

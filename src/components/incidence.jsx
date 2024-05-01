@@ -7,7 +7,35 @@ const penalties = {
   "rg": 0.50
 }
 
-const automatedObservations = (selectedIncidence, currObservation, currEmployeeId, currDate, delaysCount, createObservation, editObservation) => {
+const checkForDelays = (currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation) => {
+  if(currIncidence === 'r'){
+    if(currObservation === ""){
+      const numToHave = Math.floor((delays.length - 1) / 3);
+      if(numToHave !== delaysWithObservation.length){
+        editObservation(currEmployeeId, delaysWithObservation[0].getTime(), "")
+      }
+    }
+    else{
+      const numToHave = Math.floor((delays.length - 1) / 3);
+      if(numToHave !== (delaysWithObservation.length - 1)){
+        let observationToChange = delays[0];
+        delays.every(day => {
+          const dayStr = day.toISOString();
+          const isNotObserved = !delaysWithObservation.some(obsDay => obsDay.toISOString() === dayStr);
+        
+          if (isNotObserved) {
+            observationToChange = day;
+            return false;
+          }
+          return true;
+        });
+        editObservation(currEmployeeId, observationToChange.getTime(), 0.25)
+      }
+    }
+  }
+}
+
+const automatedObservations = (currIncidence, selectedIncidence, currObservation, currEmployeeId, currDate, delays, delaysWithObservation, createObservation, editObservation) => {
   if(selectedIncidence in penalties){
     if(currObservation === null){
       createObservation(currEmployeeId, currDate, penalties[selectedIncidence])
@@ -16,18 +44,30 @@ const automatedObservations = (selectedIncidence, currObservation, currEmployeeI
       editObservation(currEmployeeId, currDate.getTime(), penalties[selectedIncidence])
     }
   }
-  else if(selectedIncidence === 'r' && (delaysCount + 1) % 3 === 0){
-    if(currObservation === null){
-      createObservation(currEmployeeId, currDate, 0.25)
+  else if(selectedIncidence === 'r'){
+    if((delays.length + 1) % 3 === 0){
+      if(currObservation === null){
+        createObservation(currEmployeeId, currDate, 0.25)
+      }
+      else{
+        editObservation(currEmployeeId, currDate.getTime(), 0.25)
+      }
     }
     else{
-      editObservation(currEmployeeId, currDate.getTime(), 0.25)
+      if(currObservation === null){
+        createObservation(currEmployeeId, currDate, "")
+      }
+      else{
+        editObservation(currEmployeeId, currDate.getTime(), "")
+      }
     }
+    
   }
   else{
     if(currObservation !== null){
       editObservation(currEmployeeId, currDate.getTime(), "")
     }
+    checkForDelays(currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation);
   }
 }
 
@@ -38,7 +78,8 @@ export const Incidence = ({
   currDate,
   currIncidence,
   currObservation,
-  delaysCount
+  delays,
+  delaysWithObservation
 }) => {
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
@@ -110,7 +151,7 @@ export const Incidence = ({
         );
       }
 
-      automatedObservations(selectedIncidence, currObservation, currEmployeeId, currDate, delaysCount, createObservation, editObservation);
+      automatedObservations(currIncidence, selectedIncidence, currObservation, currEmployeeId, currDate, delays, delaysWithObservation, createObservation, editObservation);
 
       onClose();
     } else {
