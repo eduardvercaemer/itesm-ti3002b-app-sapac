@@ -1,0 +1,125 @@
+.modal {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(0.18em);
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.topContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alineamos verticalmente */
+}
+
+/* X de modal */
+.crossButton {
+  color: #1f2937;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.crossButton:hover {
+  background-color: #8d8d8d;
+  color: #f7f7f7;
+}
+
+/* Boton Guardar */
+.saveButton {
+  background-color: #1368c5;
+  color: #f7f7f7;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: bold;
+}
+.saveButton:hover {
+  background-color: #113052;
+}
+
+/* Boton Incidenncia */
+.incidenceOption {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #1368c5;
+  border-radius: 0.25rem;
+  outline: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    border-color 0.3s;
+}
+.incidenceOption:hover {
+  background-color: #1368c5;
+  border-color: #1368c5;
+}
+.incidenceOption:checked {
+  background-color: #1368c5;
+}
+.incidenceText {
+  font-size: 1.25rem;
+  font-family: sans-serif;
+  font-weight: normal;
+}
+
+.modalContent {
+  width: 300px;
+  max-height: 500px; /* Ajusta la altura según tus necesidades */
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  width: 300px;
+  height: 360px;
+}
+
+.optionContainer {
+  width: 100%;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.containerIncidencia {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.labelMap {
+  display: inline-flex;
+  align-items: center;
+}

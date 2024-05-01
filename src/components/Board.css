@@ -1,57 +1,64 @@
 .navbar th,
 .navbar td {
-    padding: 0.5em 1em;
-    color: rgb(0, 0, 0);
-    text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
-    border-bottom: 0.3px solid #dddddd;
-    width: 10vw;
+  padding: 0.5em 1em;
+  color: rgb(0, 0, 0);
+  text-align: center; /*border: 1px solid rgb(0, 0, 0); /* Define el grosor, color y estilo de las líneas */
+  border-bottom: 0.3px solid #dddddd;
+  /*width: 10vw;*/
+}
+
+.navbar th {
 }
 
 .cont {
-    height: 5em;
-    line-height: 0.8em;
+  line-height: 0.8em;
+  width: 100%;
 }
 
 /* Ajusta el ancho del encabezado de la tabla para tener en cuenta la barra de desplazamiento */
 .cont thead {
-    display: table;
-    width: calc(100% - 2px); 
 }
 
 .cont tbody {
-    display: block;
-    overflow: overlay;
-    height: 490px; /* Altura máxima de la tabla, ajusta según sea necesario */
+  overflow: overlay;
 }
 
 .periodo {
-    background-color: #3498db;
-    border-radius: 0.2em;
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 1em;
-    color: #fff;
+    display: flex;
+    justify-content: space-between;
+  background-color: #3498db;
+  border-radius: 0.2em;
+
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 1em;
+  color: #fff;
+    }
+
+.deleteButton {
+    padding-right: 1em;
+    cursor: pointer;
 }
 
 .button {
-    color: #fff;
-    background-color: #4caf50;
-    border: 2px solid #4caf50;
-    padding: 0.5em 1em;
-    transition: background-color 0.3s, color 0.3s;
+  color: #fff;
+  background-color: #4caf50;
+  border: 2px solid #4caf50;
+  padding: 0.5em 1em;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 .button:hover {
-    background-color: #45a049;
-    border-color: #45a049;
+  background-color: #45a049;
+  border-color: #45a049;
 }
 
-
 .cont tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares a blanco */
+  background-color: #f2f2f2; /* Cambia el color de fondo de las filas pares a blanco */
 }
 
 .cont p {
-    padding: 0.4em;
+  padding: 0.4em;
 }

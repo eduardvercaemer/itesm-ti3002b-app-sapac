@@ -1,121 +1,119 @@
 .dashboard-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-left: 5rem;
-    margin-right: 5rem;
-    background-color: #f0f0f0;
-  }
-  
-  .cardPerson {
-    width: calc(25%);
-    background-color: white !important;
-    padding: 1em;
-    border-radius: 0.2em;
-    margin: 1rem 0 0 0 !important;
-    box-shadow: 0.5em rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centra verticalmente el contenido */
-    text-align: center; /* Centra horizontalmente el texto */
-    line-height: 1.5; /* Altura de línea para permitir saltos */
-    height: 40rem; /* Ajusta automáticamente la altura según el contenido */
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-  .cardTable {
-    width: calc(70%);
-    height: 40rem;
-    background-color: white !important;
-    padding: 0 1rem 1rem !important;
-    border-radius: 0.2em;
-    margin-bottom: 2em;
-    margin: 1rem 0 0 0 !important;
-    box-shadow: 0.5em rgba(0, 0, 0, 0.1);
-  }
-  
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    margin-left: calc(37.5%);
-    margin-right: calc(5.5%);
-    margin-bottom: 0;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .left-button {
-    background-color: #007bff;
-    color: #fff;
-  }
+  background-color: #f0f0f0;
+}
 
-  .left-button.disabled {
-    background-color: #ccc;
-    pointer-events: none;
+.cardPerson {
+  width: calc(25%);
+  background-color: white !important;
+  padding: 1em;
+  border-radius: 0.2em;
+
+  box-shadow: 0.5em rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra verticalmente el contenido */
+  text-align: center; /* Centra horizontalmente el texto */
+  line-height: 1.5; /* Altura de línea para permitir saltos */
+}
+
+.sapacLogo {
+  max-width: 50%;
+  max-height: 50%;
+  padding-bottom: 2em;
+}
+
+.cardTable {
+  background-color: white !important;
+  border-radius: 0.2em;
+  box-shadow: 0.5em rgba(0, 0, 0, 0.1);
+
+  width: 100% !important;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.left-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.left-button.disabled {
+  background-color: #ccc;
+  pointer-events: none;
 }
 
 .left-button.disabled:hover {
-    background-color: #ccc;
-    cursor: not-allowed;
+  background-color: #ccc;
+  cursor: not-allowed;
 }
-  
-  .right-button {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .label {
-    font-weight: bold;
-    color: #333;
-  }
 
-  .label-id {
-    font-weight: bold;
-    color: #333;
-    font-size: 0.35em;
-    line-height: 1; /* Ajusta la altura de línea a 1 para evitar espacio adicional */
-  }
-  
-  
-  .employee-id {
-    font-size: 4em;
-    color: #555;
-    margin-bottom: 0;
-  }
-  
-  .employee-name,
-  .employee-address,
-  .employee-kind {
-    font-size: 1.1em;
-    color: #555;
-    margin-bottom: 0.8em;
-  }
-  
-  .schedule-time {
-    font-size: 1.2em;
-    color: #555;
-  }
-  
-  .gray-button {
-    background-color: #ccc;
-    color: #666;
-    cursor: not-allowed;
+.right-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.right-ex-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.label {
+  font-weight: bold;
+  color: #333;
+}
+
+.label-id {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.35em;
+  line-height: 1; /* Ajusta la altura de línea a 1 para evitar espacio adicional */
+}
+
+.employee-id {
+  font-size: 4em;
+  color: #555;
+}
+
+.employee-name,
+.employee-address,
+.employee-kind {
+  font-size: 1.1em;
+  color: #555;
+}
+
+.schedule-time {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.gray-button {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .gray-button:hover {
-    background-color: #ccc;
-    color: #666;
-    pointer-events: none; /* Deshabilita el hover */
+  background-color: #ccc;
+  color: #666;
+  pointer-events: none; /* Deshabilita el hover */
 }
 
-body{
+body {
   background-color: #f0f0f0;
 }

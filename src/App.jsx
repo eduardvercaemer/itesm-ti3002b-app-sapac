@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 
 import { FileDrop } from "./components/file-drop.jsx";
 import { FileUploaded } from "./components/file-uploaded.jsx";
-import { ExportCsv } from "./components/export.jsx";
 
 import "./App.css";
 import {
@@ -57,7 +56,7 @@ function App() {
     if (ready && hastDates) {
       navigate("/dashboard");
     }
-  }, []);
+  }, [ready, hastDates]);
 
   const handleDate = async () => {
     const { value: formValues } = await Swal.fire({
@@ -84,10 +83,11 @@ function App() {
       Swal.fire(
         "Fechas seleccionadas:",
         `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
-      );
-
-      setStartDate(new Date(start));
-      setEndDate(new Date(end));
+      ).then(() => {
+        setStartDate(new Date(start));
+        setEndDate(new Date(end));
+        navigate("/dashboard");
+      });
     }
   };
 
@@ -110,18 +110,6 @@ function App() {
 
   return (
     <main className="blue-square">
-      <input
-        type="search"
-        name="search"
-        placeholder="search"
-        onChange={(e) => {
-          e.preventDefault();
-          setEmployeeQuery(e.target.value);
-        }}
-      />
-
-      <p>{JSON.stringify(employeeQueryResults)}</p>
-
       <div className="title-container">
         <h1 className="title">Sube tus archivos de Excel</h1>
       </div>
@@ -151,25 +139,14 @@ function App() {
       </div>
 
       <div className="bottom-container">
-        <Link
-          to={!ready ? "/" : "/dashboard"}
+        <button
           className="bottom-btn"
+          onClick={() => handleDate()}
           disabled={!ready}
         >
-          <button onClick={() => handleDate()} disabled={!ready}>
-            Iniciar
-          </button>
-        </Link>
-        <ExportCsv />
+          Iniciar
+        </button>
       </div>
-
-      <menu>
-        {employees.map((id) => (
-          <li>
-            <Link to={`/?id=${id}`}>{id}</Link>
-          </li>
-        ))}
-      </menu>
     </main>
   );
 }
