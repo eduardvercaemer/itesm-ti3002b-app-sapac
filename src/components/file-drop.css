@@ -11,6 +11,7 @@
     border-color 0.3s,
     background-color 0.3s,
     opacity 0.3s;
+    border-radius: 2%;
 }
 
 .file-drop.file-drop-dragging-over {
@@ -43,4 +44,5 @@
 
 .card-bg {
   background-color: var(--surface-main-blue);
+  border-radius: 2%;
 }
