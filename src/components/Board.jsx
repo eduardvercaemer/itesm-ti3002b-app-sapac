@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import Incidence from './incidence';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { useResetEntries, useResetEmployees } from '../handkey-module/state';
+import { useResetEntries, useResetEmployees, useResetDates } from '../handkey-module/state';
 import { useNavigate } from "react-router-dom";
 
 //Diccionario con el tipo de incidencias
@@ -86,6 +86,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const navigate = useNavigate();
   const resetEntries = useResetEntries();
   const resetEmployees = useResetEmployees();
+  const resetDates = useResetDates();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentIncidence, setCurrentIncidence] = useState(null);
@@ -112,9 +113,8 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            localStorage.removeItem('state/start-date');
-            localStorage.removeItem('state/end-date');
             localStorage.removeItem('currIndex');
+            resetDates();
             resetEntries();
             resetEmployees();
             navigate("/");
