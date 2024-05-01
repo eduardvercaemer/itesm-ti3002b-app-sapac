@@ -7,69 +7,46 @@ const penalties = {
   "rg": 0.50
 }
 
+const calculateNumToHave = (delays) => Math.floor((delays.length - 1) / 3);
+
 const checkForDelays = (currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation) => {
-  if(currIncidence === 'r'){
-    if(currObservation === ""){
-      const numToHave = Math.floor((delays.length - 1) / 3);
-      if(numToHave !== delaysWithObservation.length){
-        editObservation(currEmployeeId, delaysWithObservation[0].getTime(), "")
+  if (currIncidence === 'r') {
+    const numToHave = calculateNumToHave(delays);
+    if (currObservation === "") {
+      if (numToHave !== delaysWithObservation.length) {
+        editObservation(currEmployeeId, delaysWithObservation[0].getTime(), "");
       }
-    }
-    else{
-      const numToHave = Math.floor((delays.length - 1) / 3);
-      if(numToHave !== (delaysWithObservation.length - 1)){
-        let observationToChange = delays[0];
-        delays.every(day => {
-          const dayStr = day.toISOString();
-          const isNotObserved = !delaysWithObservation.some(obsDay => obsDay.toISOString() === dayStr);
-        
-          if (isNotObserved) {
-            observationToChange = day;
-            return false;
-          }
-          return true;
-        });
-        editObservation(currEmployeeId, observationToChange.getTime(), 0.25)
+    } else {
+      if (numToHave !== (delaysWithObservation.length - 1)) {
+        let observationToChange = delays.find(day => 
+          !delaysWithObservation.some(obsDay => obsDay.toISOString() === day.toISOString())
+        ) || delays[0];
+        editObservation(currEmployeeId, observationToChange.getTime(), 0.25);
       }
     }
   }
-}
+};
+
+const handleObservationCreationOrEdit = (currObservation, currEmployeeId, currDate, value, createObservation, editObservation) => {
+  if (currObservation === null) {
+    createObservation(currEmployeeId, currDate, value);
+  } else {
+    editObservation(currEmployeeId, currDate.getTime(), value);
+  }
+};
 
 const automatedObservations = (currIncidence, selectedIncidence, currObservation, currEmployeeId, currDate, delays, delaysWithObservation, createObservation, editObservation) => {
-  if(selectedIncidence in penalties){
-    if(currObservation === null){
-      createObservation(currEmployeeId, currDate, penalties[selectedIncidence])
-    }
-    else{
-      editObservation(currEmployeeId, currDate.getTime(), penalties[selectedIncidence])
-    }
+  if (selectedIncidence in penalties) {
+    handleObservationCreationOrEdit(currObservation, currEmployeeId, currDate, penalties[selectedIncidence], createObservation, editObservation);
+  } else if (selectedIncidence === 'r') {
+    const value = (delays.length + 1) % 3 === 0 ? 0.25 : "";
+    handleObservationCreationOrEdit(currObservation, currEmployeeId, currDate, value, createObservation, editObservation);
+  } else if (currObservation !== null) {
+    editObservation(currEmployeeId, currDate.getTime(), "");
   }
-  else if(selectedIncidence === 'r'){
-    if((delays.length + 1) % 3 === 0){
-      if(currObservation === null){
-        createObservation(currEmployeeId, currDate, 0.25)
-      }
-      else{
-        editObservation(currEmployeeId, currDate.getTime(), 0.25)
-      }
-    }
-    else{
-      if(currObservation === null){
-        createObservation(currEmployeeId, currDate, "")
-      }
-      else{
-        editObservation(currEmployeeId, currDate.getTime(), "")
-      }
-    }
-    
-  }
-  else{
-    if(currObservation !== null){
-      editObservation(currEmployeeId, currDate.getTime(), "")
-    }
-    checkForDelays(currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation);
-  }
-}
+  checkForDelays(currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation);
+};
+
 
 export const Incidence = ({
   onClose,
