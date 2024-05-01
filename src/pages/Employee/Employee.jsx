@@ -1,23 +1,18 @@
-import React from "react";
 import "./Employee.css";
+import { useAllDataForExport } from "../../handkey-module/state";
 
 function Employee() {
+  const exportData = useAllDataForExport();
+
+  const handleClick = () => {
+    console.log(exportData);
+  }
+
   return (
     <>
-      <main className="employee-container">
-        <div className="cardPerson">
-          <h2>Información del Empleado 1</h2>
-          <p>Contenido de la primera card del empleado</p>
-        </div>
-        <div className="cardTable">
-          <h2>Información del Empleado 2</h2>
-          <p>Contenido de la segunda card del empleado</p>
-        </div>
-      </main>
-      <div className="button-container">
-        <button className="button left-button">Botón Izquierdo</button>
-        <button className="button right-button">Botón Derecho</button>
-      </div>
+      <button onClick={handleClick}>
+        Testing
+      </button>
     </>
   );
 }
