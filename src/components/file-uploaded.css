@@ -5,8 +5,10 @@
   align-items: center;
   background-color: white;
   border: solid;
+  border-color: var(--text-primary);
   width: 350px;
   height: 350px;
+  border-radius: 2%;
 }
 
 .file-uploaded {
@@ -17,14 +19,11 @@
 
 .btn-file-uploaded {
   text-align: center;
-
-  background-color: #dc2626;
-  color: #fff;
+  margin-top: 2rem;
+  background-color: var(--i-red);
+  color: white;
   font-weight: 700;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0.5rem 2rem;
   border-radius: 0.25rem;
   width: 12rem;
 }
