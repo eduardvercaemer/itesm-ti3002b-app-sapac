@@ -359,6 +359,18 @@ export const useInitFromLocalStorage = () => {
   );
 };
 
+export const useResetDates = () => {
+  const setStartDate = useSetRecoilState(startDateState$);
+  const setEndDate = useSetRecoilState(endDateState$);
+  return useCallback(() => {
+    const newEntries = new Map();
+    localStorage.removeItem('state/start-date');
+    localStorage.removeItem('state/end-date');
+    setStartDate(null);
+    setEndDate(null);
+  });
+}
+
 export const useResetEntries = () => {
   const setEntries = useSetRecoilState(entries$);
   return useCallback(() => {

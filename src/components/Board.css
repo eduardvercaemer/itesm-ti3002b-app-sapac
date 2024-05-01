@@ -24,6 +24,8 @@
 }
 
 .periodo {
+    display: flex;
+    justify-content: space-between;
   background-color: #3498db;
   border-radius: 0.2em;
 
@@ -31,6 +33,11 @@
   font-size: 1.5rem;
   padding: 1em;
   color: #fff;
+    }
+
+.deleteButton {
+    padding-right: 1em;
+    cursor: pointer;
 }
 
 .button {
