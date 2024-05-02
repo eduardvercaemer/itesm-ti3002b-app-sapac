@@ -43,7 +43,7 @@ const formatEntries = (employee) => {
         entrada: entry,
         salida: exit,
         incidencia: day.incidence ? day.incidence : "",
-        observaciones: day.observation ? day.observation : "",
+        observaciones: day.observation,
         unformattedDate: day.date,
       });
     });
