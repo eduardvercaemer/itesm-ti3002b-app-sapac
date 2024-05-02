@@ -1,109 +1,18 @@
-import { useCallback, useEffect, useState } from "react";
-import Papa from "papaparse";
-import { useEmployeeList, useEmployee } from "../handkey-module/state";
-import tEmployee from "../../testing-employee";
+import { useAllDataForExport } from "../handkey-module/state";
 import ExcelJS from 'exceljs';
 import '../utils/colors.css';
 
-const df = new Intl.DateTimeFormat("es-MX", {
-  timeZone: "America/Mexico_City",
-  dateStyle: "short",
-  timeStyle: "short",
-  hourCycle: "h24",
-});
-
 export function ExportCsv() {
-  const [addresses, setAddresses] = useState(tEmployee.addresses);
-  const [filteredData, setFilterData] = useState(tEmployee.data);
 
+  const filteredData = useAllDataForExport();
 
   const palette = {
-    'f': 'ff3b30',
-    'de': 'ffcc00',
-    'vac': 'ffcc00',
-    'perm': 'ff2d54',
-    'inc': '007bff',
-    'je': '00c7be',
-    'js': '00c7be',
-    'lcgs': '55bef0',
-    'r': 'ff9500',
-    'ok': '34c759',
-    'lsgs': '55bef0',
-    'ono': 'af52de',
-    'rl': 'ff9500',
-    'rg': 'ff9500',
-    'j': '00c7be',
-    'fs': '8e8e93',
-    'fe': '8e8e93',
-    'd': 'ffcc00'
+    'f': 'ff3b30', 'de': 'ffcc00', 'vac': 'ffcc00', 'perm': 'ff2d54',
+    'inc': '007bff', 'je': '00c7be', 'js': '00c7be', 'lcgs': '55bef0',
+    'r': 'ff9500', 'ok': '34c759', 'lsgs': '55bef0', 'ono': 'af52de',
+    'rl': 'ff9500', 'rg': 'ff9500', 'j': '00c7be', 'fs': '8e8e93',
+    'fe': '8e8e93', 'd': 'ffcc00', 'undefinedColor' : 'ccc'
   };
-
- /*  const getAddresses = () =>{
-    // still need to update with local memo
-    let decoyArr = []
-
-    for (let x = 0; x < employees.length; x++) {
-
-      const currEmployee = employees[x];
-
-      if (!decoyArr.includes(currEmployee.employee.address)){
-        decoyArr.push(currEmployee.employee.address);
-      }
-
-    }
-    setAddresses(decoyArr);
-  }
-
-  useEffect(()=>{
-    getAddresses();
-  },[])
-
-
-  const findIndexByKey = (array, key, value) => {
-    for (let i = 0; i < array.length; i++) {
-      if (array[i][key] === value) {
-        return i;
-      }
-    }
-    return -1
-  }
-
-  useEffect(()=>{
-
-    if(filteredData.length === 0){
-      for (let y = 0; y < employees.length; y++) {
-
-        let currAddress = employees[y].employee.address;
-
-        const alreadyStored = filteredData.some(e => Object.values(e).includes(currAddress));
-
-
-        if (alreadyStored) {
-          //current address already exists on array
-          const objectIndex = findIndexByKey(filteredData, 'address', currAddress);
-          const objectCopy = filteredData[objectIndex];
-          const employeesCopy = objectCopy.employees;
-          employeesCopy.push(employees[y]);
-
-          const newObject = { address: currAddress, employees: employeesCopy };
-          const fullFilterDataCopy = filteredData;
-          fullFilterDataCopy[objectIndex] = newObject;
-
-          setFilterData(fullFilterDataCopy);
-
-        }
-        else {
-          const newObject = { address: currAddress, employees: [employees[y]] };
-          const fullFilterDataCopy = filteredData;
-          fullFilterDataCopy.push(newObject);
-
-          setFilterData(fullFilterDataCopy);
-        }
-
-      }
-    }
-
-  },[addresses]) */
 
   function numberToLetter(number) {
     let letter = '';
@@ -119,62 +28,192 @@ export function ExportCsv() {
     return letter.charCodeAt(0) - 64;
   }
 
-
-
-  const fillDays = (worksheet, start, end, rowIndex, incidences) =>{
+  const fillIncidences = (worksheet, start, end, rowIndex, incidences) =>{
     let letter = letterToNumber(start);
     let current = 0;
+    let color = "";
     const delta = letterToNumber(end) - letterToNumber(start);
 
-    console.log(incidences);
     for(let s = 0; s <= delta; s++){
       current = numberToLetter(letter + s);
+      incidences[s] !== null ? color = incidences[s] : color = "undefinedColor"
+
+      worksheet.getCell(`${current}+${rowIndex}`).value = incidences[s];
 
       worksheet.getCell(`${current}+${rowIndex}`).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: `${palette[incidences[s].value]}` }
-      };;
+        fgColor: { argb: `${palette[color]}` }
+      };
+
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
+        top: { style: 'thin', color: { argb: 'FFFFFF' } },
+        left: { style: 'thin', color: { argb: 'FFFFFF' } },
+        bottom: { style: 'thin', color: { argb: 'FFFFFF' } },
+        right: { style: 'thin', color: { argb: 'FFFFFF' } }
+      };
+
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true, color: { argb: 'FFFFFF' } };
+
+    }
+  } 
+
+  const getDayOfWeekFromDate = (dateString) => {
+    const dateParts = dateString.split('/');
+    const day = parseInt(dateParts[0], 10);
+    const month = parseInt(dateParts[1], 10) - 1;
+    const year = parseInt(dateParts[2], 10);
+    const date = new Date(year, month, day);
+    const dayOfWeek = date.toLocaleDateString('es-MX', { weekday: 'short' });
+    return dayOfWeek;
+  }
+
+  const fillDays = (worksheet, start, end, rowIndex, days) =>{
+
+    let letter = letterToNumber(start);
+    let current = 0;
+    const delta = letterToNumber(end) - letterToNumber(start);
+
+    for (let s = 0; s <= delta; s++) {
+      current = numberToLetter(letter + s);
+
+      worksheet.getCell(`${current}+${rowIndex}`).value = getDayOfWeekFromDate(days[s]);
+      worksheet.getCell(`${current}+${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
 
     }
 
-  } 
+    let dateParts = "";
+    let day = 0;
+    rowIndex++;
+
+    for (let s = 0; s <= delta; s++) {
+      current = numberToLetter(letter + s);
+
+      dateParts = days[s].split('/');
+      day = parseInt(dateParts[0], 10);
+
+      worksheet.getCell(`${current}+${rowIndex}`).value = day;
+      worksheet.getCell(`${current}+${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
+
+    }
+
+  }
 
   const onClick = async() => {
 
-    if (!filteredData) {
+    if (Object.keys(filteredData).length === 0 || filteredData === null) {
       return;
     }
 
+    const daysLength = filteredData.days.length;
+    const finalDayInChar = numberToLetter(2 + daysLength);
+    const observationDayInChar = numberToLetter(3 + daysLength);
     const workbook = new ExcelJS.Workbook();
-    for (let p = 0; p < addresses.length; p++) {
+
+    for (let p = 0; p < filteredData.addresses.length; p++) {
 
       // create a worksheet for every address
-      const currWorksheet = workbook.addWorksheet(addresses[p]);
+      const currWorksheet = workbook.addWorksheet(filteredData.addresses[p]);
 
-      currWorksheet.getCell('A1').value = "ID";
-      currWorksheet.getCell('B1').value = "Nombre";
-      currWorksheet.mergeCells('C1:Q1');
-      currWorksheet.getCell('C1').value = "Días";
-      currWorksheet.getCell('Q1').value = "Observaciones";
+      //////////////////// Headers ////////////////////
+      currWorksheet.mergeCells(`A1:${observationDayInChar}1`);
+      currWorksheet.getCell('A1').value = "ASIMILADOS"; // 1
+      currWorksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
+      currWorksheet.getCell('A1').style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      currWorksheet.getCell('A1').style.font = { bold:true };
+
+      currWorksheet.mergeCells(`A3:${observationDayInChar}3`);
+      currWorksheet.getCell('A3').value = `INCIDENCIAS DEL ${filteredData.timeFrame}`;
+      currWorksheet.getCell('A3'). alignment = { horizontal: 'center', vertical: 'middle' };
+      currWorksheet.getCell('A3').style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      currWorksheet.getCell('A3').style.font = { bold: true };
 
 
-      let rowIndex = 2;
-      for (let z = 0; z < filteredData[p].length; z++) {
-        //fill rows
-        currWorksheet.getCell(`A${ rowIndex }`).value = z + 1;
-        currWorksheet.getCell(`B${ rowIndex }`).value = filteredData[p].employees[z].name;
-      
-        fillDays(currWorksheet,'C','P',rowIndex, filteredData[p].employees[z].employee.incidences);
+      currWorksheet.mergeCells('A5:A6');
+      currWorksheet.getCell('A5').value = "ID";
+      currWorksheet.getCell('A5').alignment = { horizontal: 'center', vertical: 'middle' };
+      currWorksheet.getCell('A5').style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      currWorksheet.getCell('A5').style.font = { bold: true };
 
-        currWorksheet.getCell(`Q${ rowIndex }`).value = filteredData[p].employees[z].employee.observations;
+
+      currWorksheet.mergeCells('B5:B6');
+      currWorksheet.getCell('B5').value = "Nombre";
+      currWorksheet.getCell('B5').alignment = { horizontal: 'center', vertical: 'middle' };
+      currWorksheet.getColumn(2).width = 40;
+      currWorksheet.getCell('B5').style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      currWorksheet.getCell('B5').style.font = { bold: true };
+
+      fillDays(currWorksheet, 'C', finalDayInChar, 5, filteredData.days);
+
+      currWorksheet.mergeCells(`${observationDayInChar}5:${observationDayInChar}6`);
+      currWorksheet.getCell(`${ observationDayInChar }5`).value = "Observaciones";
+      currWorksheet.getCell(`${observationDayInChar}5`).alignment = { horizontal: 'center', vertical: 'middle' };
+      currWorksheet.getColumn(daysLength+3).width = 20;
+      currWorksheet.getCell(`${observationDayInChar}5`).style.border = {
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' }
+      };
+      currWorksheet.getCell(`${observationDayInChar}5`).style.font = { bold: true };
+
+      //////////////////// END Headers ////////////////////
+
+      let rowIndex = 7; // Initial row Index
+
+      for (let z = 0; z < filteredData.data[p].employees.length; z++) {
+        // Fill Rows
+        const currentEmployee = filteredData.data[p].employees[z];
+        currWorksheet.getCell(`A${rowIndex}`).value = currentEmployee.id;
+        currWorksheet.getCell(`A${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+
+        currWorksheet.getCell(`B${ rowIndex }`).value = currentEmployee.name;
+        currWorksheet.getCell(`B${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+
+        fillIncidences(currWorksheet, 'C', finalDayInChar, rowIndex, currentEmployee.incidences);
+
+        currWorksheet.getCell(`Q${rowIndex}`).value = currentEmployee.observations;
+        currWorksheet.getCell(`Q${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+
         rowIndex++;
       }
-
-   
     } 
 
-    // Generar y descargar el archivo Excel
+    //// Generate and download excel file ////
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const url = window.URL.createObjectURL(blob);
@@ -186,12 +225,7 @@ export function ExportCsv() {
     anchor.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(anchor);
-
   };
 
-  return <button onClick={onClick}>export csv</button>;
-}
-
-function employeeToRows([key, value]) {
-  return value.entries.map((e) => [key, value.name, df.format(new Date(e))]);
+  return <button onClick={onClick}>Export</button>;
 }
