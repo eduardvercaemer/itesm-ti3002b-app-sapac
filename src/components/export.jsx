@@ -5,13 +5,19 @@ import '../utils/colors.css';
 export function ExportCsv() {
 
   const filteredData = useAllDataForExport();
+  const defaultBorders = {
+    top: { style: 'thin' },
+    left: { style: 'thin' },
+    bottom: { style: 'thin' },
+    right: { style: 'thin' }
+  }
 
   const palette = {
     'f': 'ff3b30', 'de': 'ffcc00', 'vac': 'ffcc00', 'perm': 'ff2d54',
     'inc': '007bff', 'je': '00c7be', 'js': '00c7be', 'lcgs': '55bef0',
     'r': 'ff9500', 'ok': '34c759', 'lsgs': '55bef0', 'ono': 'af52de',
     'rl': 'ff9500', 'rg': 'ff9500', 'j': '00c7be', 'fs': '8e8e93',
-    'fe': '8e8e93', 'd': 'ffcc00', 'undefinedColor' : 'ccc'
+    'fe': '8e8e93', 'd': 'ffcc00', 'undefinedColor': 'FFFFFF', 'ps': '00c7be'
   };
 
   function numberToLetter(number) {
@@ -53,8 +59,10 @@ export function ExportCsv() {
         right: { style: 'thin', color: { argb: 'FFFFFF' } }
       };
 
-      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true, color: { argb: 'FFFFFF' } };
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true, color: { argb: coloredLetter(palette[color])} };
+      worksheet.getCell(`${current}+${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
 
+      worksheet.getRow(rowIndex).height = 22;
     }
   } 
 
@@ -79,12 +87,7 @@ export function ExportCsv() {
 
       worksheet.getCell(`${current}+${rowIndex}`).value = getDayOfWeekFromDate(days[s]);
       worksheet.getCell(`${current}+${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
-      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = defaultBorders;
       worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
 
     }
@@ -101,23 +104,43 @@ export function ExportCsv() {
 
       worksheet.getCell(`${current}+${rowIndex}`).value = day;
       worksheet.getCell(`${current}+${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
-      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = defaultBorders;
       worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
 
     }
 
   }
 
+  //// Contrast with palette colors ////
+  const luminance = (hexColor) => {
+    const r = parseInt(hexColor.substr(0, 2), 16) / 255;
+    const g = parseInt(hexColor.substr(2, 2), 16) / 255;
+    const b = parseInt(hexColor.substr(4, 2), 16) / 255;
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b);
+  }
+
+  const contrastRatio = (color1, color2) => {
+    const luminance1 = luminance(color1);
+    const luminance2 = luminance(color2);
+    const brighter = Math.max(luminance1, luminance2);
+    const darker = Math.min(luminance1, luminance2);
+    return (brighter + 0.05) / (darker + 0.05);
+  }
+
+  const coloredLetter = (backGroundColor) =>{
+    const contrastWithWhite = contrastRatio(backGroundColor, 'FFFFFF');
+    const contrastWithBlack = contrastRatio(backGroundColor, '000000');
+
+    return contrastWithBlack > contrastWithWhite ? '000000' : 'FFFFFF';
+  }
+  //// End Contrast with palette colors ////
+
   const onClick = async() => {
 
     if (Object.keys(filteredData).length === 0 || filteredData === null) {
       return;
     }
+    
 
     const daysLength = filteredData.days.length;
     const finalDayInChar = numberToLetter(2 + daysLength);
@@ -133,35 +156,21 @@ export function ExportCsv() {
       currWorksheet.mergeCells(`A1:${observationDayInChar}1`);
       currWorksheet.getCell('A1').value = "ASIMILADOS"; // 1
       currWorksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
-      currWorksheet.getCell('A1').style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      currWorksheet.getCell('A1').style.border = defaultBorders;
       currWorksheet.getCell('A1').style.font = { bold:true };
 
       currWorksheet.mergeCells(`A3:${observationDayInChar}3`);
       currWorksheet.getCell('A3').value = `INCIDENCIAS DEL ${filteredData.timeFrame}`;
       currWorksheet.getCell('A3'). alignment = { horizontal: 'center', vertical: 'middle' };
-      currWorksheet.getCell('A3').style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      currWorksheet.getCell('A3').style.border = defaultBorders;
+      
       currWorksheet.getCell('A3').style.font = { bold: true };
 
 
       currWorksheet.mergeCells('A5:A6');
       currWorksheet.getCell('A5').value = "ID";
       currWorksheet.getCell('A5').alignment = { horizontal: 'center', vertical: 'middle' };
-      currWorksheet.getCell('A5').style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      currWorksheet.getCell('A5').style.border = defaultBorders;
       currWorksheet.getCell('A5').style.font = { bold: true };
 
 
@@ -169,13 +178,12 @@ export function ExportCsv() {
       currWorksheet.getCell('B5').value = "Nombre";
       currWorksheet.getCell('B5').alignment = { horizontal: 'center', vertical: 'middle' };
       currWorksheet.getColumn(2).width = 40;
-      currWorksheet.getCell('B5').style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      currWorksheet.getCell('B5').style.border = defaultBorders;
       currWorksheet.getCell('B5').style.font = { bold: true };
+
+      currWorksheet.getRow(5).height = 22;
+      currWorksheet.getRow(6).height = 22;
+
 
       fillDays(currWorksheet, 'C', finalDayInChar, 5, filteredData.days);
 
@@ -183,12 +191,7 @@ export function ExportCsv() {
       currWorksheet.getCell(`${ observationDayInChar }5`).value = "Observaciones";
       currWorksheet.getCell(`${observationDayInChar}5`).alignment = { horizontal: 'center', vertical: 'middle' };
       currWorksheet.getColumn(daysLength+3).width = 20;
-      currWorksheet.getCell(`${observationDayInChar}5`).style.border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' }
-      };
+      currWorksheet.getCell(`${observationDayInChar}5`).style.border = defaultBorders;
       currWorksheet.getCell(`${observationDayInChar}5`).style.font = { bold: true };
 
       //////////////////// END Headers ////////////////////
@@ -211,7 +214,7 @@ export function ExportCsv() {
 
         rowIndex++;
       }
-    } 
+    }
 
     //// Generate and download excel file ////
     const buffer = await workbook.xlsx.writeBuffer();
