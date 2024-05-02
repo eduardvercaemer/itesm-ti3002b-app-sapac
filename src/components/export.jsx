@@ -1,6 +1,5 @@
 import { useAllDataForExport } from "../handkey-module/state";
 import ExcelJS from 'exceljs';
-import '../utils/colors.css';
 
 export function ExportCsv() {
 
