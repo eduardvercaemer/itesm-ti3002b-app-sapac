@@ -6,51 +6,67 @@
 .rowContainer {
   display: flex;
   font-size: 1em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
 }
 
 .square {
-  height: 1em;
-  width: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.3em;
+  width: 2.2em;
   border-radius: 0.1em;
+}
+
+.innerLetter{
+    font-size: 0.7em;
+    font-weight: 550;
 }
 
 .idMicroContainer {
   display: flex;
-  width: 1em;
+  width: 3em;
   justify-content: center;
   align-items: center;
+  font-size: 0.9em;
 }
 
 .nameMicroContainer {
   display: flex;
   width: 30ch;
+  font-size: 0.9em;
   overflow: hidden;
   text-overflow: ellipsis;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .daysMicroContainer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 33em;
+  width: 47em;
 }
 
 .observationsMicroContainer {
   display: flex;
   overflow: hidden;
   justify-content: center;
-  width: 20em;
+  width: 9em;
   text-align: center;
+  font-size: 0.9em;
 }
 
 .accionesMicroContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15em;
+  width: 10em;
   text-decoration: underline;
+  font-size: 0.9em;
+  font-weight: 550;
 }
 
 .line {
