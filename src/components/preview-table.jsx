@@ -27,7 +27,7 @@ const previewTable = () => {
 
 /*   useEffect(()=>{
       allDataForPreview !== null && allDataForPreview?.days && setDummyRow(
-          
+
       )
 
   },[allDataForPreview]) */
