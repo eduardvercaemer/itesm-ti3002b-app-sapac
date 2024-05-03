@@ -31,24 +31,24 @@ const incidencias = {
 };
 
 const options = [
-  "Falta3",
-  "Día económico2",
-  "Vacaciones2",
+  "Correcto",
+  "Justificación entrada",
+  "Justificación salida",
+  "Descanso",
+  "Día económico",
+  "Vacaciones",
+  "Falta",
+  "Falta entrada",
+  "Falta salida",
+  "Retardo",
+  "Retardo leve",
+  "Retardo grave",
   "Permuta",
   "Incapacidad",
   "Lic. con goce de sueldo",
   "Lic. sin goce de sueldo",
-  "Descanso2",
-  "Justificación entrada1",
-  "Justificación salida1",
   "Onomástico",
-  "Retardo4",
-  "Retardo leve4",
-  "Retardo grave4",
-  "Correcto0",
-  "Permiso sindical",
-  "Falta entrada3",
-  "Falta salida3",
+  "Permiso sindical"
 ];
 
 // Componente para renderizar una fila de la tabla
