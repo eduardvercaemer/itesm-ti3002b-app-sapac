@@ -116,6 +116,7 @@ export const Incidence = ({
   };
 
   const handleSave = () => {
+    console.log(selectedOption);
     if (selectedOption) {
       const selectedIncidence = optionToId[selectedOption];
       if (currIncidence === "") {
