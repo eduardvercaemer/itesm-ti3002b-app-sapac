@@ -13,6 +13,7 @@ function Preview() {
     const [selectedDepartment, setSelectedDepartment] = useState("");
 
     useEffect(() => {
+        localStorage.setItem('comesFromPreview', false)
         if(allDataForPreview){
             if(selectedDepartment === "SA"){
                 setFilteredData(allDataForPreview);
