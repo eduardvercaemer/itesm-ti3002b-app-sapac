@@ -73,10 +73,10 @@ const previewRow = ({ row, onWidthsCalculated}) => {
             cellsRef.current[2] = e;
           }}
         >
-          {incidences.map((element) => {
+          {incidences.map((element, i) => {
             return (
               <div
-                key={element.key}
+                key={element?.key ?? i}
                 className="square"
                 style={{ backgroundColor: `#${palette[element]}` }}
               >
