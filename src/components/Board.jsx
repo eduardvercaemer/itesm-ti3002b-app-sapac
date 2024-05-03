@@ -32,23 +32,23 @@ const incidencias = {
 
 const options = [
   "Falta",
-  "Día Económico",
+  "Día económico",
   "Vacaciones",
   "Permuta",
   "Incapacidad",
   "Lic. con goce de sueldo",
   "Lic. sin goce de sueldo",
   "Descanso",
-  "Justificación Entrada",
+  "Justificación entrada",
   "Justificación salida",
   "Onomástico",
   "Retardo",
-  "Retardo Leve",
-  "Retardo Grave",
+  "Retardo leve",
+  "Retardo grave",
   "Correcto",
-  "Permiso Sindical",
-  "Falta Entrada",
-  "Falta Salida",
+  "Permiso sindical",
+  "Falta entrada",
+  "Falta salida",
 ];
 
 // Componente para renderizar una fila de la tabla
@@ -65,7 +65,7 @@ function TableRow({ user, onEdit }) {
       <td>{user.entrada}</td>
       <td>{user.salida}</td>
       <td>
-        <p style={backgroundColor ? { backgroundColor } : {}}>
+        <p className='incidenciay' style={backgroundColor ? { backgroundColor } : {}}>
           {label || user.incidencia}
         </p>
       </td>
