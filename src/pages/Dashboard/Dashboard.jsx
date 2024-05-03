@@ -26,17 +26,12 @@ function Dashboard() {
   const date_to = new Date(
     parseInt(localStorage.getItem("state/end-date"), 10),
   );
+  const comesFromPreview = localStorage.getItem("comesFromPreview") ?  JSON.parse(localStorage.getItem("comesFromPreview")) : false;
   const [currIndex, setCurrIndex] = useState(
     localStorage.getItem("currIndex") !== null
       ? parseInt(localStorage.getItem("currIndex"))
       : 0
   );
-
-  const [comesFromPreview, setComesFromPreview] = useState(
-    localStorage.getItem("comesFromPreview") !== null
-      ? localStorage.getItem("comesFromPreview")
-      : false
-  )
 
   const currEmployee = useEmployee(employees[currIndex]);
   const currEntries = useMemo(
