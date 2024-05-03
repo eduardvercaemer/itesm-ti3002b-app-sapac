@@ -27,7 +27,6 @@ const previewRow = ({ row, onWidthsCalculated}) => {
     onWidthsCalculated(calculatedWidths);
   }, [row]);
 
-  console.log(row);
 
   const onClickEdit = () =>{
 
