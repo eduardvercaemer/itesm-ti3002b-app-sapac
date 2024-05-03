@@ -56,7 +56,7 @@ const employeeSelector$ = selectorFamily({
 
       let days = null;
 
-      const { start: es_start, end: es_end } = employee.schedule;
+      const { start: es_start, end: es_end } = employee.schedule ?? {};
 
       let getEntries;
       if (es_start && es_end) {
@@ -65,15 +65,9 @@ const employeeSelector$ = selectorFamily({
           const endTs = ts + es_end * 60 * 1000;
           const limit = 1000 * 60 * 60 * 3;
 
-          console.debug("looking for", ts);
           const startEntry =
             employeeEntries
               .filter((i) => {
-                console.debug(
-                  "diff to start (hours)",
-                  new Date(i + new Date().getTimezoneOffset() * 60 * 1000),
-                  Math.abs(startTs - i) / (1000 * 60 * 60),
-                );
                 return i >= startTs - limit && i <= startTs + limit;
               })
               .sort((i) => Math.abs(startTs - i))[0] ?? null;
@@ -130,7 +124,7 @@ const employeeSelector$ = selectorFamily({
           return e;
         });
         for (const day of days) {
-          if (day.entries.length === 0) {
+          if (day.entries.filter(Boolean).length === 0) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
@@ -138,11 +132,27 @@ const employeeSelector$ = selectorFamily({
               ];
               return e;
             });
-          } else if (day.entries.length === 1) {
+          } else if (!day.entries[0]) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "fe", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else if (!day.entries[1]) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
                 { value: "fs", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "ok", date: day.date.getTime() },
               ];
               return e;
             });
@@ -425,16 +435,19 @@ export const useSetEmployeesFile = () => {
         // TODO: this is not robust enough for excel file headers...
         const id = data["CLAVE"];
         const address = data["DIRECCION"];
-        const schedule = data["HORARIO"];
+        const rawSchedule = data["HORARIO"];
         const kind = data["TIPO DE PLAZA"];
         const name = data["NOMBRE"];
 
-        const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(schedule);
-        if (!match) {
-          return;
+        const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(rawSchedule);
+        let schedule = null;
+        if (match) {
+          const [_, startH, startM, endH, endM] = match;
+          schedule = {
+            start: parseInt(startH) * 60 + parseInt(startM),
+            end: parseInt(endH) * 60 + parseInt(endM),
+          };
         }
-
-        const [_, startH, startM, endH, endM] = match;
 
         if (newEmployees.has(id)) {
           console.warn("found duplicate employee", id);
@@ -443,10 +456,7 @@ export const useSetEmployeesFile = () => {
 
         newEmployees.set(id, {
           address,
-          schedule: {
-            start: parseInt(startH) * 60 + parseInt(startM),
-            end: parseInt(endH) * 60 + parseInt(endM),
-          },
+          schedule,
           kind,
           name,
           incidences: [],
@@ -492,7 +502,6 @@ export const useSetEntriesFile = () => {
           const realHour = parseInt(hour) + (half === "p" ? 12 : 0);
           const dateString = `${year}-${month}-${day}T${("0" + realHour).slice(-2)}:${min}:${sec}Z`;
           const date = new Date(dateString);
-          console.debug("got date", date);
           timestamp = date.getTime();
         }
 

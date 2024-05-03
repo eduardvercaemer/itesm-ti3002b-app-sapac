@@ -107,13 +107,15 @@ function Dashboard() {
           <div className="employee-kind">
             <span className="label">Tipo:</span> {currEmployee.employee.kind}
           </div>
-          <div className="schedule-time">
-            <span className="label">Horario: </span>
-            <span>
-              {formatTime(currEmployee.employee.schedule.start)} -{" "}
-              {formatTime(currEmployee.employee.schedule.end)}
-            </span>
-          </div>
+          {currEmployee.employee.schedule && (
+            <div className="schedule-time">
+              <span className="label">Horario: </span>
+              <span>
+                {formatTime(currEmployee.employee.schedule.start)} -{" "}
+                {formatTime(currEmployee.employee.schedule.end)}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="grow overflow-hidden flex flex-col gap-4">
