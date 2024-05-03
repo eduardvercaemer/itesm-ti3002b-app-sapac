@@ -11,13 +11,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "exceljs": "^4.4.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "recoil": "^0.7.7",
     "sweetalert2": "^11.10.8",
-    "trigram-similarity": "^1.0.7"
+    "trigram-similarity": "^1.0.7",
+    "xlsx": "^0.18.5",
+    "xlsx-populate": "^1.21.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

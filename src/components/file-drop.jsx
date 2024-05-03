@@ -35,27 +35,29 @@ export function FileDrop(props) {
   }, []);
 
   return (
-    <div
-      {...rest}
-      onDragEnter={prevent}
-      onDragOver={prevent}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-      className={`file-drop ${isDraggingOver ? "file-drop-dragging-over" : ""}`}
-    >
-      <HeroiconsOutlineCloudUpload className="subir-a-la-nube" />
-      <p className="text-gray-400">Arrastra y suelta aquí</p>
-      <p className="text-gray-400 mb-1">o</p>
-      <label className="button-select-file">
-        <input
-          type="file"
-          className="hidden"
-          onChange={(e) => {
-            onFileDrop(e.target.files[0]);
-          }}
-        />
-        Selecciona archivo
-      </label>
+    <div className="card-bg">
+      <div
+        {...rest}
+        onDragEnter={prevent}
+        onDragOver={prevent}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        className={`file-drop ${isDraggingOver ? "file-drop-dragging-over" : ""}`}
+      >
+        <HeroiconsOutlineCloudUpload className="subir-a-la-nube" />
+        <p className="text-gray-400">Arrastra y suelta aquí</p>
+        <p className="text-gray-400 mb-1">o</p>
+        <label className="button-select-file">
+          <input
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              onFileDrop(e.target.files[0]);
+            }}
+          />
+          Selecciona archivo
+        </label>
+      </div>
     </div>
   );
 }
