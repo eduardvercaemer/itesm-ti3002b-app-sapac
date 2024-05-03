@@ -11,17 +11,6 @@
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(0.18em);
-  position: fixed;
-  z-index: 50;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow-y: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .topContent {
@@ -55,6 +44,7 @@
   padding-bottom: 0.5rem;
   border-radius: 0.375rem;
   font-weight: bold;
+  margin: 10%;
 }
 .saveButton:hover {
   background-color: #113052;
@@ -76,7 +66,7 @@
     border-color 0.3s;
 }
 .incidenceOption:hover {
-  background-color: #1368c5;
+  background-color: #7dbbfd;
   border-color: #1368c5;
 }
 .incidenceOption:checked {
@@ -89,19 +79,21 @@
 }
 
 .modalContent {
-  width: 300px;
-  max-height: 500px; /* Ajusta la altura según tus necesidades */
+  width: 18.75em; /* 300px/16px = 18.75em */
+  max-height: 31.25em; /* 500px/16px = 31.25em */
   background-color: #ffffff;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-  width: 300px;
-  height: 360px;
+  border-radius: 0.5rem; /* 0.5rem = 8px */
+  padding: 1.5rem; /* 1.5rem = 24px */
+  height: 22.5em; /* 360px/16px = 22.5em */
 }
-
 .optionContainer {
   width: 100%;
-  height: 200px;
+  height: 12.5em;
   overflow-y: auto;
+  /*text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;*/
 }
 
 .containerIncidencia {
@@ -121,5 +113,8 @@ h1 {
 
 .labelMap {
   display: inline-flex;
+  justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
+  width:  100%;
 }
