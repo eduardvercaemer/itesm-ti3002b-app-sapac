@@ -1,7 +1,8 @@
 import { useAllDataForExport } from "../handkey-module/state";
 import ExcelJS from 'exceljs';
+import './export.css';
 
-export function ExportCsv() {
+const ExportXLSX = () => {
 
   const filteredData = useAllDataForExport();
   const defaultBorders = {
@@ -208,8 +209,8 @@ export function ExportCsv() {
 
         fillIncidences(currWorksheet, 'C', finalDayInChar, rowIndex, currentEmployee.incidences);
 
-        currWorksheet.getCell(`Q${rowIndex}`).value = currentEmployee.observations;
-        currWorksheet.getCell(`Q${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
+        currWorksheet.getCell(`${observationDayInChar}${rowIndex}`).value = currentEmployee.observations;
+        currWorksheet.getCell(`${observationDayInChar}${rowIndex}`).alignment = { horizontal: 'center', vertical: 'middle' };
 
         rowIndex++;
       }
@@ -221,7 +222,7 @@ export function ExportCsv() {
     const url = window.URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.setAttribute("href", url);
-    anchor.setAttribute("download", "handkey-limpio.xlsx");
+    anchor.setAttribute("download", `REG INCIDENCIAS DEL ${filteredData.timeFrame}`);
     anchor.setAttribute("style", "display:none");
     document.body.appendChild(anchor);
     anchor.click();
@@ -229,5 +230,7 @@ export function ExportCsv() {
     document.body.removeChild(anchor);
   };
 
-  return <button onClick={onClick}>Export</button>;
+  return <button onClick={onClick} className="expButton"> Exportar </button>;
 }
+
+export default ExportXLSX;

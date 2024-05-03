@@ -82,7 +82,7 @@ function TableRow({ user, onEdit }) {
   );
 }
 
-function Board({ objeto, date_from, date_to, currEmployeeId }) {
+function Board({ objeto, date_from, date_to, currEmployeeId, boardType }) {
   const navigate = useNavigate();
   const resetEntries = useResetEntries();
   const resetEmployees = useResetEmployees();
@@ -93,6 +93,7 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   const [ currentObservation, setCurrentObservation ] = useState(null);
   const [delaysWithObservation, setDelaysWithObservation ] = useState([]);
   const [delays, setDelays] = useState([]);
+
 
   useEffect(() => {
     const tempDelays = objeto.reduce((acc, entry) => {
@@ -154,9 +155,18 @@ function Board({ objeto, date_from, date_to, currEmployeeId }) {
   return (
     <>
       <div className='periodo'>
+          {boardType === "dashboard" ? (
+          <h1>
+            Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
+          </h1>
+          ) :
+          (
             <h1>
-                Período {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
+              Períodooo {`${date_from.getUTCDate()}/${date_from.getUTCMonth() + 1}/${date_from.getUTCFullYear()} - ${date_to.getUTCDate()}/${date_to.getUTCMonth() + 1}/${date_to.getUTCFullYear()}`}
             </h1>
+          )
+          }
+            
             <div className='deleteButton' onClick={handleResetClick}>
                 <FontAwesomeIcon icon={faTrashCan}/>
             </div>

@@ -1,17 +1,19 @@
 import "./preview-row.css";
 import React, { useLayoutEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-const previewRow = ({ row, onWidthsCalculated }) => {
-  const palette = {
-    correcto: "#C9E8E8",
-    permuta: "#E1E6F0",
-    vacaciones: "#CBDCF9",
-    Indefinido: "#A020F0",
-    retardo_leve: " #FFF3DD",
-    retardo_grave: "#F3D4D1 ",
-  };
-  const days = row.days;
+const previewRow = ({ row, onWidthsCalculated}) => {
+  const navigate = useNavigate();
+    const palette = {
+        'f': 'ff3b30', 'de': 'ffcc00', 'vac': 'ffcc00', 'perm': 'ff2d54',
+        'inc': '007bff', 'je': '00c7be', 'js': '00c7be', 'lcgs': '55bef0',
+        'r': 'ff9500', 'ok': '34c759', 'lsgs': '55bef0', 'ono': 'af52de',
+        'rl': 'ff9500', 'rg': 'ff9500', 'j': '00c7be', 'fs': '8e8e93',
+        'fe': '8e8e93', 'd': 'ffcc00', 'undefinedColor': 'FFFFFF', 'ps': '00c7be'
+    };
+  const incidences = row.incidences;
   const cellsRef = useRef([]);
+  
 
   useLayoutEffect(() => {
     const cells = cellsRef.current;
@@ -24,6 +26,21 @@ const previewRow = ({ row, onWidthsCalculated }) => {
 
     onWidthsCalculated(calculatedWidths);
   }, [row]);
+
+  console.log(row);
+
+  const onClickEdit = () =>{
+
+    /* retrieveIndex(row.id);
+    modalDisplayed(true); */
+    localStorage.setItem("currIndex", row.index);
+    localStorage.setItem("comesFromPreview", true);
+
+    navigate("/dashboard");
+
+
+
+  }
 
   return (
     <div className="outerContainer">
@@ -57,34 +74,41 @@ const previewRow = ({ row, onWidthsCalculated }) => {
             cellsRef.current[2] = e;
           }}
         >
-          {days.map((element) => {
+          {incidences.map((element) => {
             return (
               <div
                 key={element.key}
                 className="square"
-                style={{ backgroundColor: `${palette[element]}` }}
-              ></div>
+                style={{ backgroundColor: `#${palette[element]}` }}
+              >
+                <div className="innerLetter">
+                    {element}
+                </div>
+              </div>
             );
           })}
         </div>
 
         <div
-          className="observationsMicroContainer"
-          ref={(e) => {
-            cellsRef.current[3] = e;
-          }}
+            className="observationsMicroContainer"
+            ref={(e) => {
+                cellsRef.current[3] = e;
+            }}
         >
-          {row.observations}
+            {row.observations}
         </div>
+        
+              {row.index !== -1 && (<div
+                  className="accionesMicroContainer"
+                  ref={(e) => {
+                      cellsRef.current[4] = e;
+                  }}
+              >
+                  <button onClick={()=>onClickEdit()}> Editar </button>
+              </div>) }
+        
 
-        <div
-          className="accionesMicroContainer"
-          ref={(e) => {
-            cellsRef.current[4] = e;
-          }}
-        >
-          <button>Editar</button>
-        </div>
+        
       </div>
 
       <div className="line"> </div>
