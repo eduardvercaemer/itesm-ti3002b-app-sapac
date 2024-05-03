@@ -62,7 +62,7 @@ const employeeSelector$ = selectorFamily({
       if (es_start !== undefined && es_end !== undefined) {
         getEntries = (ts /* day timestamp */) => {
           const startTs = ts + es_start * 60 * 1000;
-          const endTs = ts + es_end * 60 * 1000;
+          const endTs = ts + (es_end === 0 ? 24 : es_end) * 60 * 1000;
           const limit = 1000 * 60 * 60 * 3;
 
           const startEntry =
