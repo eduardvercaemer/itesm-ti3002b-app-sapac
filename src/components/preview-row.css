@@ -6,8 +6,8 @@
 .rowContainer {
   display: flex;
   font-size: 1em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 
 .square {
@@ -19,9 +19,9 @@
   border-radius: 0.1em;
 }
 
-.innerLetter{
-    font-size: 0.7em;
-    font-weight: 550;
+.innerLetter {
+  font-size: 0.7em;
+  font-weight: 550;
 }
 
 .idMicroContainer {

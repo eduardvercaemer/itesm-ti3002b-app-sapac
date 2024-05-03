@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   {
     path: "/preview",
     element: <Preview />,
-  }
+  },
 ]);
 
 function Wrapper({ children }) {

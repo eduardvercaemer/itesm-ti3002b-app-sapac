@@ -3,8 +3,7 @@ import PreviewRow from "./preview-row";
 import "./preview-table.css";
 import React, { useState, useEffect } from "react";
 
-const previewTable = ({allDataForPreview}) => {
-
+const previewTable = ({ allDataForPreview }) => {
   const headers = ["ID", "Nombre", "Días", "Observaciones", "Acciones"];
   const [columnWidths, setColumnWidths] = useState([]);
   const [adjustedHeaders, setAdjustedHeaders] = useState();
@@ -27,39 +26,49 @@ const previewTable = ({allDataForPreview}) => {
     setColumnWidths(widths);
   };
 
-  useEffect(()=>{
-      allDataForPreview !== null && allDataForPreview?.days && setDummyRow(<PreviewRow
-          row={{ address: "", id: "", incidences: allDataForPreview.days, index: -1, name: "", observations: "" }}
+  useEffect(() => {
+    allDataForPreview !== null &&
+      allDataForPreview?.days &&
+      setDummyRow(
+        <PreviewRow
+          row={{
+            address: "",
+            id: "",
+            incidences: allDataForPreview.days,
+            index: -1,
+            name: "",
+            observations: "",
+          }}
           rowKey={-1}
           onWidthsCalculated={onWidthsCalculated}
-          />
-        )
-  },[allDataForPreview])
-
+        />,
+      );
+  }, [allDataForPreview]);
 
   return (
     <div className="tableContainer">
+      {allDataForPreview !== null &&
+        allDataForPreview?.data &&
+        modalDisplayed &&
+        rowIndex && <EditPreview index={rowIndex} />}
 
-          {allDataForPreview !== null && allDataForPreview?.data && modalDisplayed && rowIndex && (<EditPreview index={rowIndex}/>)}
-
-      {!modalDisplayed && 
-      <div>
-
+      {!modalDisplayed && (
+        <div>
           <div className="headerContainer">{adjustedHeaders}</div>
-  
-                  {dummyRow}
 
-                  {allDataForPreview !== null && allDataForPreview?.data?.map((element, index) => (
-                      <PreviewRow
-                          key={index}
-                          row={element}
-                          rowKey={headers[index]}
-                          onWidthsCalculated={onWidthsCalculated}
-                      />
-                  ))}
+          {dummyRow}
+
+          {allDataForPreview !== null &&
+            allDataForPreview?.data?.map((element, index) => (
+              <PreviewRow
+                key={index}
+                row={element}
+                rowKey={headers[index]}
+                onWidthsCalculated={onWidthsCalculated}
+              />
+            ))}
         </div>
-      }
-
+      )}
     </div>
   );
 };
