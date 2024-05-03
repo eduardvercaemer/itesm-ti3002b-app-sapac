@@ -32,12 +32,6 @@ function Dashboard() {
       : 0,
   );
 
-  const [comesFromPreview, setComesFromPreview] = useState(
-    localStorage.getItem("comesFromPreview") !== null
-      ? localStorage.getItem("comesFromPreview")
-      : false,
-  );
-
   const currEmployee = useEmployee(employees[currIndex]);
   const currEntries = useMemo(
     () => formatEntries(currEmployee),
