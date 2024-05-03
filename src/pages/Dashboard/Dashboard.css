@@ -1,3 +1,5 @@
+@import "../../utils/colors.css";
+
 .dashboard-container {
   display: flex;
   flex-wrap: wrap;
@@ -49,10 +51,14 @@
 }
 
 .left-button {
-  background-color: #28a745;
+  background-color: #666;
   color: #fff;
 }
 
+.left-button:hover {
+  background-color: #333 ;
+  color: #fff;
+}
 .left-button.disabled {
   background-color: #ccc;
   pointer-events: none;
@@ -64,7 +70,12 @@
 }
 
 .right-button {
-  background-color: #28a745;
+  background-color: var(--button-primary);
+  color: #fff;
+}
+
+.right-button:hover {
+  background-color: var(--button-hover);
   color: #fff;
 }
 
