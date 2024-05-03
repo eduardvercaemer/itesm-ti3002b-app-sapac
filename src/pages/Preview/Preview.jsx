@@ -4,37 +4,37 @@ import { useAllDataForPreview } from "../../handkey-module/state";
 import PreviewTable from "../../components/preview-table";
 import ExportXLSX from "../../components/export.jsx";
 import InputSelect from "../../components/InputSelect";
-import testingArray from "../../../testing-array.js";
 
 function Preview() {
-    const allDataForPreview = useAllDataForPreview(); //
+    const allDataForPreview = useAllDataForPreview();
+    
+
+    const [filteredData, setFilteredData ] = useState({timeFrame: "", days: [], addresses: [], data: []});
     const [selectedDepartment, setSelectedDepartment] = useState("");
 
-    const handleSelectChange = (event) => {
-        setSelectedDepartment(event.target.value);
-
-    };
-
-    // Filtra los datos según el departamento seleccionado
-    const filteredData = allDataForPreview?.data
-        ? allDataForPreview.data.filter((element) => {
-            if (!selectedDepartment) {
-                return true;
+    useEffect(() => {
+        if(allDataForPreview){
+            if(selectedDepartment === "SA"){
+                setFilteredData(allDataForPreview);
             }
-            return element.department === selectedDepartment;
-        })
-        : [];
+            else{
+                const tempFilteredData = allDataForPreview;
+                tempFilteredData.data = allDataForPreview?.data
+                ? allDataForPreview.data.filter((employees) => {
+                    return selectedDepartment.replace(/\s/g, "") === employees.address.replace(/\s/g, "");
+                }) : [];
+                setFilteredData(tempFilteredData);
+            }
+        }
+    }, [selectedDepartment])
+    
+    
+    
 
-    const departmentOptions = [
-        "OPERACIÓN",
-        "COMERCIAL",
-        "SANEAMIENTO Y CALIDAD DEL AGUA",
-        "TÉCNICA",
-        "ADMINISTRACIÓN Y FINANZAS",
-        "UNIDAD DE COMUNICACIÓN, GESTION SOCIAL Y CULTURA AMBIENTAL",
-        "JURIDICA",
-        "GENERAL",
-    ];
+    const handleSelectChange = (event) => {
+        const option = event.target.value;
+        setSelectedDepartment(option);
+    };
 
     return (
         <main className="mainContainer">
@@ -42,11 +42,11 @@ function Preview() {
                 selectedOption={selectedDepartment}
                 onChange={handleSelectChange}
                 label="Seleccionar Departamento"
-                options={departmentOptions}
+                options={allDataForPreview ? allDataForPreview.addresses : []}
             />
 
             {/* Pasa los datos filtrados al `PreviewTable` */}
-            <PreviewTable data={testingArray} />
+            <PreviewTable allDataForPreview={filteredData} />
             <ExportXLSX />
         </main>
     );
