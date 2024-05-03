@@ -42,8 +42,8 @@
 
 .button {
   color: #fff;
-  background-color: #4caf50;
-  border: 2px solid #4caf50;
+  background-color: #1368c5;
+  border: 2px solid #1368c5;
   padding: 0.5em 1em;
   transition:
     background-color 0.3s,
@@ -51,8 +51,8 @@
 }
 
 .button:hover {
-  background-color: #45a049;
-  border-color: #45a049;
+  background-color: #113052;
+  border-color: #113052;
 }
 
 .cont tbody tr:nth-child(even) {
@@ -61,4 +61,6 @@
 
 .cont p {
   padding: 0.4em;
+  border-radius: 4px;  
+  color: #fafafa;
 }

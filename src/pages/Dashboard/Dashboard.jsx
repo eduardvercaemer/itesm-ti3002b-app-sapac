@@ -141,7 +141,7 @@ function Dashboard() {
               </button>
             )}
             { comesFromPreview? (
-              <button className="button right-button" onClick={handleGoBackToPrev}>
+              <button className="right-button" onClick={handleGoBackToPrev}>
                 Regresar a previsualización
               </button>
             ) :
