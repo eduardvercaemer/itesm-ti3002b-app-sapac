@@ -26,19 +26,19 @@
 
 .cardPersonContent {
   position: relative;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .sapacLogo {
-    position: absolute;
-    top: 3em;
-    left: 50%; 
-    transform: translateX(-50%); 
-    max-width: 50%;
-    max-height: 50%;
-    padding-bottom: 2em;
-    z-index: 0;
-  }
+  position: absolute;
+  top: 3em;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 50%;
+  max-height: 50%;
+  padding-bottom: 2em;
+  z-index: 0;
+}
 
 .cardTable {
   background-color: white !important;

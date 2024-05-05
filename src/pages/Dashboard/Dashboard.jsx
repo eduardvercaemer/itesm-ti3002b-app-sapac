@@ -85,33 +85,34 @@ function Dashboard() {
   return (
     <div className="h-screen w-screen flex flex-col py-10">
       <div className="grow flex gap-14 px-14 overflow-hidden">
-      <div className="cardPerson">
-        <div className="cardPersonContent">
+        <div className="cardPerson">
+          <div className="cardPersonContent">
             <div className="employee-id">
-            <span className="label-id">Número de empleado:</span>
-            <br /> {currEmployeeId ? currEmployeeId : employees[currIndex]}
+              <span className="label-id">Número de empleado:</span>
+              <br /> {currEmployeeId ? currEmployeeId : employees[currIndex]}
             </div>
             <div className="employee-name">
-            <span className="label">Nombre:</span> {currEmployee.employee.name}
+              <span className="label">Nombre:</span>{" "}
+              {currEmployee.employee.name}
             </div>
             <div className="employee-address">
-            <span className="label">Dirección:</span>{" "}
-            {currEmployee.employee.address}
+              <span className="label">Dirección:</span>{" "}
+              {currEmployee.employee.address}
             </div>
             <div className="employee-kind">
-            <span className="label">Tipo:</span> {currEmployee.employee.kind}
+              <span className="label">Tipo:</span> {currEmployee.employee.kind}
             </div>
             {currEmployee.employee.schedule && (
-            <div className="schedule-time">
+              <div className="schedule-time">
                 <span className="label">Horario: </span>
                 <span>
-                {formatTime(currEmployee.employee.schedule.start)} -{" "}
-                {formatTime(currEmployee.employee.schedule.end)}
+                  {formatTime(currEmployee.employee.schedule.start)} -{" "}
+                  {formatTime(currEmployee.employee.schedule.end)}
                 </span>
-            </div>
+              </div>
             )}
-        </div>
-        <img className="sapacLogo" src="/sapac-logo.png" />
+          </div>
+          <img className="sapacLogo" src="/sapac-logo.png" />
         </div>
 
         <div className="grow overflow-hidden flex flex-col gap-4">

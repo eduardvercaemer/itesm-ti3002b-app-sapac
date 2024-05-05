@@ -135,5 +135,5 @@ body {
 .swal2-confirm:focus,
 .swal2-cancel:focus,
 .swal2-deny:focus {
-  box-shadow: 0 0 0 3px rgba(19,104, 197, 1) !important;
+  box-shadow: 0 0 0 3px rgba(19, 104, 197, 1) !important;
 }

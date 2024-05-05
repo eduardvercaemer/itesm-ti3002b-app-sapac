@@ -53,7 +53,7 @@ const options = [
   "Lic. con goce de sueldo",
   "Lic. sin goce de sueldo",
   "Onomástico",
-  "Permiso sindical"
+  "Permiso sindical",
 ];
 
 // Componente para renderizar una fila de la tabla
