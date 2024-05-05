@@ -25,9 +25,15 @@
 }
 
 .section {
-  margin-top: 2rem;
+  margin-top: 3rem;
   font-size: 3rem;
   font-family: "Roboto Condensed", Inter, Roboto, sans-serif;
+}
+
+.logo {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
 }
  /* * {
   outline: 1px solid red;

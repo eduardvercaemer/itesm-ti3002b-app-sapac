@@ -22,7 +22,7 @@
 }
 
 .select-input:hover {
-  border-color: #007bff;
+  border-color: var(--button-hover);
 }
 
 .select-input:focus {
