@@ -401,7 +401,7 @@ export const useAllDataForPreview = () => {
   let currentDate = new Date(start);
   while (currentDate <= end) {
     formattedDays.push(
-      `${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`,
+      `${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear() - 2000}`,
     );
     currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
   }
