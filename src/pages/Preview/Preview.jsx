@@ -43,6 +43,7 @@ function Preview() {
 
   return (
     <main className="mainContainer">
+      <p className="section">Previsualizaci&oacute;n</p>
       <div className="mid-container">
         <div className="header">
           <InputSelect

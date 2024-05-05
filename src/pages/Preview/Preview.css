@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
 .mainContainer {
   display: flex;
   flex-direction: column;
@@ -14,7 +16,7 @@
 }
 
 .header {
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 2rem;
   width: 100%;
   display: flex;
@@ -22,6 +24,11 @@
   align-items: center;
 }
 
+.section {
+  margin-top: 2rem;
+  font-size: 3rem;
+  font-family: "Roboto Condensed", Inter, Roboto, sans-serif;
+}
  /* * {
   outline: 1px solid red;
 }  */
