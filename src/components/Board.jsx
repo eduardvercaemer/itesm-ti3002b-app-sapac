@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 //Diccionario con el tipo de incidencias
 const incidencias = {
   "": { backgroundColor: "#ccc", label: "Indefinido" },
+
   f: { backgroundColor: "#ff3b30", label: "Falta" },
   de: { backgroundColor: "#ffcc00", label: "Día económico" },
   vac: { backgroundColor: "#ffcc00", label: "Vacaciones" },
@@ -35,24 +36,24 @@ const incidencias = {
 };
 
 const options = [
-  "Falta",
+  "Correcto",
+  "Justificación entrada",
+  "Justificación salida",
+  "Descanso",
   "Día económico",
   "Vacaciones",
+  "Falta",
+  "Falta entrada",
+  "Falta salida",
+  "Retardo",
+  "Retardo leve",
+  "Retardo grave",
   "Permuta",
   "Incapacidad",
   "Lic. con goce de sueldo",
   "Lic. sin goce de sueldo",
-  "Descanso",
-  "Justificación entrada",
-  "Justificación salida",
   "Onomástico",
-  "Retardo",
-  "Retardo leve",
-  "Retardo grave",
-  "Correcto",
-  "Permiso sindical",
-  "Falta entrada",
-  "Falta salida",
+  "Permiso sindical"
 ];
 
 // Componente para renderizar una fila de la tabla
