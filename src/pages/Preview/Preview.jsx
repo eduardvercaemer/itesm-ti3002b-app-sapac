@@ -50,7 +50,7 @@ function Preview() {
           <InputSelect
             selectedOption={selectedDepartment}
             onChange={handleSelectChange}
-            label="Seleccionar Departamento"
+            label="Seleccionar Direcci&oacute;n"
             options={allDataForPreview ? allDataForPreview.addresses : []}
           />
           <ExportXLSX />
