@@ -77,7 +77,7 @@ function Preview() {
   return (
     <main className="mainContainer">
       <p className="section">Previsualizaci&oacute;n</p>
-      <img src="../../public/sapac-logo.png" width="70" height="80" className="logo"></img>
+      <img src="/sapac-logo.png" width="70" height="80" className="logo"></img>
       <div className="mid-container">
         <div className="header">
         <div className="deleteButton" onClick={handleResetClick}>
