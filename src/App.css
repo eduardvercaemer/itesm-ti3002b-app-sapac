@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
-@import './utils/colors.css';
+@import "./utils/colors.css";
 
 body {
   font-family: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
@@ -126,4 +126,14 @@ body {
 
 .bottom-btn:hover {
   background-color: var(--button-hover);
+}
+
+.swal2-confirm {
+  background-color: var(--button-alternative) !important;
+}
+
+.swal2-confirm:focus,
+.swal2-cancel:focus,
+.swal2-deny:focus {
+  box-shadow: 0 0 0 3px rgba(19,104, 197, 1) !important;
 }

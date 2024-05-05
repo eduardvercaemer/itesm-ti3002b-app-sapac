@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from "react";
 import "./incidence.css";
-import { useCreateIncidence, useEditIncidence, useCreateObservation, useEditObservation } from "../handkey-module/state";
+import {
+  useCreateIncidence,
+  useEditIncidence,
+  useCreateObservation,
+  useEditObservation,
+} from "../handkey-module/state";
 
 const penalties = {
-  "rl": 0.25,
-  "rg": 0.50
-}
+  rl: 0.25,
+  rg: 0.5,
+};
 
 const calculateNumToHave = (delays) => Math.floor((delays.length - 1) / 3);
 
-const checkForDelays = (currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation) => {
-  if (currIncidence === 'r') {
+const checkForDelays = (
+  currIncidence,
+  currObservation,
+  currEmployeeId,
+  delays,
+  delaysWithObservation,
+  editObservation,
+) => {
+  if (currIncidence === "r") {
     const numToHave = calculateNumToHave(delays);
     if (currObservation === "") {
       if (numToHave !== delaysWithObservation.length) {
         editObservation(currEmployeeId, delaysWithObservation[0].getTime(), "");
       }
     } else {
-      if (numToHave !== (delaysWithObservation.length - 1)) {
-        let observationToChange = delays.find(day => 
-          !delaysWithObservation.some(obsDay => obsDay.toISOString() === day.toISOString())
-        ) || delays[0];
+      if (numToHave !== delaysWithObservation.length - 1) {
+        let observationToChange =
+          delays.find(
+            (day) =>
+              !delaysWithObservation.some(
+                (obsDay) => obsDay.toISOString() === day.toISOString(),
+              ),
+          ) || delays[0];
         editObservation(currEmployeeId, observationToChange.getTime(), 0.25);
       }
     }
   }
 };
 
-const handleObservationCreationOrEdit = (currObservation, currEmployeeId, currDate, value, createObservation, editObservation) => {
+const handleObservationCreationOrEdit = (
+  currObservation,
+  currEmployeeId,
+  currDate,
+  value,
+  createObservation,
+  editObservation,
+) => {
   if (currObservation === null) {
     createObservation(currEmployeeId, currDate, value);
   } else {
@@ -35,18 +58,48 @@ const handleObservationCreationOrEdit = (currObservation, currEmployeeId, currDa
   }
 };
 
-const automatedObservations = (currIncidence, selectedIncidence, currObservation, currEmployeeId, currDate, delays, delaysWithObservation, createObservation, editObservation) => {
+const automatedObservations = (
+  currIncidence,
+  selectedIncidence,
+  currObservation,
+  currEmployeeId,
+  currDate,
+  delays,
+  delaysWithObservation,
+  createObservation,
+  editObservation,
+) => {
   if (selectedIncidence in penalties) {
-    handleObservationCreationOrEdit(currObservation, currEmployeeId, currDate, penalties[selectedIncidence], createObservation, editObservation);
-  } else if (selectedIncidence === 'r') {
+    handleObservationCreationOrEdit(
+      currObservation,
+      currEmployeeId,
+      currDate,
+      penalties[selectedIncidence],
+      createObservation,
+      editObservation,
+    );
+  } else if (selectedIncidence === "r") {
     const value = (delays.length + 1) % 3 === 0 ? 0.25 : "";
-    handleObservationCreationOrEdit(currObservation, currEmployeeId, currDate, value, createObservation, editObservation);
+    handleObservationCreationOrEdit(
+      currObservation,
+      currEmployeeId,
+      currDate,
+      value,
+      createObservation,
+      editObservation,
+    );
   } else if (currObservation !== null) {
     editObservation(currEmployeeId, currDate.getTime(), "");
   }
-  checkForDelays(currIncidence, currObservation, currEmployeeId, delays, delaysWithObservation, editObservation);
+  checkForDelays(
+    currIncidence,
+    currObservation,
+    currEmployeeId,
+    delays,
+    delaysWithObservation,
+    editObservation,
+  );
 };
-
 
 export const Incidence = ({
   onClose,
@@ -56,7 +109,7 @@ export const Incidence = ({
   currIncidence,
   currObservation,
   delays,
-  delaysWithObservation
+  delaysWithObservation,
 }) => {
   const createIncidence = useCreateIncidence();
   const editIncidence = useEditIncidence();
@@ -66,45 +119,45 @@ export const Incidence = ({
   const [selectedOption, setSelectedOption] = useState("");
 
   const optionToId = {
-    "Retardo": "r",
-    "Falta": "f",
+    Retardo: "r",
+    Falta: "f",
     "Día Económico": "de",
-    "Vacaciones": "vac",
-    "Permuta": "perm",
-    "Incapacidad": "inc",
+    Vacaciones: "vac",
+    Permuta: "perm",
+    Incapacidad: "inc",
     "Justificación Entrada": "je",
     "Justificación salida": "js",
     "Retardo Leve": "rl",
     "Retardo Grave": "rg",
-    "Correcto": "ok",
+    Correcto: "ok",
     "Permiso Sindical": "ps",
     "Falta Entrada": "fe",
     "Falta Salida": "fs",
-    "Descanso": "d",
+    Descanso: "d",
     "Lic. con goce de sueldo": "lcgs",
     "Lic. sin goce de sueldo": "lsgs",
-    "Onomástico": "ono",
+    Onomástico: "ono",
   };
 
   const idToOption = {
-    "r": "Retardo",
-    "f": "Falta",
-    "de": "Día Económico",
-    "vac": "Vacaciones",
-    "perm": "Permuta",
-    "inc": "Incapacidad",
-    "je": "Justificación Entrada",
-    "js": "Justificación salida",
-    "rl": "Retardo Leve",
-    "rg": "Retardo Grave",
-    "ok": "Correcto",
-    "ps": "Permiso Sindical",
-    "fe": "Falta Entrada",
-    "fs": "Falta Salida",
-    "d": "Descanso",
-    "lcgs": "Lic. con goce de sueldo",
-    "lsgs": "Lic. sin goce de sueldo",
-    'ono': "Onomástico",
+    r: "Retardo",
+    f: "Falta",
+    de: "Día Económico",
+    vac: "Vacaciones",
+    perm: "Permuta",
+    inc: "Incapacidad",
+    je: "Justificación Entrada",
+    js: "Justificación salida",
+    rl: "Retardo Leve",
+    rg: "Retardo Grave",
+    ok: "Correcto",
+    ps: "Permiso Sindical",
+    fe: "Falta Entrada",
+    fs: "Falta Salida",
+    d: "Descanso",
+    lcgs: "Lic. con goce de sueldo",
+    lsgs: "Lic. sin goce de sueldo",
+    ono: "Onomástico",
   };
 
   useEffect(() => {
@@ -116,19 +169,26 @@ export const Incidence = ({
   };
 
   const handleSave = () => {
+    console.log(selectedOption);
     if (selectedOption) {
       const selectedIncidence = optionToId[selectedOption];
       if (currIncidence === "") {
         createIncidence(currEmployeeId, currDate, selectedIncidence);
       } else {
-        editIncidence(
-          currEmployeeId,
-          currDate.getTime(),
-          selectedIncidence,
-        );
+        editIncidence(currEmployeeId, currDate.getTime(), selectedIncidence);
       }
 
-      automatedObservations(currIncidence, selectedIncidence, currObservation, currEmployeeId, currDate, delays, delaysWithObservation, createObservation, editObservation);
+      automatedObservations(
+        currIncidence,
+        selectedIncidence,
+        currObservation,
+        currEmployeeId,
+        currDate,
+        delays,
+        delaysWithObservation,
+        createObservation,
+        editObservation,
+      );
 
       onClose();
     } else {

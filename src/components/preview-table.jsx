@@ -3,12 +3,10 @@ import PreviewRow from "./preview-row";
 import "./preview-table.css";
 import React, { useState, useEffect } from "react";
 
-const previewTable = () => {
-
+const previewTable = ({ allDataForPreview }) => {
   const headers = ["ID", "Nombre", "Días", "Observaciones", "Acciones"];
   const [columnWidths, setColumnWidths] = useState([]);
   const [adjustedHeaders, setAdjustedHeaders] = useState();
-  const allDataForPreview = useAllDataForPreview();
   const [dummyRow, setDummyRow] = useState();
 
   const [modalDisplayed, setModalDisplayed] = useState(false);
@@ -17,65 +15,60 @@ const previewTable = () => {
   useEffect(() => {
     setAdjustedHeaders(
       headers.map((key, index) => (
-        <th key={key} style={{ width: `${columnWidths[index] / 16}em` }}>
+        <div key={key} style={{ width: `${columnWidths[index] / 16}em` }}>
           {headers[index]}
-        </th>
+        </div>
       )),
     );
   }, [columnWidths]);
-
-
-/*   useEffect(()=>{
-      allDataForPreview !== null && allDataForPreview?.days && setDummyRow(
-
-      )
-
-  },[allDataForPreview]) */
 
   const onWidthsCalculated = (widths) => {
     setColumnWidths(widths);
   };
 
-  /* const retrieveIndex = (index) =>{
-    setRowIndex(index);
-  }
-
-  const setDisplay = (boolean) =>{
-    setModalDisplayed(boolean);
-  } */
-
-  useEffect(()=>{
-      allDataForPreview !== null && allDataForPreview?.days && setDummyRow(<PreviewRow
-          row={{ address: "", id: "", incidences: allDataForPreview.days, index: -1, name: "", observations: "" }}
+  useEffect(() => {
+    allDataForPreview !== null &&
+      allDataForPreview?.days &&
+      setDummyRow(
+        <PreviewRow
+          row={{
+            address: "",
+            id: "",
+            incidences: allDataForPreview.days,
+            index: -1,
+            name: "",
+            observations: "",
+          }}
           rowKey={-1}
           onWidthsCalculated={onWidthsCalculated}
-          />
-        )
-  },[allDataForPreview])
-
+        />,
+      );
+  }, [allDataForPreview]);
 
   return (
     <div className="tableContainer">
+      {allDataForPreview !== null &&
+        allDataForPreview?.data &&
+        modalDisplayed &&
+        rowIndex && <EditPreview index={rowIndex} />}
 
-          {allDataForPreview !== null && allDataForPreview?.data && modalDisplayed && rowIndex && (<EditPreview index={rowIndex}/>)}
+      {!modalDisplayed && (
+        <div>
+          <div className="headerContainer">{adjustedHeaders}</div>
 
-      {!modalDisplayed && <table>
-        <tr className="headerContainer">{adjustedHeaders}</tr>
+          {dummyRow}
 
-        <tbody>
-                  {dummyRow}
-
-                  {allDataForPreview !== null && allDataForPreview?.data?.map((element, index) => (
-                      <PreviewRow
-                          key={element.key}
-                          row={element}
-                          rowKey={headers[index]}
-                          onWidthsCalculated={onWidthsCalculated}
-                      />
-                  ))}
-        </tbody>
-      </table>}
-
+          {allDataForPreview !== null &&
+            allDataForPreview?.data?.map((element, index) => (
+              <PreviewRow
+                key={index}
+                row={element}
+                rowKey={headers[index]}
+                onWidthsCalculated={onWidthsCalculated}
+              />
+            ))}
+        </div>
+      )}
     </div>
   );
 };

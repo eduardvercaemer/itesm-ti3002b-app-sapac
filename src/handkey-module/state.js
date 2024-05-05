@@ -41,90 +41,134 @@ const employeeSelector$ = selectorFamily({
   key: "employee-selector",
   get:
     (id) =>
-      ({ get, getCallback }) => {
-        const employees = get(employees$);
-        const entries = get(entries$);
-        const start = get(startDateState$);
-        const end = get(endDateState$);
+    ({ get, getCallback }) => {
+      const employees = get(employees$);
+      const entries = get(entries$);
+      const start = get(startDateState$);
+      const end = get(endDateState$);
 
-        const employee = employees.get(id);
-        if (!employee) {
-          return null;
-        }
+      const employee = employees.get(id);
+      if (!employee) {
+        return null;
+      }
 
-        let days = null;
+      const employeeEntries = entries.get(id)?.entries ?? [];
 
-        if (start !== null && end !== null) {
-          const numberOfDays =
-            1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
-          days = Array.from({ length: numberOfDays }, (_, i) => ({
-            date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
-          }));
+      let days = null;
 
-          for (const day of days) {
-            const ts = day.date.getTime();
-            day.incidence =
-              employee.incidences.filter(
-                (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-              )[0]?.value ?? null;
-            day.observation =
-              employee.observations.filter(
-                (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-              )[0]?.value ?? null;
-            day.entries =
-              entries
-                .get(id)
-                ?.entries.filter(
-                  (i) => i >= ts && i < ts + 1000 * 60 * 60 * 24,
-                ) ?? [];
-          }
-        }
+      const { start: es_start, end: es_end } = employee.schedule ?? {};
 
-        const inferIncidences = getCallback(({ set }) => () => {
-          if (days === null) {
-            return;
-          }
+      let getEntries;
+      if (es_start !== undefined && es_end !== undefined) {
+        getEntries = (ts /* day timestamp */) => {
+          const startTs = ts + es_start * 60 * 1000;
+          const endTs = ts + (es_end === 0 ? 24 : es_end) * 60 * 1000;
+          const limit = 1000 * 60 * 60 * 3;
 
-          if (employee.inferred) {
-            return;
-          }
+          const startEntry =
+            employeeEntries
+              .filter((i) => {
+                return i >= startTs - limit && i <= startTs + limit;
+              })
+              .sort((i) => Math.abs(startTs - i))[0] ?? null;
 
-          const setEmployees = (...args) => set(employees$, ...args);
+          const endEntry =
+            employeeEntries
+              .filter((i) => i >= endTs - limit && i <= endTs + limit)
+              .sort((i) => Math.abs(endTs - i))[0] ?? null;
 
-          updateEmployee(setEmployees, id, (e) => {
-            e.inferred = true;
-            return e;
-          });
-          for (const day of days) {
-            if (day.entries.length === 0) {
-              updateEmployee(setEmployees, id, (e) => {
-                e.incidences = [
-                  ...e.incidences,
-                  { value: "f", date: day.date.getTime() },
-                ];
-                return e;
-              });
-            } else if (day.entries.length === 1) {
-              updateEmployee(setEmployees, id, (e) => {
-                e.incidences = [
-                  ...e.incidences,
-                  { value: "fs", date: day.date.getTime() },
-                ];
-                return e;
-              });
-            }
-          }
-        });
-
-        // TODO: further process entries by filtering with employee schedule
-
-        return {
-          employee,
-          entries: entries.get(id),
-          days,
-          inferIncidences,
+          return [startEntry, endEntry];
         };
-      },
+      } else {
+        // default get entries selects all entries in that day
+        getEntries = (ts /* day timestamp */) =>
+          employeeEntries.filter(
+            (i) => i >= ts && i < ts + 1000 * 60 * 60 * 24,
+          );
+      }
+
+      if (start !== null && end !== null) {
+        const numberOfDays =
+          1 + (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+        days = Array.from({ length: numberOfDays }, (_, i) => ({
+          date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
+        }));
+
+        for (const day of days) {
+          const ts = day.date.getTime();
+          day.incidence =
+            employee.incidences.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null;
+          day.observation =
+            employee.observations.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null;
+          day.entries = getEntries(ts);
+        }
+      }
+
+      const inferIncidences = getCallback(({ set }) => () => {
+        if (days === null) {
+          return;
+        }
+
+        if (employee.inferred) {
+          return;
+        }
+
+        const setEmployees = (...args) => set(employees$, ...args);
+
+        updateEmployee(setEmployees, id, (e) => {
+          e.inferred = true;
+          return e;
+        });
+        for (const day of days) {
+          if (day.entries.filter(Boolean).length === 0) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "f", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else if (!day.entries[0]) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "fe", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else if (!day.entries[1]) {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "fs", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          } else {
+            updateEmployee(setEmployees, id, (e) => {
+              e.incidences = [
+                ...e.incidences,
+                { value: "ok", date: day.date.getTime() },
+              ];
+              return e;
+            });
+          }
+        }
+      });
+
+      // TODO: further process entries by filtering with employee schedule
+
+      return {
+        employee,
+        entries: entries.get(id),
+        days,
+        inferIncidences,
+      };
+    },
 });
 
 const employeeQueryResultsSelector$ = selector({
@@ -161,7 +205,7 @@ const employeeListSelector$ = selector({
 });
 
 const allEmployeesDataSelectorExport$ = selector({
-  key: 'all-employees-data-selector-export',
+  key: "all-employees-data-selector-export",
   get: ({ get }) => {
     const employeeIds = get(employeeListSelector$);
     const employees = get(employees$);
@@ -170,11 +214,15 @@ const allEmployeesDataSelectorExport$ = selector({
 
     const result = [];
 
-    employeeIds.forEach(id => {
+    employeeIds.forEach((id) => {
       const employee = employees.get(id);
       if (!employee) return;
 
-      const addressIndex = result.findIndex(item => item.address.replace(/\s/g, "") === employee.address.replace(/\s/g, ""));
+      const addressIndex = result.findIndex(
+        (item) =>
+          item.address.replace(/\s/g, "") ===
+          employee.address.replace(/\s/g, ""),
+      );
 
       //Get days
       let days = null;
@@ -188,16 +236,18 @@ const allEmployeesDataSelectorExport$ = selector({
           date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
         }));
 
-
-
         for (const day of days) {
           const ts = day.date.getTime();
-          incidences.push(employee.incidences.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          )[0]?.value ?? null);
-          observations.push(employee.observations.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          )[0]?.value ?? null);
+          incidences.push(
+            employee.incidences.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null,
+          );
+          observations.push(
+            employee.observations.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null,
+          );
         }
       }
 
@@ -205,7 +255,9 @@ const allEmployeesDataSelectorExport$ = selector({
         id: id,
         name: employee.name,
         incidences: incidences,
-        observations: observations.filter(value => (value !== null && value !== "")).join(' + ')
+        observations: observations
+          .filter((value) => value !== null && value !== "")
+          .join(" + "),
       };
 
       if (addressIndex > -1) {
@@ -213,17 +265,17 @@ const allEmployeesDataSelectorExport$ = selector({
       } else {
         result.push({
           address: employee.address,
-          employees: [employeeFormatted]
+          employees: [employeeFormatted],
         });
       }
     });
 
     return result;
-  }
+  },
 });
 
 const allEmployeesDataSelectorPreview$ = selector({
-  key: 'all-employees-data-selector-preview',
+  key: "all-employees-data-selector-preview",
   get: ({ get }) => {
     const employeeIds = get(employeeListSelector$);
     const employees = get(employees$);
@@ -239,7 +291,10 @@ const allEmployeesDataSelectorPreview$ = selector({
       const employee = employees.get(id);
       if (!employee) return;
 
-      const addressIndex = result.addresses.findIndex(item => item.replace(/\s/g, "") === employee.address.replace(/\s/g, ""));
+      const addressIndex = result.addresses.findIndex(
+        (item) =>
+          item.replace(/\s/g, "") === employee.address.replace(/\s/g, ""),
+      );
 
       //Get days
       let days = null;
@@ -253,16 +308,18 @@ const allEmployeesDataSelectorPreview$ = selector({
           date: new Date(start.getTime() + i * 1000 * 60 * 60 * 24),
         }));
 
-
-
         for (const day of days) {
           const ts = day.date.getTime();
-          incidences.push(employee.incidences.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          )[0]?.value ?? null);
-          observations.push(employee.observations.filter(
-            (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
-          )[0]?.value ?? null);
+          incidences.push(
+            employee.incidences.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null,
+          );
+          observations.push(
+            employee.observations.filter(
+              (i) => i.date >= ts && i.date < ts + 1000 * 60 * 60 * 24,
+            )[0]?.value ?? null,
+          );
         }
       }
 
@@ -271,18 +328,20 @@ const allEmployeesDataSelectorPreview$ = selector({
         name: employee.name,
         address: employee.address,
         incidences: incidences,
-        observations: observations.filter(value => (value !== null && value !== "")).join(' + '),
-        index: index
+        observations: observations
+          .filter((value) => value !== null && value !== "")
+          .join(" + "),
+        index: index,
       };
 
       if (addressIndex === -1) {
         result.addresses.push(employee.address);
       }
-      result.employees.push(employeeFormatted)
+      result.employees.push(employeeFormatted);
     });
 
     return result;
-  }
+  },
 });
 
 export const useEmployee = (id) => {
@@ -306,21 +365,25 @@ export const useAllDataForExport = () => {
 
   let currentDate = new Date(start);
   while (currentDate <= end) {
-    formattedDays.push(`${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`);
+    formattedDays.push(
+      `${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`,
+    );
     currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
   }
 
   const timeFrame = `${start.getUTCDate()}/${start.getUTCMonth() + 1}/${start.getUTCFullYear()} AL ${end.getUTCDate()}/${end.getUTCMonth() + 1}/${end.getUTCFullYear()}`;
 
-  const addresses = []
+  const addresses = [];
 
-  allEmployeeData.forEach((e) => { addresses.push(e.address) });
+  allEmployeeData.forEach((e) => {
+    addresses.push(e.address);
+  });
 
   return {
     timeFrame,
     days: formattedDays,
     data: allEmployeeData,
-    addresses
+    addresses,
   };
 };
 
@@ -337,7 +400,9 @@ export const useAllDataForPreview = () => {
 
   let currentDate = new Date(start);
   while (currentDate <= end) {
-    formattedDays.push(`${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`);
+    formattedDays.push(
+      `${currentDate.getUTCDate()}/${currentDate.getUTCMonth() + 1}/${currentDate.getUTCFullYear()}`,
+    );
     currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
   }
 
@@ -347,7 +412,7 @@ export const useAllDataForPreview = () => {
     timeFrame,
     days: formattedDays,
     addresses: allEmployeeData.addresses,
-    data: allEmployeeData.employees
+    data: allEmployeeData.employees,
   };
 };
 
@@ -370,16 +435,19 @@ export const useSetEmployeesFile = () => {
         // TODO: this is not robust enough for excel file headers...
         const id = data["CLAVE"];
         const address = data["DIRECCION"];
-        const schedule = data["HORARIO"];
+        const rawSchedule = data["HORARIO"];
         const kind = data["TIPO DE PLAZA"];
         const name = data["NOMBRE"];
 
-        const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(schedule);
-        if (!match) {
-          return;
+        const match = /(\d\d?):(\d\d?) A (\d\d?):(\d\d?)/.exec(rawSchedule);
+        let schedule = null;
+        if (match) {
+          const [_, startH, startM, endH, endM] = match;
+          schedule = {
+            start: parseInt(startH) * 60 + parseInt(startM),
+            end: parseInt(endH) * 60 + parseInt(endM),
+          };
         }
-
-        const [_, startH, startM, endH, endM] = match;
 
         if (newEmployees.has(id)) {
           console.warn("found duplicate employee", id);
@@ -388,10 +456,7 @@ export const useSetEmployeesFile = () => {
 
         newEmployees.set(id, {
           address,
-          schedule: {
-            start: parseInt(startH) * 60 + parseInt(startM),
-            end: parseInt(endH) * 60 + parseInt(endM),
-          },
+          schedule,
           kind,
           name,
           incidences: [],
@@ -429,12 +494,15 @@ export const useSetEntriesFile = () => {
         let timestamp;
         const [id, _, entry] = Object.values(data);
         const match =
-          /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2}) .+$/.exec(entry);
+          /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2}) ([ap]).*$/.exec(
+            entry,
+          );
         if (match) {
-          const [, day, month, year, hour, min, sec] = match;
-          timestamp = new Date(
-            `${year}-${month}-${day}T${hour}:${min}:${sec}Z`,
-          ).getTime();
+          const [, day, month, year, hour, min, sec, half] = match;
+          const realHour = parseInt(hour) + (half === "p" ? 12 : 0);
+          const dateString = `${year}-${month}-${day}T${("0" + realHour).slice(-2)}:${min}:${sec}Z`;
+          const date = new Date(dateString);
+          timestamp = date.getTime();
         }
 
         if (!newEntries.has(id)) {
@@ -547,12 +615,12 @@ export const useResetDates = () => {
   const setEndDate = useSetRecoilState(endDateState$);
   return useCallback(() => {
     const newEntries = new Map();
-    localStorage.removeItem('state/start-date');
-    localStorage.removeItem('state/end-date');
+    localStorage.removeItem("state/start-date");
+    localStorage.removeItem("state/end-date");
     setStartDate(null);
     setEndDate(null);
   });
-}
+};
 
 export const useResetEntries = () => {
   const setEntries = useSetRecoilState(entries$);
