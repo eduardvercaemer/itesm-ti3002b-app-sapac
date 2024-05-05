@@ -43,16 +43,17 @@ function Preview() {
 
   return (
     <main className="mainContainer">
-      <InputSelect
-        selectedOption={selectedDepartment}
-        onChange={handleSelectChange}
-        label="Seleccionar Departamento"
-        options={allDataForPreview ? allDataForPreview.addresses : []}
-      />
-
+      <div className="header">
+        <InputSelect
+          selectedOption={selectedDepartment}
+          onChange={handleSelectChange}
+          label="Seleccionar Departamento"
+          options={allDataForPreview ? allDataForPreview.addresses : []}
+        />
+        <ExportXLSX />
+      </div>
       {/* Pasa los datos filtrados al `PreviewTable` */}
       <PreviewTable allDataForPreview={filteredData} />
-      <ExportXLSX />
     </main>
   );
 }

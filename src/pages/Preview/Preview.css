@@ -4,3 +4,16 @@
   align-items: center;
   justify-content: center;
 }
+
+
+.header {
+  margin: 4rem;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ * {
+  outline: 1px solid red;
+} 
