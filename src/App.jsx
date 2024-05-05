@@ -59,6 +59,7 @@ function App() {
   }, [ready, hastDates]);
 
   const handleDate = async () => {
+
     const { value: formValues } = await Swal.fire({
       title: "Seleccione las fechas de inicio y fin del análisis",
       html:
@@ -80,14 +81,31 @@ function App() {
 
     if (formValues) {
       const { start, end } = formValues;
-      Swal.fire(
-        "Fechas seleccionadas:",
-        `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
-      ).then(() => {
-        setStartDate(new Date(start));
-        setEndDate(new Date(end));
-        navigate("/dashboard");
-      });
+      const startDateObj = new Date(start);
+      const endDateObj = new Date(end);
+      const timeDiff = Math.abs(endDateObj.getTime() - startDateObj.getTime());
+      const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+      if (diffDays > 0 && diffDays <= 26) {
+        Swal.fire(
+          "Fechas seleccionadas:",
+          `Inicio: ${formatDate(start)} | Fin: ${formatDate(end)}`,
+        ).then(() => {
+          setStartDate(startDateObj);
+          setEndDate(endDateObj);
+          navigate("/dashboard");
+        });
+      } else {
+
+        Swal.fire(
+          "Error",
+          "El rango de fechas debe ser máximo de 26 días y mayor a 0. Por favor, seleccione nuevamente.",
+          "error"
+        );
+
+      }
+    } else {
+      return;
     }
   };
 
