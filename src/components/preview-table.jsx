@@ -74,3 +74,4 @@ const previewTable = ({ allDataForPreview }) => {
 };
 
 export default previewTable;
+

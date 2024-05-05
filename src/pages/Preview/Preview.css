@@ -1,6 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
 .mainContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
 }
+
+.mid-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section {
+  margin-top: 3rem;
+  font-size: 3rem;
+  font-family: "Roboto Condensed", Inter, Roboto, sans-serif;
+}
+
+.logo {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+}
+ /* * {
+  outline: 1px solid red;
+}  */

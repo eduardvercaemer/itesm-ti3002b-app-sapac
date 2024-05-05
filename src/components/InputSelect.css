@@ -1,27 +1,30 @@
+@import '../utils/colors.css';
+
 .select-container {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .select-label {
-  font-size: 1.2em;
-  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  margin: 0.5rem;
 }
 
 .select-input {
-  padding: 8px 12px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
+  border: 0.1rem solid #ccc;
+  border-radius: 4px;
   font-size: 1em;
   background-color: white;
   transition: all 0.3s ease;
+  padding-left: 0.7rem;
 }
 
 .select-input:hover {
-  border-color: #007bff;
+  border-color: var(--button-hover);
 }
 
 .select-input:focus {
-  border-color: #0056b3;
+  border-color: var(--button-hover);
   outline: none;
 }
