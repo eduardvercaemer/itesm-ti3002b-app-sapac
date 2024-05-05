@@ -3,17 +3,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
 }
 
+.mid-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .header {
-  margin: 4rem;
-  width: 80%;
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
- * {
+ /* * {
   outline: 1px solid red;
-} 
+}  */

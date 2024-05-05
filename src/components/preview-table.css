@@ -1,14 +1,24 @@
+@import '../utils/colors.css';
+
 .tableContainer {
   display: flex;
   flex-direction: column;
-  padding-left: 5em;
-  padding-right: 5em;
+  background-color: white;
+  border-radius: 4px;
+  margin-bottom: 2rem;
 }
 
 .headerContainer {
+  border-radius: 4px 4px 0px 0px;
   display: flex;
   font-weight: 600;
   align-items: center;
-  padding-bottom: 1em;
-  background-color: ;
+  padding: 0.4rem 0em;
+  background-color: var(--surface-main-blue);
+  color: #fafafa;
+}
+
+.headerContainer > div{
+  display: flex;
+  justify-content: center;
 }
