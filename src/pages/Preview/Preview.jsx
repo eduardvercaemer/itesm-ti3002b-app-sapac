@@ -4,17 +4,20 @@ import { useAllDataForPreview } from "../../handkey-module/state";
 import PreviewTable from "../../components/preview-table";
 import ExportXLSX from "../../components/export.jsx";
 import InputSelect from "../../components/InputSelect";
-import { useResetEntries, useResetEmployees, useResetDates } from "../../handkey-module/state";
+import {
+  useResetEntries,
+  useResetEmployees,
+  useResetDates,
+} from "../../handkey-module/state";
 import { useNavigate } from "react-router-dom";
 
-import Swal from "sweetalert2"; 
+import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
-
 function Preview() {
   const allDataForPreview = useAllDataForPreview();
-  
+
   const navigate = useNavigate();
   const resetEntries = useResetEntries();
   const resetEmployees = useResetEmployees();
@@ -80,9 +83,9 @@ function Preview() {
       <img src="/sapac-logo.png" width="70" height="80" className="logo"></img>
       <div className="mid-container">
         <div className="header">
-        <div className="deleteButton" onClick={handleResetClick}>
-          <FontAwesomeIcon icon={faTrashCan} />
-        </div>
+          <div className="deleteButton" onClick={handleResetClick}>
+            <FontAwesomeIcon icon={faTrashCan} />
+          </div>
           <InputSelect
             selectedOption={selectedDepartment}
             onChange={handleSelectChange}

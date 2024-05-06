@@ -59,7 +59,6 @@ function App() {
   }, [ready, hastDates]);
 
   const handleDate = async () => {
-
     const { value: formValues } = await Swal.fire({
       title: "Seleccione las fechas de inicio y fin del análisis",
       html:
@@ -96,13 +95,11 @@ function App() {
           navigate("/dashboard");
         });
       } else {
-
         Swal.fire(
           "Error",
           "El rango de fechas debe ser máximo de 26 días y mayor a 0. Por favor, seleccione nuevamente.",
-          "error"
+          "error",
         );
-
       }
     } else {
       return;

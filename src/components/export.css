@@ -4,3 +4,7 @@
   padding: 0.5rem 3rem;
   color: #fafafa;
 }
+
+.expButton:active {
+  background-color: #113052;
+}

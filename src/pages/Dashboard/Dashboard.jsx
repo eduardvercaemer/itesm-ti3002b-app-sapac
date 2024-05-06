@@ -135,7 +135,10 @@ function Dashboard() {
               </button>
             )}
             {comesFromPreview ? (
-              <button className="right-button button" onClick={handleGoBackToPrev}>
+              <button
+                className="right-button button"
+                onClick={handleGoBackToPrev}
+              >
                 Regresar a previsualización
               </button>
             ) : currIndex < employees.length - 1 ? (
