@@ -142,7 +142,7 @@ export const Incidence = ({
   const idToOption = {
     r: "Retardo",
     f: "Falta",
-    de: "Día Económico",
+    de: "Día económico",
     vac: "Vacaciones",
     perm: "Permuta",
     inc: "Incapacidad",
