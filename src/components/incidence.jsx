@@ -10,6 +10,10 @@ import {
 const penalties = {
   rl: 0.25,
   rg: 0.5,
+  lsgs: "lsgs",
+  f: "f",
+  fe: "fe",
+  fs: "fs"
 };
 
 const calculateNumToHave = (delays) => Math.floor((delays.length - 1) / 3);
