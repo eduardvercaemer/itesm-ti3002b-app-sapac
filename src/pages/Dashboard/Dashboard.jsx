@@ -97,7 +97,7 @@ function Dashboard() {
   return (
     <div className="h-screen w-screen flex flex-col py-10">
       <div className="grow flex gap-14 px-14 overflow-hidden">
-        <div>
+        <div className="leftSize">
           <div className="search-container">
           <input 
             type="number" 
