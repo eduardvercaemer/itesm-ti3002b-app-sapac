@@ -89,6 +89,14 @@ function Dashboard() {
       localStorage.setItem("currIndex", newIndex);
       setCurrIndex(newIndex);
     }
+    else{
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Usuario no encontrado",
+            footer: '<a href="https://r.mtdv.me/articles/error_busqueda">¿Por qué tengo ese problema?</a>'
+          });
+    }
     setSearchTerm('');
   };
 
