@@ -130,6 +130,10 @@ const employeeSelector$ = selectorFamily({
                 ...e.incidences,
                 { value: "f", date: day.date.getTime() },
               ];
+              e.observations = [
+                ...e.observations,
+                { value: "f", date: day.date.getTime() },
+              ];
               return e;
             });
           } else if (!day.entries[0]) {
@@ -138,12 +142,20 @@ const employeeSelector$ = selectorFamily({
                 ...e.incidences,
                 { value: "fe", date: day.date.getTime() },
               ];
+              e.observations = [
+                ...e.observations,
+                { value: "fe", date: day.date.getTime() },
+              ];
               return e;
             });
           } else if (!day.entries[1]) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
+                { value: "fs", date: day.date.getTime() },
+              ];
+              e.observations = [
+                ...e.observations,
                 { value: "fs", date: day.date.getTime() },
               ];
               return e;
