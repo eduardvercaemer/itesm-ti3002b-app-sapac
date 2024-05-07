@@ -11,6 +11,9 @@ const ExportXLSX = () => {
     right: { style: "thin" },
   };
 
+  const fontSize = 14;
+
+
   const palette = {
     f: "ff3b30",
     de: "ffcc00",
@@ -61,22 +64,18 @@ const ExportXLSX = () => {
         : (color = "undefinedColor");
 
       worksheet.getCell(`${current}+${rowIndex}`).value = incidences[s];
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { size: fontSize };
 
-      worksheet.getCell(`${current}+${rowIndex}`).fill = {
+      /* worksheet.getCell(`${current}+${rowIndex}`).fill = {
         type: "pattern",
         pattern: "solid",
         fgColor: { argb: `${palette[color]}` },
-      };
+      }; */
 
-      worksheet.getCell(`${current}+${rowIndex}`).style.border = {
-        top: { style: "thin", color: { argb: "FFFFFF" } },
-        left: { style: "thin", color: { argb: "FFFFFF" } },
-        bottom: { style: "thin", color: { argb: "FFFFFF" } },
-        right: { style: "thin", color: { argb: "FFFFFF" } },
-      };
+      worksheet.getCell(`${current}+${rowIndex}`).style.border = defaultBorders;
 
       worksheet.getCell(`${current}+${rowIndex}`).style.font = {
-        bold: true,
+        size: fontSize,
         color: { argb: coloredLetter(palette[color]) },
       };
       worksheet.getCell(`${current}+${rowIndex}`).alignment = {
@@ -84,7 +83,7 @@ const ExportXLSX = () => {
         vertical: "middle",
       };
 
-      worksheet.getRow(rowIndex).height = 22;
+      worksheet.getRow(rowIndex).height = 32;
     }
   };
 
@@ -114,26 +113,25 @@ const ExportXLSX = () => {
         vertical: "middle",
       };
       worksheet.getCell(`${current}+${rowIndex}`).style.border = defaultBorders;
-      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true, size:fontSize };
     }
 
     let dateParts = "";
-    let day = 0;
+    let dayMonth = "";
     rowIndex++;
 
     for (let s = 0; s <= delta; s++) {
       current = numberToLetter(letter + s);
-
       dateParts = days[s].split("/");
-      day = parseInt(dateParts[0], 10);
+      dayMonth = `${dateParts[0]} / ${dateParts[1]}`;
 
-      worksheet.getCell(`${current}+${rowIndex}`).value = day;
+      worksheet.getCell(`${current}+${rowIndex}`).value = dayMonth;
       worksheet.getCell(`${current}+${rowIndex}`).alignment = {
         horizontal: "center",
         vertical: "middle",
       };
       worksheet.getCell(`${current}+${rowIndex}`).style.border = defaultBorders;
-      worksheet.getCell(`${current}+${rowIndex}`).style.font = { bold: true };
+      worksheet.getCell(`${current}+${rowIndex}`).style.font = {bold:true, size:fontSize};
     }
   };
 
@@ -177,13 +175,13 @@ const ExportXLSX = () => {
 
       //////////////////// Headers ////////////////////
       currWorksheet.mergeCells(`A1:${observationDayInChar}1`);
-      currWorksheet.getCell("A1").value = "ASIMILADOS"; // 1
+      currWorksheet.getCell("A1").value = filteredData.addresses[p].toUpperCase(); // 1
       currWorksheet.getCell("A1").alignment = {
         horizontal: "center",
         vertical: "middle",
       };
       currWorksheet.getCell("A1").style.border = defaultBorders;
-      currWorksheet.getCell("A1").style.font = { bold: true };
+      currWorksheet.getCell("A1").style.font = { bold: true, size: fontSize};
 
       currWorksheet.mergeCells(`A3:${observationDayInChar}3`);
       currWorksheet.getCell("A3").value =
@@ -194,7 +192,7 @@ const ExportXLSX = () => {
       };
       currWorksheet.getCell("A3").style.border = defaultBorders;
 
-      currWorksheet.getCell("A3").style.font = { bold: true };
+      currWorksheet.getCell("A3").style.font = { bold: true, size: fontSize };
 
       currWorksheet.mergeCells("A5:A6");
       currWorksheet.getCell("A5").value = "ID";
@@ -203,7 +201,7 @@ const ExportXLSX = () => {
         vertical: "middle",
       };
       currWorksheet.getCell("A5").style.border = defaultBorders;
-      currWorksheet.getCell("A5").style.font = { bold: true };
+      currWorksheet.getCell("A5").style.font = { bold: true, size: fontSize };
 
       currWorksheet.mergeCells("B5:B6");
       currWorksheet.getCell("B5").value = "Nombre";
@@ -213,7 +211,7 @@ const ExportXLSX = () => {
       };
       currWorksheet.getColumn(2).width = 40;
       currWorksheet.getCell("B5").style.border = defaultBorders;
-      currWorksheet.getCell("B5").style.font = { bold: true };
+      currWorksheet.getCell("B5").style.font = { bold: true, size:fontSize };
 
       currWorksheet.getRow(5).height = 22;
       currWorksheet.getRow(6).height = 22;
@@ -231,9 +229,7 @@ const ExportXLSX = () => {
       currWorksheet.getColumn(daysLength + 3).width = 20;
       currWorksheet.getCell(`${observationDayInChar}5`).style.border =
         defaultBorders;
-      currWorksheet.getCell(`${observationDayInChar}5`).style.font = {
-        bold: true,
-      };
+      currWorksheet.getCell(`${observationDayInChar}5`).style.font = { bold: true, size:fontSize};
 
       //////////////////// END Headers ////////////////////
 
@@ -248,11 +244,15 @@ const ExportXLSX = () => {
           vertical: "middle",
         };
 
+        currWorksheet.getCell(`A${rowIndex}`).style.font = { bold: true, size: fontSize }
+
+
         currWorksheet.getCell(`B${rowIndex}`).value = currentEmployee.name;
         currWorksheet.getCell(`B${rowIndex}`).alignment = {
           horizontal: "center",
           vertical: "middle",
         };
+        currWorksheet.getCell(`B${rowIndex}`).style.font = { bold: true, size: fontSize }
 
         fillIncidences(
           currWorksheet,
