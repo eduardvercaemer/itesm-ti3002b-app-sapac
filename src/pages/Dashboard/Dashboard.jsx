@@ -94,7 +94,6 @@ function Dashboard() {
             icon: "error",
             title: "Oops...",
             text: "Usuario no encontrado",
-            footer: '<a href="https://r.mtdv.me/articles/error_busqueda">¿Por qué tengo ese problema?</a>'
           });
     }
     setSearchTerm('');
