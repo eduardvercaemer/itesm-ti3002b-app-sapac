@@ -123,6 +123,7 @@ const employeeSelector$ = selectorFamily({
           e.inferred = true;
           return e;
         });
+        const tardies = { count: 0 };
         for (const day of days) {
           if (day.entries.filter(Boolean).length === 0) {
             updateEmployee(setEmployees, id, (e) => {
@@ -174,7 +175,6 @@ const employeeSelector$ = selectorFamily({
             const s = new Date(day.date.getTime() + es_start * 60 * 1000);
             const diff = (s.getTime() - day.entries[0]) / (1000 * 60);
             if (diff < 0) {
-              console.debug("tardy by", diff);
               let tardy = null;
               if (diff <= -45) {
                 tardy = "rg";
@@ -182,9 +182,9 @@ const employeeSelector$ = selectorFamily({
                 tardy = "rl";
               } else if (diff <= -10) {
                 tardy = "r";
+                tardies.count += 1;
               }
 
-              console.debug({ tardy });
               if (tardy !== null) {
                 updateEmployee(setEmployees, id, (e) => {
                   e.incidences = [
@@ -200,6 +200,15 @@ const employeeSelector$ = selectorFamily({
                         (o) => o.date !== day.date.getTime(),
                       ),
                       { value: penalty, date: day.date.getTime() },
+                    ];
+                  }
+                  if (tardy === "r" && tardies.count >= 3) {
+                    tardies.count -= 3;
+                    e.observations = [
+                      ...e.observations.filter(
+                        (o) => o.date !== day.date.getTime(),
+                      ),
+                      { value: 0.25, date: day.date.getTime() },
                     ];
                   }
                   return e;
