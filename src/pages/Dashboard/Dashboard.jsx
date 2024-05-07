@@ -84,7 +84,11 @@ function Dashboard() {
   };
 
   const handleSearchClick = () => {
-    console.log(searchTerm);
+    const newIndex = employees.findIndex( e => e === searchTerm);
+    if(newIndex !== -1){
+      localStorage.setItem("currIndex", newIndex);
+      setCurrIndex(newIndex);
+    }
     setSearchTerm('');
   };
 
