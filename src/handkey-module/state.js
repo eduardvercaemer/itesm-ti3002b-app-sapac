@@ -130,6 +130,10 @@ const employeeSelector$ = selectorFamily({
                 ...e.incidences,
                 { value: "f", date: day.date.getTime() },
               ];
+              e.observations = [
+                ...e.observations,
+                { value: "f", date: day.date.getTime() },
+              ];
               return e;
             });
           } else if (!day.entries[0]) {
@@ -138,12 +142,20 @@ const employeeSelector$ = selectorFamily({
                 ...e.incidences,
                 { value: "fe", date: day.date.getTime() },
               ];
+              e.observations = [
+                ...e.observations,
+                { value: "fe", date: day.date.getTime() },
+              ];
               return e;
             });
           } else if (!day.entries[1]) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
+                { value: "fs", date: day.date.getTime() },
+              ];
+              e.observations = [
+                ...e.observations,
                 { value: "fs", date: day.date.getTime() },
               ];
               return e;
@@ -251,13 +263,37 @@ const allEmployeesDataSelectorExport$ = selector({
         }
       }
 
+      let observationsNumber = 0.0;
+      const obervationString = {
+        lsgs: 0,
+        f: 0,
+        fe: 0,
+        fs: 0,
+      }
+    
+      observations.forEach( element =>{
+        if(element !== null && element !== ""){
+          if(typeof element === 'number'){
+            observationsNumber += element;
+          }
+          else{
+            obervationString[element] = obervationString[element] += 1;
+          }
+        }
+      })
+
+      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+    
+      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+
       const employeeFormatted = {
         id: id,
         name: employee.name,
         incidences: incidences,
-        observations: observations
-          .filter((value) => value !== null && value !== "")
-          .join(" + "),
+        observations: observationsFormatted,
       };
 
       if (addressIndex > -1) {
@@ -323,14 +359,38 @@ const allEmployeesDataSelectorPreview$ = selector({
         }
       }
 
+      let observationsNumber = 0.0;
+      const obervationString = {
+        lsgs: 0,
+        f: 0,
+        fe: 0,
+        fs: 0,
+      }
+    
+      observations.forEach( element =>{
+        if(element !== null && element !== ""){
+          if(typeof element === 'number'){
+            observationsNumber += element;
+          }
+          else{
+            obervationString[element] = obervationString[element] += 1;
+          }
+        }
+      })
+
+      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+    
+      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+
       const employeeFormatted = {
         id: id,
         name: employee.name,
         address: employee.address,
         incidences: incidences,
-        observations: observations
-          .filter((value) => value !== null && value !== "")
-          .join(" + "),
+        observations: observationsFormatted,
         index: index,
       };
 

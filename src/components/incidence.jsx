@@ -10,6 +10,10 @@ import {
 const penalties = {
   rl: 0.25,
   rg: 0.5,
+  lsgs: "lsgs",
+  f: "f",
+  fe: "fe",
+  fs: "fs"
 };
 
 const calculateNumToHave = (delays) => Math.floor((delays.length - 1) / 3);
@@ -142,18 +146,18 @@ export const Incidence = ({
   const idToOption = {
     r: "Retardo",
     f: "Falta",
-    de: "Día Económico",
+    de: "Día económico",
     vac: "Vacaciones",
     perm: "Permuta",
     inc: "Incapacidad",
-    je: "Justificación Entrada",
+    je: "Justificación entrada",
     js: "Justificación salida",
-    rl: "Retardo Leve",
-    rg: "Retardo Grave",
+    rl: "Retardo leve",
+    rg: "Retardo grave",
     ok: "Correcto",
-    ps: "Permiso Sindical",
-    fe: "Falta Entrada",
-    fs: "Falta Salida",
+    ps: "Permiso sindical",
+    fe: "Falta entrada",
+    fs: "Falta salida",
     d: "Descanso",
     lcgs: "Lic. con goce de sueldo",
     lsgs: "Lic. sin goce de sueldo",
