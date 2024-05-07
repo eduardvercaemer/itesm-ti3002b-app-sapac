@@ -19,6 +19,7 @@ function formatTime(minutes) {
 function Dashboard() {
   const navigate = useNavigate();
   const employees = useEmployeeList();
+  const [searchTerm, setSearchTerm] = useState('');
   const date_from = new Date(
     parseInt(localStorage.getItem("state/start-date"), 10),
   );
@@ -83,8 +84,8 @@ function Dashboard() {
   };
 
   const handleSearchClick = () => {
-    const searchTerm = document.querySelector(".search-bar").value;
     console.log(searchTerm);
+    setSearchTerm('');
   };
 
   if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
@@ -97,7 +98,9 @@ function Dashboard() {
           <input 
             type="number" 
             className="search-bar" 
-            placeholder="Buscar por id..." 
+            placeholder="Buscar por id..."
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
             min="0"
             onKeyDown={(e) => {
                 const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Home', 'End'];
