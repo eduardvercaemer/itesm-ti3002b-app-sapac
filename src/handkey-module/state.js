@@ -123,11 +123,16 @@ const employeeSelector$ = selectorFamily({
           e.inferred = true;
           return e;
         });
+        const tardies = { count: 0 };
         for (const day of days) {
           if (day.entries.filter(Boolean).length === 0) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
+                { value: "f", date: day.date.getTime() },
+              ];
+              e.observations = [
+                ...e.observations,
                 { value: "f", date: day.date.getTime() },
               ];
               return e;
@@ -138,12 +143,20 @@ const employeeSelector$ = selectorFamily({
                 ...e.incidences,
                 { value: "fe", date: day.date.getTime() },
               ];
+              e.observations = [
+                ...e.observations,
+                { value: "fe", date: day.date.getTime() },
+              ];
               return e;
             });
           } else if (!day.entries[1]) {
             updateEmployee(setEmployees, id, (e) => {
               e.incidences = [
                 ...e.incidences,
+                { value: "fs", date: day.date.getTime() },
+              ];
+              e.observations = [
+                ...e.observations,
                 { value: "fs", date: day.date.getTime() },
               ];
               return e;
@@ -156,6 +169,52 @@ const employeeSelector$ = selectorFamily({
               ];
               return e;
             });
+          }
+
+          if (day.entries[0] && es_start) {
+            const s = new Date(day.date.getTime() + es_start * 60 * 1000);
+            const diff = (s.getTime() - day.entries[0]) / (1000 * 60);
+            if (diff < 0) {
+              let tardy = null;
+              if (diff <= -45) {
+                tardy = "rg";
+              } else if (diff <= -30) {
+                tardy = "rl";
+              } else if (diff <= -10) {
+                tardy = "r";
+                tardies.count += 1;
+              }
+
+              if (tardy !== null) {
+                updateEmployee(setEmployees, id, (e) => {
+                  e.incidences = [
+                    ...e.incidences.filter(
+                      (i) => i.date !== day.date.getTime(),
+                    ),
+                    { value: tardy, date: day.date.getTime() },
+                  ];
+                  const penalty = { rg: 0.5, rl: 0.25 }[tardy];
+                  if (penalty) {
+                    e.observations = [
+                      ...e.observations.filter(
+                        (o) => o.date !== day.date.getTime(),
+                      ),
+                      { value: penalty, date: day.date.getTime() },
+                    ];
+                  }
+                  if (tardy === "r" && tardies.count >= 3) {
+                    tardies.count -= 3;
+                    e.observations = [
+                      ...e.observations.filter(
+                        (o) => o.date !== day.date.getTime(),
+                      ),
+                      { value: 0.25, date: day.date.getTime() },
+                    ];
+                  }
+                  return e;
+                });
+              }
+            }
           }
         }
       });
@@ -251,13 +310,41 @@ const allEmployeesDataSelectorExport$ = selector({
         }
       }
 
+      let observationsNumber = 0.0;
+      const obervationString = {
+        lsgs: 0,
+        f: 0,
+        fe: 0,
+        fs: 0,
+      };
+
+      observations.forEach((element) => {
+        if (element !== null && element !== "") {
+          if (typeof element === "number") {
+            observationsNumber += element;
+          } else {
+            obervationString[element] = obervationString[element] += 1;
+          }
+        }
+      });
+
+      let observationsFormatted =
+        observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+
+      observationsFormatted +=
+        obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted +=
+        obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted +=
+        obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted +=
+        obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+
       const employeeFormatted = {
         id: id,
         name: employee.name,
         incidences: incidences,
-        observations: observations
-          .filter((value) => value !== null && value !== "")
-          .join(" + "),
+        observations: observationsFormatted,
       };
 
       if (addressIndex > -1) {
@@ -323,14 +410,42 @@ const allEmployeesDataSelectorPreview$ = selector({
         }
       }
 
+      let observationsNumber = 0.0;
+      const obervationString = {
+        lsgs: 0,
+        f: 0,
+        fe: 0,
+        fs: 0,
+      };
+
+      observations.forEach((element) => {
+        if (element !== null && element !== "") {
+          if (typeof element === "number") {
+            observationsNumber += element;
+          } else {
+            obervationString[element] = obervationString[element] += 1;
+          }
+        }
+      });
+
+      let observationsFormatted =
+        observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+
+      observationsFormatted +=
+        obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted +=
+        obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted +=
+        obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted +=
+        obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+
       const employeeFormatted = {
         id: id,
         name: employee.name,
         address: employee.address,
         incidences: incidences,
-        observations: observations
-          .filter((value) => value !== null && value !== "")
-          .join(" + "),
+        observations: observationsFormatted,
         index: index,
       };
 
