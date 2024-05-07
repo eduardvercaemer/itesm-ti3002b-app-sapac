@@ -8,19 +8,61 @@
   background-color: #f0f0f0;
 }
 
+.leftSize{
+    width: 20%;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 1em;
+}
+
+.search-bar {
+  flex: 1; /* Hace que el SearchBar ocupe todo el espacio disponible */
+  padding: 0.6em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.search-button {
+  height: 100%;
+  padding: 0.6em !important;
+  width: 40px;
+  background-color: var(--button-primary);
+  color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: var(
+    --button-alternative
+  ); /* Color de fondo del botón al pasar el cursor */
+}
+
+/* Estilos para el ícono de búsqueda */
+.search-button i {
+  font-size: 1.2em; /* Tamaño del ícono */
+  line-height: 40px; /* Centra verticalmente el ícono en el botón */
+}
+
 .cardPerson {
-  width: calc(25%);
+  width: calc(100%);
+  height: 100%; /* Ajusta la altura para que ocupe todo el espacio disponible */
   background-color: white !important;
   padding: 1em;
   border-radius: 0.2em;
-
   box-shadow: 0.5em rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centra verticalmente el contenido */
-  text-align: center; /* Centra horizontalmente el texto */
-  line-height: 1.5; /* Altura de línea para permitir saltos */
+  justify-content: center;
+  text-align: center;
+  line-height: 1.5;
   position: relative;
 }
 
