@@ -13,7 +13,7 @@ const penalties = {
   lsgs: "lsgs",
   f: "f",
   fe: "fe",
-  fs: "fs"
+  fs: "fs",
 };
 
 const calculateNumToHave = (delays) => Math.floor((delays.length - 1) / 3);
@@ -127,7 +127,7 @@ export const Incidence = ({
     Falta: "f",
     "Día económico": "de",
     Vacaciones: "vac",
-    "Permuta": "perm",
+    Permuta: "perm",
     Incapacidad: "inc",
     "Justificación entrada": "je",
     "Justificación salida": "js",

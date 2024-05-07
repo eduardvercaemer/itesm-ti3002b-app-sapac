@@ -169,6 +169,44 @@ const employeeSelector$ = selectorFamily({
               return e;
             });
           }
+
+          if (day.entries[0] && es_start) {
+            const s = new Date(day.date.getTime() + es_start * 60 * 1000);
+            const diff = (s.getTime() - day.entries[0]) / (1000 * 60);
+            if (diff < 0) {
+              console.debug("tardy by", diff);
+              let tardy = null;
+              if (diff <= -45) {
+                tardy = "rg";
+              } else if (diff <= -30) {
+                tardy = "rl";
+              } else if (diff <= -10) {
+                tardy = "r";
+              }
+
+              console.debug({ tardy });
+              if (tardy !== null) {
+                updateEmployee(setEmployees, id, (e) => {
+                  e.incidences = [
+                    ...e.incidences.filter(
+                      (i) => i.date !== day.date.getTime(),
+                    ),
+                    { value: tardy, date: day.date.getTime() },
+                  ];
+                  const penalty = { rg: 0.5, rl: 0.25 }[tardy];
+                  if (penalty) {
+                    e.observations = [
+                      ...e.observations.filter(
+                        (o) => o.date !== day.date.getTime(),
+                      ),
+                      { value: penalty, date: day.date.getTime() },
+                    ];
+                  }
+                  return e;
+                });
+              }
+            }
+          }
         }
       });
 
@@ -269,25 +307,29 @@ const allEmployeesDataSelectorExport$ = selector({
         f: 0,
         fe: 0,
         fs: 0,
-      }
-    
-      observations.forEach( element =>{
-        if(element !== null && element !== ""){
-          if(typeof element === 'number'){
+      };
+
+      observations.forEach((element) => {
+        if (element !== null && element !== "") {
+          if (typeof element === "number") {
             observationsNumber += element;
-          }
-          else{
+          } else {
             obervationString[element] = obervationString[element] += 1;
           }
         }
-      })
+      });
 
-      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
-    
-      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
-      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
-      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
-      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+      let observationsFormatted =
+        observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+
+      observationsFormatted +=
+        obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted +=
+        obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted +=
+        obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted +=
+        obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
 
       const employeeFormatted = {
         id: id,
@@ -365,25 +407,29 @@ const allEmployeesDataSelectorPreview$ = selector({
         f: 0,
         fe: 0,
         fs: 0,
-      }
-    
-      observations.forEach( element =>{
-        if(element !== null && element !== ""){
-          if(typeof element === 'number'){
+      };
+
+      observations.forEach((element) => {
+        if (element !== null && element !== "") {
+          if (typeof element === "number") {
             observationsNumber += element;
-          }
-          else{
+          } else {
             obervationString[element] = obervationString[element] += 1;
           }
         }
-      })
+      });
 
-      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
-    
-      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
-      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
-      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
-      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
+      let observationsFormatted =
+        observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
+
+      observationsFormatted +=
+        obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted +=
+        obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted +=
+        obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted +=
+        obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
 
       const employeeFormatted = {
         id: id,

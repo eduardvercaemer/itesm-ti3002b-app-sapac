@@ -19,7 +19,7 @@ function formatTime(minutes) {
 function Dashboard() {
   const navigate = useNavigate();
   const employees = useEmployeeList();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const date_from = new Date(
     parseInt(localStorage.getItem("state/start-date"), 10),
   );
@@ -84,19 +84,18 @@ function Dashboard() {
   };
 
   const handleSearchClick = () => {
-    const newIndex = employees.findIndex( e => e === searchTerm);
-    if(newIndex !== -1){
+    const newIndex = employees.findIndex((e) => e === searchTerm);
+    if (newIndex !== -1) {
       localStorage.setItem("currIndex", newIndex);
       setCurrIndex(newIndex);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Usuario no encontrado",
+      });
     }
-    else{
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Usuario no encontrado",
-          });
-    }
-    setSearchTerm('');
+    setSearchTerm("");
   };
 
   if (!currEmployee || !currEmployee.employee) return <div>Cargando...</div>;
@@ -106,16 +105,27 @@ function Dashboard() {
       <div className="grow flex gap-14 px-14 overflow-hidden">
         <div className="leftSize">
           <div className="search-container">
-          <input 
-            type="number" 
-            className="search-bar" 
-            placeholder="Buscar por id..."
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
-            min="0"
-            onKeyDown={(e) => {
-                const allowedKeys = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Home', 'End'];
-                if (!allowedKeys.includes(e.key) && isNaN(parseInt(e.key, 10))) {
+            <input
+              type="number"
+              className="search-bar"
+              placeholder="Buscar por id..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              min="0"
+              onKeyDown={(e) => {
+                const allowedKeys = [
+                  "Backspace",
+                  "Tab",
+                  "ArrowLeft",
+                  "ArrowRight",
+                  "Delete",
+                  "Home",
+                  "End",
+                ];
+                if (
+                  !allowedKeys.includes(e.key) &&
+                  isNaN(parseInt(e.key, 10))
+                ) {
                   e.preventDefault();
                 }
               }}
