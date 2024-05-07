@@ -282,12 +282,12 @@ const allEmployeesDataSelectorExport$ = selector({
         }
       })
 
-      let observationsFormatted = observationsNumber > 0.0 ? `${observationsNumber} ` : "";
+      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
     
-      observationsFormatted += obervationString.lsgs > 0 ? `${obervationString.lsgs}-lsgs ` : "";
-      observationsFormatted += obervationString.f > 0 ? `${obervationString.f}-f ` : "";
-      observationsFormatted += obervationString.fe > 0 ? `${obervationString.fe}-fe ` : "";
-      observationsFormatted += obervationString.fs > 0 ? `${obervationString.fs}-fs ` : "";
+      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
 
       const employeeFormatted = {
         id: id,
@@ -378,12 +378,12 @@ const allEmployeesDataSelectorPreview$ = selector({
         }
       })
 
-      let observationsFormatted = observationsNumber > 0.0 ? `${observationsNumber} ` : "";
+      let observationsFormatted = observationsNumber > 0.0 ? `[${observationsNumber}] ` : "";
     
-      observationsFormatted += obervationString.lsgs > 0 ? `${obervationString.lsgs}-lsgs ` : "";
-      observationsFormatted += obervationString.f > 0 ? `${obervationString.f}-f ` : "";
-      observationsFormatted += obervationString.fe > 0 ? `${obervationString.fe}-fe ` : "";
-      observationsFormatted += obervationString.fs > 0 ? `${obervationString.fs}-fs ` : "";
+      observationsFormatted += obervationString.lsgs > 0 ? `[${obervationString.lsgs}-lsgs] ` : "";
+      observationsFormatted += obervationString.f > 0 ? `[${obervationString.f}-f] ` : "";
+      observationsFormatted += obervationString.fe > 0 ? `[${obervationString.fe}-fe] ` : "";
+      observationsFormatted += obervationString.fs > 0 ? `[${obervationString.fs}-fs] ` : "";
 
       const employeeFormatted = {
         id: id,
