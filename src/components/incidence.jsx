@@ -134,8 +134,8 @@ export const Incidence = ({
     "Falta entrada": "fe",
     "Falta salida": "fs",
     Descanso: "d",
-    "Lic. con goce de sueldo": "lcgs",
-    "Lic. sin goce de sueldo": "lsgs",
+    "LCGS": "lcgs",
+    "LSGS": "lsgs",
     Onomástico: "ono",
   };
 
@@ -155,8 +155,8 @@ export const Incidence = ({
     fe: "Falta Entrada",
     fs: "Falta Salida",
     d: "Descanso",
-    lcgs: "Lic. con goce de sueldo",
-    lsgs: "Lic. sin goce de sueldo",
+    lcgs: "LCGS",
+    lsgs: "LSGS",
     ono: "Onomástico",
   };
 
